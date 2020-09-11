@@ -25,7 +25,6 @@ const CustomTextField = (props) => {
             className={classes.TextField}
             value={value}
             onChange={onChange}
-            autoComplete="off"
             {...others}
         />
     );
