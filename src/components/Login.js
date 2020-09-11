@@ -12,7 +12,7 @@ const Login = () => {
     }
 
 
-    const { values, setValues, handleOnChange } = useForm(initialState)
+    const { values, handleOnChange } = useForm(initialState)
 
     return (
         <Form title="Log in">
