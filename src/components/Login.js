@@ -29,7 +29,7 @@ const Login = () => {
                 name="password"
                 autoFocus={false}
                 required="true"
-                value={values.email}
+                value={values.password}
                 onChange={handleOnChange}
             />
         </Form>
