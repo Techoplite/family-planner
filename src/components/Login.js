@@ -20,7 +20,7 @@ const Login = () => {
                 label="Email"
                 name="email"
                 autoFocus={true}
-                required="true"
+                required={true}
                 value={values.email}
                 onChange={handleOnChange}
             />
@@ -28,7 +28,7 @@ const Login = () => {
                 label="Password"
                 name="password"
                 autoFocus={false}
-                required="true"
+                required={true}
                 value={values.password}
                 onChange={handleOnChange}
             />
