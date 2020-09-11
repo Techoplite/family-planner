@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => (
 
 const CustomTextField = (props) => {
 
-    const { label, value, name, autoFocus, required, onChange } = props;
+    const { label, value, name, onChange, ...others } = props;
 
     const classes = useStyles()
 
@@ -20,14 +20,13 @@ const CustomTextField = (props) => {
         <TextField
             fullWidth
             variant="outlined"
-            required={required}
             label={label}
             name={name}
-            autoFocus={autoFocus}
             className={classes.TextField}
             value={value}
             onChange={onChange}
             autoComplete="off"
+            {...others}
         />
     );
 }

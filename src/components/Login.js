@@ -19,16 +19,15 @@ const Login = () => {
             <CustomTextField
                 label="Email"
                 name="email"
-                autoFocus={true}
-                required={true}
+                autoFocus
+                required
                 value={values.email}
                 onChange={handleOnChange}
             />
             <CustomTextField
                 label="Password"
                 name="password"
-                autoFocus={false}
-                required={true}
+                required
                 value={values.password}
                 onChange={handleOnChange}
             />
