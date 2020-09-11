@@ -25,7 +25,7 @@ export function useForm(initialState) {
 export function Form(props) {
 
     return (
-        <form>
+        <form autoComplete="off">
             <Typography variant="h5">
                 {props.title}
             </Typography>
