@@ -3,7 +3,7 @@ import { TextField, makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => (
     {
-        TextField: {
+        textField: {
             marginTop: theme.spacing(3)
         },
     }
@@ -22,7 +22,7 @@ const CustomTextField = (props) => {
             variant="outlined"
             label={label}
             name={name}
-            className={classes.TextField}
+            className={classes.textField}
             value={value}
             onChange={onChange}
             {...others}

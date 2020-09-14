@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { Grid, makeStyles } from '@material-ui/core';
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -13,8 +14,10 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function App() {
+function App(props) {
   const classes = useStyles()
+
+  console.log('props :>> ', props);
 
   return (
     <div className="App">
@@ -32,4 +35,11 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  // console.log('state', state)
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProps)(App);
