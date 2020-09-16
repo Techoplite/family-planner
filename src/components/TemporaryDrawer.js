@@ -1,5 +1,7 @@
 import React from 'react'
 import { Drawer, makeStyles, ListItem, ListItemText, List } from '@material-ui/core'
+import { logout } from './../store/actions/auth'
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles({
     temporaryDrawer: {
@@ -17,17 +19,23 @@ const TemporaryDrawer = (props) => {
 
 
 
-    const handleOnClose = (e) => {
+    const handleOnClose = e => {
         e.preventDefault()
+        props.setState(false)
+    }
+
+    const handleOnClick = e => {
+        e.preventDefault()
+        props.logout()
         props.setState(false)
     }
 
 
     return (
-        < Drawer className={classes.temporaryDrawer} open={props.state} anchor="right" onClose={handleOnClose}>
+        <Drawer className={classes.temporaryDrawer} open={props.state} anchor="right" onClose={handleOnClose}>
             <List>
                 {list.map(text =>
-                    <ListItem button key={text} onClick={props.handleOnClick}>
+                    <ListItem button key={text} onClick={handleOnClick}>
                         <ListItemText primary={text} />
                     </ListItem>
                 )}
@@ -36,4 +44,10 @@ const TemporaryDrawer = (props) => {
     );
 }
 
-export default TemporaryDrawer;
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(logout())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(TemporaryDrawer);

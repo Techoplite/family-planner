@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm, Form } from './hooks/useForm'
 import CustomButton from './inputs/CustomButton'
 import CustomTextField from './inputs/CustomTextField'
-import login from '../store/actions/auth'
+import { login } from '../store/actions/auth'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 
