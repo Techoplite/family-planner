@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
+import TemporaryDrawer from './components/TemporaryDrawer';
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -14,19 +15,37 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function App(props) {
+
+
+
+const App = (props) => {
   const classes = useStyles()
 
-  console.log('props :>> ', props);
+  const { auth } = props
+
+  const initialState = false
+
+
+  const handleOnClick = (e) => {
+    e.preventDefault()
+    setState(true)
+  }
+
+  const [state, setState] = useState(initialState)
+
 
   return (
     <div className="App">
       <Grid container>
         <Grid item xs={12}>
-          <Navbar />
+          <Navbar auth={auth} handleOnClick={handleOnClick} />
         </Grid>
         <div className={classes.mainContent}>
           <Grid item xs={12}>
+            <TemporaryDrawer
+              handleOnClick={handleOnClick}
+              state={state}
+              setState={setState} />
             <Login />
           </Grid>
         </div>
@@ -36,9 +55,8 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => {
-  // console.log('state', state)
   return {
-    state
+    auth: state.firebase.auth.email
   }
 }
 

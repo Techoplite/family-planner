@@ -4,6 +4,7 @@ import CustomButton from './inputs/CustomButton'
 import CustomTextField from './inputs/CustomTextField'
 import login from '../store/actions/auth'
 import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core'
 
 
 
@@ -21,6 +22,17 @@ const Login = (props) => {
         e.preventDefault()
         props.login(state)
     }
+
+    const useStyles = makeStyles(theme => (
+        {
+            button: {
+                marginTop: theme.spacing(3)
+            }
+        }
+    ))
+
+    const classes = useStyles()
+
 
     return (
         <Form title="Log in" onSubmit={handleOnSubmit}>
@@ -44,6 +56,7 @@ const Login = (props) => {
                 color="primary"
                 fullWidth
                 type="submit"
+                className={classes.button}
             >
                 LOG IN
             </CustomButton>

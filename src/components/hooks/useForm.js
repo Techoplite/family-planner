@@ -11,7 +11,6 @@ export function useForm(initialState) {
             ...state,
             [name]: value
         })
-        console.log('state', state)
     }
 
     return (
