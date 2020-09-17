@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     width: "100%",
     padding: `0 ${theme.spacing(2)}px`
+  },
+  App: {
+    marginBottom: "2rem"
   }
 }))
 
@@ -41,7 +44,7 @@ const App = (props) => {
 
 
   return (
-    <div className="App">
+    <div className={classes.App}>
       <Grid container>
         <Grid item xs={12}>
           <Navbar auth={auth} handleOnClick={handleOnClick} message={message} severity={severity} />
@@ -53,7 +56,7 @@ const App = (props) => {
               open={open}
               setOpen={setOpen}
               setMessage={setMessage}
-              setSeverity={setSeverity}/>
+              setSeverity={setSeverity} />
             {auth.email ? <Authenticated setMessage={setMessage} setSeverity={setSeverity} /> : <Anonymous setMessage={setMessage} setSeverity={setSeverity} />}
           </Grid>
         </div>
