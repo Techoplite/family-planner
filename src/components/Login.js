@@ -5,6 +5,7 @@ import CustomTextField from './inputs/CustomTextField'
 import { login } from '../store/actions/auth'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 
 
 
@@ -20,16 +21,15 @@ const Login = (props) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        validate() && window.alert("testing")
-        // props.login(state) 
+        validate() && props.login(state)
 
     }
 
     const useStyles = makeStyles(theme => (
         {
-            button: {
+            message: {
                 marginTop: theme.spacing(3)
-            }
+            },
         }
     ))
 
@@ -52,6 +52,8 @@ const Login = (props) => {
 
     return (
         <Form title="Log in" onSubmit={handleOnSubmit} noValidate >
+            {props.authError && <Alert className={classes.message} variant="outlined" severity="error">{props.authError}</Alert>}
+
             <CustomTextField
                 label="Email"
                 name="email"
@@ -74,7 +76,6 @@ const Login = (props) => {
                 color="primary"
                 fullWidth
                 type="submit"
-                className={classes.button}
             >
                 LOG IN
             </CustomButton>
