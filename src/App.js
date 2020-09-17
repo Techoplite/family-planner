@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
@@ -47,6 +47,13 @@ const App = (props) => {
     setMessage("");
   }, 5000);
 
+  useEffect(() => {
+    if (auth.email) {
+      setSeverity("success")
+      setMessage("Login successful.")
+    }
+  }, [auth.email, setSeverity, setMessage])
+
 
   return (
     <div className={classes.App}>
@@ -62,7 +69,7 @@ const App = (props) => {
               setOpen={setOpen}
               setMessage={setMessage}
               setSeverity={setSeverity} />
-            {auth.email ? <Authenticated setMessage={setMessage} setSeverity={setSeverity} /> : <Anonymous setMessage={setMessage} setSeverity={setSeverity} />}
+            {auth.email ? <Authenticated setMessage={setMessage} setSeverity={setSeverity} /> : <Anonymous auth={auth} setMessage={setMessage} setSeverity={setSeverity} />}
           </Grid>
         </div>
       </Grid>

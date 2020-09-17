@@ -21,7 +21,7 @@ const TemporaryDrawer = (props) => {
 
     const handleOnClose = e => {
         e.preventDefault()
-        props.setState(false)
+        props.setOpen(false)
     }
 
     const handleOnClick = e => {

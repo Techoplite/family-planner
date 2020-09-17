@@ -4,7 +4,7 @@ import Login from './Login'
 const Anonymous = (props) => {
     
 
-    return (<Login setMessage={props.setMessage} setSeverity={props.setSeverity}/>);
+    return (<Login auth={props.auth} setMessage={props.setMessage} setSeverity={props.setSeverity}/>);
 }
 
 export default Anonymous;

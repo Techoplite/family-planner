@@ -12,6 +12,9 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 const Login = (props) => {
 
+
+
+
     const initialState = {
         email: "",
         password: ""
@@ -19,18 +22,16 @@ const Login = (props) => {
 
 
     const { state, handleOnChange, errors, setErrors } = useForm(initialState)
-    const { setMessage, setSeverity } = props
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setSeverity("success")
-            setMessage("Login successful.")
             props.login(state)
         }
 
-
     }
+
+
 
     const useStyles = makeStyles(theme => (
         {
@@ -63,6 +64,8 @@ const Login = (props) => {
         })
         return Object.values(errors).every(value => value === "")
     }
+
+
 
 
     return (
