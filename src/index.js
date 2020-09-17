@@ -11,14 +11,24 @@ import { reduxFirestore, getFirestore } from 'redux-firestore'
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import firebase from './config/firebase'
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(root,
-  compose(
+const store = createStore(
+  root,
+  composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
     reduxFirestore(firebase),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
-)
+);
+
+
+// const store = createStore(root,
+//   compose(
+//     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+//     reduxFirestore(firebase),
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   )
+// )
 
 const rrfProps = {
   firebase,
