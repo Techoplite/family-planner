@@ -16,11 +16,13 @@ const Login = (props) => {
     }
 
 
-    const { state, handleOnChange } = useForm(initialState)
+    const { state, handleOnChange, errors, setErrors } = useForm(initialState)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        props.login(state)
+        validate() && window.alert("testing")
+        // props.login(state) 
+
     }
 
     const useStyles = makeStyles(theme => (
@@ -33,9 +35,23 @@ const Login = (props) => {
 
     const classes = useStyles()
 
+    const validate = () => {
+        let errors = {}
+        errors.email = (state.email ? "" : "This field is required.") ||
+            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
+        errors.password = (state.password ? "" : "This field is required.")
+        errors.password = (state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
+            ? "" : "The password must contain at list 8 characters")
+
+        setErrors({
+            ...errors
+        })
+        return Object.values(errors).every(value => value === "")
+    }
+
 
     return (
-        <Form title="Log in" onSubmit={handleOnSubmit}>
+        <Form title="Log in" onSubmit={handleOnSubmit} noValidate >
             <CustomTextField
                 label="Email"
                 name="email"
@@ -43,6 +59,7 @@ const Login = (props) => {
                 required
                 value={state.email}
                 onChange={handleOnChange}
+                error={errors.email}
             />
             <CustomTextField
                 label="Password"
@@ -50,6 +67,7 @@ const Login = (props) => {
                 required
                 value={state.password}
                 onChange={handleOnChange}
+                error={errors.password}
             />
             <CustomButton
                 variant="contained"
