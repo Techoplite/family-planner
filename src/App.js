@@ -62,7 +62,7 @@ const App = (props) => {
           <Navbar auth={auth} handleOnClick={handleOnClick} message={message} severity={severity} />
         </Grid>
         <div className={classes.mainContent}>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={8}>
             <TemporaryDrawer
               handleOnClick={handleOnClick}
               open={open}
