@@ -68,7 +68,7 @@ const Login = (props) => {
     return (
         <>
             <VpnKeyIcon className={classes.icon} />
-            <Form title="Log in" onSubmit={handleOnSubmit} noValidate >
+            <Form title="Log in" onSubmit={handleOnSubmit} >
                 {props.authError && <Alert className={classes.message} variant="outlined" severity="error">{props.authError}</Alert>}
                 <CustomTextField
                     label="Email"

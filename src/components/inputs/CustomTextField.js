@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => (
 
 const CustomTextField = (props) => {
 
-    const { label, value, name, onChange, error = null } = props;
+    const { label, value, name, onChange, error = null, ...others } = props;
 
     const classes = useStyles()
 
@@ -26,6 +26,7 @@ const CustomTextField = (props) => {
             value={value}
             onChange={onChange}
             {...(error && { error: true, helperText: error })}
+            {...others}
         />
     );
 }
