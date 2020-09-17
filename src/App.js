@@ -56,7 +56,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth.email
+    auth: state.firebase.auth
   }
 }
 

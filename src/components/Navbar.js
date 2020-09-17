@@ -34,13 +34,13 @@ const Navbar = (props) => {
                         <Typography variant="h4">iFam</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        {props.auth ?
+                        {props.auth.email ?
                             <CustomButton
                                 variant="contained"
                                 color="primary"
                                 className={classes.circleButton}
                                 onClick={props.handleOnClick}>
-                                {props.auth.charAt(0)}
+                                {props.auth.email.charAt(0)}
                             </CustomButton>
                             : <AccountCircleOutlinedIcon fontSize="large" />}
 
