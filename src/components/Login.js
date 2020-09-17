@@ -6,6 +6,7 @@ import { login } from '../store/actions/auth'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 
 
@@ -30,6 +31,14 @@ const Login = (props) => {
             message: {
                 marginTop: theme.spacing(3)
             },
+            icon: {
+                backgroundColor: "lightgrey",
+                padding: "10px",
+                borderRadius: "50px",
+                border: "1px solid grey",
+                marginBottom: theme.spacing(1)
+
+            }
         }
     ))
 
@@ -51,35 +60,37 @@ const Login = (props) => {
 
 
     return (
-        <Form title="Log in" onSubmit={handleOnSubmit} noValidate >
-            {props.authError && <Alert className={classes.message} variant="outlined" severity="error">{props.authError}</Alert>}
-
-            <CustomTextField
-                label="Email"
-                name="email"
-                autoFocus
-                required
-                value={state.email}
-                onChange={handleOnChange}
-                error={errors.email}
-            />
-            <CustomTextField
-                label="Password"
-                name="password"
-                required
-                value={state.password}
-                onChange={handleOnChange}
-                error={errors.password}
-            />
-            <CustomButton
-                variant="contained"
-                color="primary"
-                fullWidth
-                type="submit"
-            >
-                LOG IN
+        <>
+            <VpnKeyIcon className={classes.icon} />
+            <Form title="Log in" onSubmit={handleOnSubmit} noValidate >
+                {props.authError && <Alert className={classes.message} variant="outlined" severity="error">{props.authError}</Alert>}
+                <CustomTextField
+                    label="Email"
+                    name="email"
+                    autoFocus
+                    required
+                    value={state.email}
+                    onChange={handleOnChange}
+                    error={errors.email}
+                />
+                <CustomTextField
+                    label="Password"
+                    name="password"
+                    required
+                    value={state.password}
+                    onChange={handleOnChange}
+                    error={errors.password}
+                />
+                <CustomButton
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                >
+                    LOG IN
             </CustomButton>
-        </Form>
+            </Form>
+        </>
     );
 }
 
