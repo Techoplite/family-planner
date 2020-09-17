@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import Login from './components/Login';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
+import Anonymous from './components/Anonymous';
+import Authenticated from './components/Authenticated';
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -46,7 +47,7 @@ const App = (props) => {
               handleOnClick={handleOnClick}
               state={state}
               setState={setState} />
-            <Login />
+            {auth.email ? <Authenticated /> : <Anonymous />}
           </Grid>
         </div>
       </Grid>
