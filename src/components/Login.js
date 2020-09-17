@@ -52,11 +52,11 @@ const Login = (props) => {
 
     const validate = () => {
         let errors = {}
-        errors.email = (state.email ? "" : "The email is required.") ||
+        errors.email = (state.email ? "" : "Eemail is required.") ||
             (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
-        errors.password = (state.password ? "" : "The password is required.") ||
+        errors.password = (state.password ? "" : "Password is required.") ||
             ((state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
-                ? "" : "The password must contain at list 8 alphanumerical values."))
+                ? "" : "Password must contain at list 8 alphanumerical values."))
 
         setErrors({
             ...errors
