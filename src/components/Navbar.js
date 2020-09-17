@@ -2,6 +2,8 @@ import React from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
+import Message from './outputs/Message';
+
 
 const useStyles = makeStyles(theme => (
     {
@@ -12,18 +14,18 @@ const useStyles = makeStyles(theme => (
             backgroundColor: "coral", //temporary
             fontSize: "1rem",
             boxShadow: "none"
+        },
+        message: {
+            borderRadius: "0"
         }
     }
 ))
 
 const Navbar = (props) => {
 
-
-
     const classes = useStyles()
 
-
-
+    const { message, severity } = props
 
     return (
         <AppBar>
@@ -47,6 +49,7 @@ const Navbar = (props) => {
                     </Grid>
                 </Grid>
             </Toolbar>
+            {message && <Message message={message} severity={severity}/>}
         </AppBar>
     );
 }

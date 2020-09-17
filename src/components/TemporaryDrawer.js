@@ -17,7 +17,7 @@ const TemporaryDrawer = (props) => {
 
     const list = ['Log Out']
 
-
+    const { setMessage, setSeverity } = props
 
     const handleOnClose = e => {
         e.preventDefault()
@@ -27,12 +27,14 @@ const TemporaryDrawer = (props) => {
     const handleOnClick = e => {
         e.preventDefault()
         props.logout()
-        props.setState(false)
+        setSeverity("success")
+        setMessage("Logout successful.")
+        props.setOpen(false)
     }
 
 
     return (
-        <Drawer className={classes.temporaryDrawer} open={props.state} anchor="right" onClose={handleOnClose}>
+        <Drawer className={classes.temporaryDrawer} open={props.open} anchor="right" onClose={handleOnClose}>
             <List>
                 {list.map(text =>
                     <ListItem button key={text} onClick={handleOnClick}>

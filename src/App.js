@@ -27,27 +27,34 @@ const App = (props) => {
   const initialState = false
 
 
+
   const handleOnClick = (e) => {
     e.preventDefault()
-    setState(true)
+    setOpen(true)
   }
 
-  const [state, setState] = useState(initialState)
+  const [open, setOpen] = useState(initialState)
+  const initialMessage = ""
+  const [message, setMessage] = useState(initialMessage)
+  const initialSeverity = "info"
+  const [severity, setSeverity] = useState(initialSeverity)
 
 
   return (
     <div className="App">
       <Grid container>
         <Grid item xs={12}>
-          <Navbar auth={auth} handleOnClick={handleOnClick} />
+          <Navbar auth={auth} handleOnClick={handleOnClick} message={message} severity={severity} />
         </Grid>
         <div className={classes.mainContent}>
           <Grid item xs={12}>
             <TemporaryDrawer
               handleOnClick={handleOnClick}
-              state={state}
-              setState={setState} />
-            {auth.email ? <Authenticated /> : <Anonymous />}
+              open={open}
+              setOpen={setOpen}
+              setMessage={setMessage}
+              setSeverity={setSeverity}/>
+            {auth.email ? <Authenticated setMessage={setMessage} setSeverity={setSeverity} /> : <Anonymous setMessage={setMessage} setSeverity={setSeverity} />}
           </Grid>
         </div>
       </Grid>

@@ -19,10 +19,16 @@ const Login = (props) => {
 
 
     const { state, handleOnChange, errors, setErrors } = useForm(initialState)
+    const { setMessage, setSeverity } = props
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        validate() && props.login(state)
+        if (validate()) {
+            setSeverity("success")
+            setMessage("Login successful.")
+            props.login(state)
+        }
+
 
     }
 
