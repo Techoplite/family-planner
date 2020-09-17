@@ -43,6 +43,11 @@ const App = (props) => {
   const [severity, setSeverity] = useState(initialSeverity)
 
 
+  message !== "" && window.setTimeout(() => {
+    setMessage("");
+  }, 5000);
+
+
   return (
     <div className={classes.App}>
       <Grid container>
