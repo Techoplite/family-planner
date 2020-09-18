@@ -3,6 +3,8 @@ import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
 import Message from './outputs/Message';
+import { connect } from 'react-redux'
+
 
 
 const useStyles = makeStyles(theme => (
@@ -24,8 +26,6 @@ const useStyles = makeStyles(theme => (
 const Navbar = (props) => {
 
     const classes = useStyles()
-
-    const { message, severity } = props
 
     return (
         <AppBar>
@@ -49,9 +49,16 @@ const Navbar = (props) => {
                     </Grid>
                 </Grid>
             </Toolbar>
-            {message && <Message message={message} severity={severity}/>}
+            {props.text && <Message message={props.text} severity={props.severity} />}
         </AppBar>
     );
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+    return {
+        text: state.message.text,
+        severity: state.message.severity
+    }
+}
+
+export default connect(mapStateToProps)(Navbar);

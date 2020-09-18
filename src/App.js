@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
 import Anonymous from './components/Anonymous';
 import Authenticated from './components/Authenticated';
+import { setMessage } from './store/actions/message'
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -37,29 +38,32 @@ const App = (props) => {
   }
 
   const [open, setOpen] = useState(initialState)
-  const initialMessage = ""
-  const [message, setMessage] = useState(initialMessage)
+
   const initialSeverity = "info"
   const [severity, setSeverity] = useState(initialSeverity)
 
-
+  const { message } = props
   message !== "" && window.setTimeout(() => {
     setMessage("");
   }, 5000);
-
+  console.log('message :>> ', message);
   useEffect(() => {
     if (auth.email) {
       setSeverity("success")
       setMessage("Login successful.")
     }
-  }, [auth.email, setSeverity, setMessage])
+  }, [auth.email, setSeverity])
 
 
   return (
     <div className={classes.App}>
       <Grid container>
         <Grid item xs={12}>
-          <Navbar auth={auth} handleOnClick={handleOnClick} message={message} severity={severity} />
+          <Navbar
+            auth={auth}
+            handleOnClick={handleOnClick}
+            severity={severity}
+            message={props.text} />
         </Grid>
         <div className={classes.mainContent}>
           <Grid item xs={12} sm={8}>
@@ -79,7 +83,8 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    text: state.text
   }
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { Drawer, makeStyles, ListItem, ListItemText, List } from '@material-ui/core'
 import { logout } from './../store/actions/auth'
 import { connect } from 'react-redux'
+import { setMessage } from './../store/actions/message'
 
 const useStyles = makeStyles({
     temporaryDrawer: {
@@ -17,7 +18,6 @@ const TemporaryDrawer = (props) => {
 
     const list = ['Log Out']
 
-    const { setMessage, setSeverity } = props
 
     const handleOnClose = e => {
         e.preventDefault()
@@ -27,8 +27,7 @@ const TemporaryDrawer = (props) => {
     const handleOnClick = e => {
         e.preventDefault()
         props.logout()
-        setSeverity("success")
-        setMessage("Logout successful.")
+        props.setMessage("Logout successful.", "success")
         props.setOpen(false)
     }
 
@@ -48,7 +47,8 @@ const TemporaryDrawer = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout: () => dispatch(logout())
+        logout: () => dispatch(logout()),
+        setMessage: (text, severity) => dispatch(setMessage(text, severity))
     }
 }
 

@@ -3,6 +3,7 @@ import { useForm, Form } from './hooks/useForm'
 import CustomButton from './inputs/CustomButton'
 import CustomTextField from './inputs/CustomTextField'
 import { login } from '../store/actions/auth'
+import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
@@ -12,26 +13,21 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 const Login = (props) => {
 
-
-
-
     const initialState = {
         email: "",
         password: ""
     }
-
 
     const { state, handleOnChange, errors, setErrors } = useForm(initialState)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
+            props.setMessage("Login successful", "success")
             props.login(state)
         }
 
     }
-
-
 
     const useStyles = makeStyles(theme => (
         {
@@ -111,7 +107,8 @@ const mapStateToprops = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: credentials => dispatch(login(credentials))
+        login: credentials => dispatch(login(credentials)),
+        setMessage: (text, severity) => dispatch(setMessage(text, severity))
     }
 }
 
