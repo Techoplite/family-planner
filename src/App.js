@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
 import Anonymous from './components/Anonymous';
 import Authenticated from './components/Authenticated';
-import { setMessage } from './store/actions/message'
+import { setMessage, clearMessage } from './store/actions/message'
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -42,17 +42,14 @@ const App = (props) => {
   const initialSeverity = "info"
   const [severity, setSeverity] = useState(initialSeverity)
 
-  const { message } = props
-  message !== "" && window.setTimeout(() => {
-    setMessage("");
-  }, 5000);
-  console.log('message :>> ', message);
+  const { text } = props
+
+
   useEffect(() => {
-    if (auth.email) {
-      setSeverity("success")
-      setMessage("Login successful.")
-    }
-  }, [auth.email, setSeverity])
+    text !== "" && window.setTimeout(() => {
+      props.clearMessage();
+    }, 5000);
+  }, [props, text])
 
 
   return (
@@ -88,4 +85,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+    clearMessage: () => dispatch(clearMessage())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

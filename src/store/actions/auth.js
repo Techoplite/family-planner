@@ -1,3 +1,5 @@
+import { setMessage } from './message'
+
 export const login = (credentials) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase()
@@ -9,6 +11,9 @@ export const login = (credentials) => {
                     type: 'LOGIN_SUCCESS',
                 }
             ))
+            .then(() => dispatch(
+                setMessage("Login successful", "success")
+            ))
             .catch((err) => {
                 dispatch(
                     {
@@ -16,6 +21,7 @@ export const login = (credentials) => {
                         err
                     })
             })
+
     };
 }
 

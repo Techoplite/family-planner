@@ -10,7 +10,7 @@ const message = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
-        case 'clear_MESSAGE':
+        case 'CLEAR_MESSAGE':
             return {
                 ...state,
                 ...action.payload

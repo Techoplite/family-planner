@@ -23,8 +23,8 @@ const Login = (props) => {
     const handleOnSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            props.setMessage("Login successful", "success")
             props.login(state)
+
         }
 
     }
