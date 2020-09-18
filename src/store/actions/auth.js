@@ -9,6 +9,7 @@ export const login = (credentials) => {
             .then(() => dispatch(
                 {
                     type: 'LOGIN_SUCCESS',
+                    payload: { authError: null }
                 }
             ))
             .then(() => dispatch(
@@ -18,7 +19,7 @@ export const login = (credentials) => {
                 dispatch(
                     {
                         type: 'LOGIN_ERROR',
-                        err
+                        payload: { authError: err.message }
                     })
             })
 
@@ -32,14 +33,9 @@ export const logout = () => {
         firebase.auth().signOut()
             .then(() => dispatch(
                 {
-                    type: 'LOGOUT_SUCCESS'
+                    type: 'LOGOUT_SUCCESS',
+                    payload: { authErr: null }
                 }
             ))
-        // .catch((err) => {
-        //     dispatch({
-        //         type: 'LOGOUT_ERROR',
-        //         err
-        //     })
-        // })
     };
 }

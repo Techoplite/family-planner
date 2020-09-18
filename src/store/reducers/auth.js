@@ -7,23 +7,18 @@ const user = (state = initialState, action) => {
         case 'LOGIN_SUCCESS':
             return {
                 ...state,
-                authError: null
+                ...action.payload
             }
         case 'LOGIN_ERROR':
             return {
                 ...state,
-                authError: action.err.message
+                ...action.payload
             }
         case 'LOGOUT_SUCCESS':
             return {
                 ...state,
-                authError: null
+                ...action.payload
             }
-        // case 'LOGOUT_ERROR':
-        //     return {
-        //         ...state,
-        //         authError: action.err.message
-        //     }
         default:
             return state
     }
