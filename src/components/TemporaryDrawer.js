@@ -3,6 +3,7 @@ import { Drawer, makeStyles, ListItem, ListItemText, List } from '@material-ui/c
 import { logout } from './../store/actions/auth'
 import { connect } from 'react-redux'
 import { setMessage } from './../store/actions/message'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 
@@ -29,22 +30,58 @@ const TemporaryDrawer = (props) => {
     }
 
     // Material UI
-    const useStyles = makeStyles({
-        temporaryDrawer: {
+    const useStyles = makeStyles(theme => ({
+        list: {
+            width: "200px",
+            display: "flex",
+            justifyContent: "center"
 
-        }
-    })
+        },
+        listItem: {
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            width: "fit-content"
+
+            // dispaly: "flex",
+
+        },
+        listItemText: {
+            // width: "fit-content"
+        },
+        ExitToAppIcon: {
+            marginRight: theme.spacing(1)
+        },
+    }))
 
     const classes = useStyles()
 
     const list = ['Log Out']
 
     return (
-        <Drawer className={classes.temporaryDrawer} open={props.open} anchor="right" onClose={handleOnClose}>
-            <List>
+        <Drawer
+            open={props.open}
+            anchor="right"
+            onClose={handleOnClose}>
+            <List
+                className={classes.list}
+            >
                 {list.map(text =>
-                    <ListItem button key={text} onClick={handleOnClick}>
-                        <ListItemText primary={text} />
+                    <ListItem
+                        button key={text}
+                        onClick={handleOnClick}
+                        className={classes.listItem}
+
+                    >
+                        <ExitToAppIcon
+                            className={classes.ExitToAppIcon}
+                            color="action"
+                        />
+                        <ListItemText
+                            primary={text}
+                            className={classes.listItemText}
+
+                        />
                     </ListItem>
                 )}
             </List>
