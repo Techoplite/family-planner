@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
 import Message from './outputs/Message';
 import { connect } from 'react-redux'
+import { clearMessage } from './../store/actions/message'
 
 
 
@@ -12,7 +13,14 @@ const Navbar = (props) => {
 
     // Redux
     const { text, severity } = props.message
-    const { auth } = props
+    const { auth, clearMessage } = props
+
+    // React
+    useEffect(() => {
+        text !== null && window.setTimeout(() => {
+            clearMessage();
+        }, 5000);
+    }, [text, clearMessage])
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -68,4 +76,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = dispatch => {
+    return {
+        clearMessage: () => dispatch(clearMessage())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
 import Anonymous from './components/Anonymous';
 import Authenticated from './components/Authenticated';
-import { setMessage, clearMessage } from './store/actions/message'
-import { logout } from './store/actions/auth'
+
 
 const App = (props) => {
 
@@ -26,13 +25,6 @@ const App = (props) => {
       temporaryDrawer: true
     })
   }
-
-  // useEffect(() => {
-  //   text !== "" && window.setTimeout(() => {
-  //     props.clearMessage();
-  //   }, 5000);
-  //   return () => props.logout()
-  // }, [props, text])
 
   // Material UI
   const useStyles = makeStyles(theme => ({
@@ -85,12 +77,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch(logout()),
-    setMessage: (text, severity) => dispatch(setMessage(text, severity)),
-    clearMessage: () => dispatch(clearMessage())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
