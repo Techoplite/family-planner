@@ -12,13 +12,19 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 
 const Login = (props) => {
+    // Redux
 
+    // React
     const initialState = {
         email: "",
-        password: ""
+        password: "",
+        errors: {
+            email: "",
+            password: ""
+        }
     }
 
-    const { state, handleOnChange, errors, setErrors } = useForm(initialState)
+    const { state, handleOnChange, setState } = useForm(initialState)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -29,6 +35,22 @@ const Login = (props) => {
 
     }
 
+    const validate = () => {
+        let errors = {}
+        errors.email = (state.email ? "" : "Email is required.") ||
+            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
+        errors.password = (state.password ? "" : "Password is required.") ||
+            ((state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
+                ? "" : "Password must contain at list 8 alphanumerical values."))
+        console.log('errors :>> ', errors);
+        setState({
+            ...state,
+            errors
+        })
+        return Object.values(errors).every(value => value === "")
+    }
+
+    // Material UI
     const useStyles = makeStyles(theme => (
         {
             message: {
@@ -47,23 +69,6 @@ const Login = (props) => {
 
     const classes = useStyles()
 
-    const validate = () => {
-        let errors = {}
-        errors.email = (state.email ? "" : "Eemail is required.") ||
-            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
-        errors.password = (state.password ? "" : "Password is required.") ||
-            ((state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
-                ? "" : "Password must contain at list 8 alphanumerical values."))
-
-        setErrors({
-            ...errors
-        })
-        return Object.values(errors).every(value => value === "")
-    }
-
-
-
-
     return (
         <>
             <VpnKeyIcon className={classes.icon} />
@@ -76,7 +81,7 @@ const Login = (props) => {
                     required
                     value={state.email}
                     onChange={handleOnChange}
-                    error={errors.email}
+                    error={state.errors.email}
                 />
                 <CustomTextField
                     label="Password"
@@ -84,7 +89,7 @@ const Login = (props) => {
                     required
                     value={state.password}
                     onChange={handleOnChange}
-                    error={errors.password}
+                    error={state.errors.password}
                 />
                 <CustomButton
                     variant="contained"
@@ -99,6 +104,7 @@ const Login = (props) => {
     );
 }
 
+// Redux
 const mapStateToprops = state => {
     return {
         authError: state.auth.authError

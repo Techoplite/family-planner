@@ -4,33 +4,40 @@ import { logout } from './../store/actions/auth'
 import { connect } from 'react-redux'
 import { setMessage } from './../store/actions/message'
 
-const useStyles = makeStyles({
-    temporaryDrawer: {
 
-    }
-})
 
 
 const TemporaryDrawer = (props) => {
 
-
-    const classes = useStyles()
-
-    const list = ['Log Out']
-
-
+    // React
     const handleOnClose = e => {
         e.preventDefault()
-        props.setOpen(false)
+        props.setState({
+            ...props.state,
+            temporaryDrawer: false
+        })
     }
 
     const handleOnClick = e => {
         e.preventDefault()
         props.logout()
         props.setMessage("Logout successful.", "success")
-        props.setOpen(false)
+        props.setState({
+            ...props.state,
+            temporaryDrawer: false
+        })
     }
 
+    // Material UI
+    const useStyles = makeStyles({
+        temporaryDrawer: {
+
+        }
+    })
+
+    const classes = useStyles()
+
+    const list = ['Log Out']
 
     return (
         <Drawer className={classes.temporaryDrawer} open={props.open} anchor="right" onClose={handleOnClose}>

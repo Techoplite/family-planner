@@ -1,21 +1,25 @@
 import React from 'react'
 import { Button, makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => (
-    {
-        button: {
-            marginTop: theme.spacing(3)
-        },
-    }
-))
+
 
 
 const CustomButton = (props) => {
 
-    const classes = useStyles()
-
+    // React
     const { variant, ...others } = props
 
+
+    // Material UI
+    const useStyles = makeStyles(theme => (
+        {
+            button: {
+                marginTop: theme.spacing(3)
+            },
+        }
+    ))
+
+    const classes = useStyles()
 
     return (<Button
         variant={variant}

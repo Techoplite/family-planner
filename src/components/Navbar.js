@@ -7,23 +7,29 @@ import { connect } from 'react-redux'
 
 
 
-const useStyles = makeStyles(theme => (
-    {
-        circleButton: {
-            borderRadius: theme.spacing(10),
-            minWidth: 0,
-            padding: "6px 14px",
-            backgroundColor: "coral", //temporary
-            fontSize: "1rem",
-            boxShadow: "none"
-        },
-        message: {
-            borderRadius: "0"
-        }
-    }
-))
 
 const Navbar = (props) => {
+
+    // Redux
+    const { text, severity } = props.message
+    const { auth } = props
+
+    // Material UI
+    const useStyles = makeStyles(theme => (
+        {
+            circleButton: {
+                borderRadius: theme.spacing(10),
+                minWidth: 0,
+                padding: "6px 14px",
+                backgroundColor: "coral", //temporary
+                fontSize: "1rem",
+                boxShadow: "none"
+            },
+            message: {
+                borderRadius: "0"
+            }
+        }
+    ))
 
     const classes = useStyles()
 
@@ -36,28 +42,29 @@ const Navbar = (props) => {
                         <Typography variant="h4">iFam</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        {props.auth.email ?
+                        {auth.isEmpty === false ?
                             <CustomButton
                                 variant="contained"
                                 color="primary"
                                 className={classes.circleButton}
                                 onClick={props.handleOnClick}>
-                                {props.auth.email.charAt(0)}
+                                {auth.email.charAt(0)}
                             </CustomButton>
                             : <AccountCircleOutlinedIcon fontSize="large" />}
 
                     </Grid>
                 </Grid>
             </Toolbar>
-            {props.text && <Message message={props.text} severity={props.severity} />}
+            {text && <Message message={text} severity={severity} />}
         </AppBar>
     );
 }
 
+// Redux
 const mapStateToProps = (state) => {
     return {
-        text: state.message.text,
-        severity: state.message.severity
+        message: state.message,
+        auth: state.firebase.auth
     }
 }
 

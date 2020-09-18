@@ -1,18 +1,22 @@
 import React from 'react';
 import { TextField, makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => (
-    {
-        textField: {
-            marginTop: theme.spacing(3)
-        },
-    }
-))
+
 
 
 const CustomTextField = (props) => {
 
+    // React
     const { label, value, name, onChange, error = null, ...others } = props;
+
+    // Material UI
+    const useStyles = makeStyles(theme => (
+        {
+            textField: {
+                marginTop: theme.spacing(3)
+            },
+        }
+    ))
 
     const classes = useStyles()
 

@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 export function useForm(initialState) {
 
     const [state, setState] = useState(initialState)
-    const [errors, setErrors] = useState({})
 
     const handleOnChange = e => {
         const { name, value } = e.target
@@ -19,8 +18,6 @@ export function useForm(initialState) {
             state,
             setState,
             handleOnChange,
-            errors,
-            setErrors
         }
     );
 }
@@ -30,7 +27,7 @@ export function Form(props) {
     const { children, ...other } = props
 
     return (
-        <form autoComplete="off" {...other}>
+        <form autoComplete="off" {...other} noValidate>
             <Typography variant="h5">
                 {props.title}
             </Typography>
