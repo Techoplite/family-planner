@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import {withRouter} from 'react-router-dom'
 
 
 
@@ -26,11 +27,10 @@ const Login = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = async(e) => {
         e.preventDefault()
         if (validate()) {
             props.login(state)
-
         }
 
     }
@@ -42,7 +42,6 @@ const Login = (props) => {
         errors.password = (state.password ? "" : "Password is required.") ||
             ((state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
                 ? "" : "Password must contain at list 8 alphanumerical values."))
-        console.log('errors :>> ', errors);
         setState({
             ...state,
             errors
@@ -118,4 +117,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToprops, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToprops, mapDispatchToProps)(Login));

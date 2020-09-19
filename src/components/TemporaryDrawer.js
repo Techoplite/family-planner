@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Drawer, makeStyles, ListItem, ListItemText, List } from '@material-ui/core'
 import { logout } from './../store/actions/auth'
 import { connect } from 'react-redux'
 import { setMessage } from './../store/actions/message'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link } from 'react-router-dom'
 
 
 
 
 const TemporaryDrawer = (props) => {
+    // Redux
+    const { auth } = props
 
     // React
+    const initialState = {
+        list: []
+    }
+    const [state, setState] = useState(initialState)
+
     const handleOnClose = e => {
         e.preventDefault()
         props.setState({
@@ -18,15 +26,45 @@ const TemporaryDrawer = (props) => {
             temporaryDrawer: false
         })
     }
+    const getLink = (text) => {
+        switch (text) {
+            case 'Log in':
+                return '/login'
+            default:
+                return ''
+        }
+    }
 
-    const handleOnClick = e => {
+    useEffect(() => {
+        const getList = () => {
+            auth && auth.isEmpty ?
+                setState(state => ({
+                    ...state,
+                    list: ['Log in']
+                })) :
+                setState(state => ({
+                    ...state,
+                    list: ['Log out']
+                }))
+        };
+        getList()
+    }, [auth.isEmpty, auth])
+
+    const handleOnClick = (e) => {
         e.preventDefault()
-        props.logout()
-        props.setMessage("Logout successful.", "success")
+        if (e.currentTarget.children[0].innerText === 'Log out') {
+            props.logout()
+            props.setMessage("Logout successful.", "success")
+            props.setState({
+                ...props.state,
+                temporaryDrawer: false
+            })
+        }
         props.setState({
             ...props.state,
             temporaryDrawer: false
         })
+        
     }
 
     // Material UI
@@ -43,11 +81,13 @@ const TemporaryDrawer = (props) => {
             justifyContent: "center",
             width: "fit-content"
 
-            // dispaly: "flex",
 
         },
-        listItemText: {
-            // width: "fit-content"
+        link: {
+            textDecoration: "none",
+            color: "black",
+            display: "flex",
+            alignItems: "center",
         },
         ExitToAppIcon: {
             marginRight: theme.spacing(1)
@@ -55,8 +95,6 @@ const TemporaryDrawer = (props) => {
     }))
 
     const classes = useStyles()
-
-    const list = ['Log Out']
 
     return (
         <Drawer
@@ -66,27 +104,39 @@ const TemporaryDrawer = (props) => {
             <List
                 className={classes.list}
             >
-                {list.map(text =>
+                {state.list && state.list.map(text =>
+
                     <ListItem
-                        button key={text}
+                        button
                         onClick={handleOnClick}
                         className={classes.listItem}
-
+                        key={text}
                     >
-                        <ExitToAppIcon
-                            className={classes.ExitToAppIcon}
-                            color="action"
-                        />
-                        <ListItemText
-                            primary={text}
-                            className={classes.listItemText}
+                        <Link
+                            to={getLink(text)}
+                            className={classes.link}>
+                            <ExitToAppIcon
+                                className={classes.ExitToAppIcon}
+                                color="action"
+                            />
+                            <ListItemText
+                                primary={text}
+                                className={classes.listItemText}
 
-                        />
+                            />
+                        </Link>
                     </ListItem>
                 )}
             </List>
         </Drawer >
     );
+}
+
+// Redux
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth,
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -96,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(TemporaryDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(TemporaryDrawer);

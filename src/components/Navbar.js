@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect} from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
 import Message from './outputs/Message';
 import { connect } from 'react-redux'
 import { clearMessage } from './../store/actions/message'
-
-
-
 
 const Navbar = (props) => {
 
@@ -50,15 +47,22 @@ const Navbar = (props) => {
                         <Typography variant="h4">iFam</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        {auth.isEmpty === false ?
+                        {auth && auth.isEmpty === false ?
                             <CustomButton
                                 variant="contained"
                                 color="primary"
                                 className={classes.circleButton}
-                                onClick={props.handleOnClick}>
+                                onClick={props.handleOnClick}
+                                list={props.list}
+                            >
                                 {auth.email.charAt(0)}
                             </CustomButton>
-                            : <AccountCircleOutlinedIcon fontSize="large" />}
+                            : <AccountCircleOutlinedIcon
+                                fontSize="large"
+                                onClick={props.handleOnClick}
+                                list={props.list}
+
+                            />}
 
                     </Grid>
                 </Grid>

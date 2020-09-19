@@ -22,10 +22,8 @@ export const login = (credentials) => {
                         payload: { authError: err.message }
                     })
             })
-
     };
 }
-
 
 export const logout = () => {
     return (dispatch, getState, { getFirebase }) => {

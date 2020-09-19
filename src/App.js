@@ -5,16 +5,17 @@ import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
 import Anonymous from './components/Anonymous';
 import Authenticated from './components/Authenticated';
+import { BrowserRouter as Router } from 'react-router-dom'
 
 
 const App = (props) => {
 
   // Redux
-  const { text, auth } = props
+  const { auth } = props
 
   // React
   const initialState = {
-    temporaryDrawer: false
+    temporaryDrawer: false,
   }
   const [state, setState] = useState(initialState)
 
@@ -41,39 +42,35 @@ const App = (props) => {
   }))
   const classes = useStyles()
 
-  console.log('text :>> ', text);
-  console.log('auth :>> ', auth);
-
-
   return (
-    <div className={classes.App}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Navbar
-            handleOnClick={handleOnClick}
-          />
-        </Grid>
-        <div className={classes.mainContent}>
-          <Grid item xs={12} sm={8}>
-            <TemporaryDrawer
-              handleOnClick={handleOnClick}
-              open={state.temporaryDrawer}
-              setState={setState}
-            />
-            {auth.isEmpty ? <Anonymous /> : <Authenticated />}
+    <Router>
+        <div className={classes.App}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Navbar
+                handleOnClick={handleOnClick}
+              />
+            </Grid>
+            <div className={classes.mainContent}>
+              <Grid item xs={12} sm={8}>
+                <TemporaryDrawer
+                  handleOnClick={handleOnClick}
+                  open={state.temporaryDrawer}
+                  setState={setState}
+                />
+                {auth.isEmpty ? <Anonymous /> : <Authenticated />}
+              </Grid>
+            </div>
           </Grid>
         </div>
-      </Grid>
-    </div>
+    </Router>
   );
 }
-
 
 // Redux
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    text: state.message.text,
   }
 }
 
