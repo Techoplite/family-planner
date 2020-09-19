@@ -30,6 +30,8 @@ const TemporaryDrawer = (props) => {
         switch (text) {
             case 'Log in':
                 return '/login'
+            case 'Sign up':
+                return '/signup'
             default:
                 return ''
         }
@@ -40,7 +42,7 @@ const TemporaryDrawer = (props) => {
             auth && auth.isEmpty ?
                 setState(state => ({
                     ...state,
-                    list: ['Log in']
+                    list: ['Log in', 'Sign up']
                 })) :
                 setState(state => ({
                     ...state,
@@ -64,30 +66,19 @@ const TemporaryDrawer = (props) => {
             ...props.state,
             temporaryDrawer: false
         })
-        
+
     }
 
     // Material UI
     const useStyles = makeStyles(theme => ({
-        list: {
-            width: "200px",
-            display: "flex",
-            justifyContent: "center"
-
-        },
-        listItem: {
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            width: "fit-content"
-
-
-        },
         link: {
             textDecoration: "none",
             color: "black",
             display: "flex",
             alignItems: "center",
+            marginRight: theme.spacing(2),
+            marginLeft: theme.spacing(1)
+
         },
         ExitToAppIcon: {
             marginRight: theme.spacing(1)
@@ -101,15 +92,12 @@ const TemporaryDrawer = (props) => {
             open={props.open}
             anchor="right"
             onClose={handleOnClose}>
-            <List
-                className={classes.list}
-            >
+            <List>
                 {state.list && state.list.map(text =>
 
                     <ListItem
                         button
                         onClick={handleOnClick}
-                        className={classes.listItem}
                         key={text}
                     >
                         <Link
@@ -121,8 +109,6 @@ const TemporaryDrawer = (props) => {
                             />
                             <ListItemText
                                 primary={text}
-                                className={classes.listItemText}
-
                             />
                         </Link>
                     </ListItem>

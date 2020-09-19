@@ -13,7 +13,6 @@ import {withRouter} from 'react-router-dom'
 
 
 const Login = (props) => {
-    // Redux
 
     // React
     const initialState = {
@@ -59,7 +58,7 @@ const Login = (props) => {
                 backgroundColor: "lightgrey",
                 padding: "10px",
                 borderRadius: "50px",
-                border: "1px solid grey",
+                border: "2px solid #3F51B5",
                 marginBottom: theme.spacing(1)
 
             }
