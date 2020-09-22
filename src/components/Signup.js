@@ -4,9 +4,14 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { FormControl, makeStyles, Typography } from '@material-ui/core'
 import CustomButton from './inputs/CustomButton';
 import CustomTextField from './inputs/CustomTextField';
+import { setMessage } from '../store/actions/message'
+import { connect } from 'react-redux'
+import { Alert } from '@material-ui/lab'
+import { signup } from '../store/actions/auth'
 
 
-const Signup = () => {
+
+const Signup = (props) => {
 
     // React
     const initialState = {
@@ -15,8 +20,10 @@ const Signup = () => {
         password: "",
         color: "",
         errors: {
+            name: "",
             email: "",
-            password: ""
+            password: "",
+            color: ""
         },
         availableColors: [
             {
@@ -64,11 +71,14 @@ const Signup = () => {
         let errors = {}
         errors.name = (state.name ? "" : "Name is required") ||
             /[A-ZÖ][a-zö]+/i.test(state.name) ? "" : "Name is not valid."
-        errors.email = (state.email ? "" : "Email is required.") || /[a-z]/i.test(state.name)
+        errors.email = (state.email ? "" : "Email is required.") ||
             (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
         errors.password = (state.password ? "" : "Password is required.") ||
-            ((state.password.length >= 8 && /[a-z]/i.test(state.password) && /[0-9]/i.test(state.password)
+            ((state.password.length >= 8 &&
+                /[a-z]/i.test(state.password) &&
+                /[0-9]/i.test(state.password)
                 ? "" : "Password must contain at list 8 alphanumerical values."))
+        errors.color = (state.color ? "" : "Color is required.")
         setState({
             ...state,
             errors
@@ -84,6 +94,15 @@ const Signup = () => {
         })
     }
 
+    const handleOnSubmit = async (e) => {
+        console.log('state.email :>> ', state.email);
+        e.preventDefault()
+        if (validate()) {
+            const credentials = ({ email: state.email, password: state.password })
+            props.signup(credentials, state.name, state.color)
+        }
+
+    }
 
     // Material UI
     const cirlceSize = 70
@@ -138,7 +157,13 @@ const Signup = () => {
     return (
         <>
             <AccountCircleIcon className={classes.icon} />
-            <Form title="Sign up">
+            <Form title="Sign up"
+                onSubmit={handleOnSubmit} >
+                {props.authError &&
+                    <Alert className={classes.message}
+                        variant="outlined"
+                        severity="error">{props.authError}
+                    </Alert>}
                 <CustomTextField
                     label="Name"
                     name="name"
@@ -165,7 +190,10 @@ const Signup = () => {
                     onChange={handleOnChange}
                     error={state.errors.password}
                 />
-                <FormControl fullWidth variant="outlined" className={classes.formControl}>
+                <FormControl
+                    fullWidth variant="outlined"
+                    className={classes.formControl}
+                >
                     <Typography variant="h6" align="left">Pick a color</Typography>
                     <div className={classes.colorPicker}>
                         {state.availableColors.map(color => {
@@ -178,6 +206,7 @@ const Signup = () => {
                                         backgroundColor: `${color.value}`
                                     }}
                                     onClick={handleOnClick}
+                                // error={state.errors.color}
                                 />
                             )
                         })}
@@ -196,4 +225,18 @@ const Signup = () => {
     );
 }
 
-export default Signup;
+// Redux
+const mapStateToprops = state => {
+    return {
+        authError: state.auth.authError
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signup: (credentials, name, color) => dispatch(signup(credentials, name, color)),
+        setMessage: (text, severity) => dispatch(setMessage(text, severity))
+    }
+}
+
+export default connect(mapStateToprops, mapDispatchToProps)(Signup);

@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 
 
@@ -26,7 +26,7 @@ const Login = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-    const handleOnSubmit = async(e) => {
+    const handleOnSubmit = async (e) => {
         e.preventDefault()
         if (validate()) {
             props.login(state)
@@ -70,8 +70,13 @@ const Login = (props) => {
     return (
         <>
             <VpnKeyIcon className={classes.icon} />
-            <Form title="Log in" onSubmit={handleOnSubmit} >
-                {props.authError && <Alert className={classes.message} variant="outlined" severity="error">{props.authError}</Alert>}
+            <Form title="Log in"
+                onSubmit={handleOnSubmit} >
+                {props.authError &&
+                    <Alert className={classes.message}
+                        variant="outlined"
+                        severity="error">{props.authError}
+                    </Alert>}
                 <CustomTextField
                     label="Email"
                     name="email"

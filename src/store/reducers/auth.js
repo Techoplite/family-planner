@@ -19,6 +19,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'SIGNUP_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }

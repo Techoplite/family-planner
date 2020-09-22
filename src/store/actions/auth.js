@@ -37,3 +37,41 @@ export const logout = () => {
             ))
     };
 }
+
+export const signup = (credentials, name, color) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase()
+        const email = credentials.email
+        const password = credentials.password
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                const firestore = getFirestore()
+                firestore.collection("profiles").add({
+                    name,
+                    color,
+                    email
+                })
+            })
+            .then(() => dispatch(
+                {
+                    type: 'SIGNUP_SUCCESS',
+                    payload: {
+                        authError: null,
+                        name,
+                        email,
+                        color
+                    }
+                }
+            ))
+            .then(() => dispatch(
+                setMessage("Sign up successful", "success")
+            ))
+            .catch((err) => {
+                dispatch(
+                    {
+                        type: 'SIGNUP_ERROR',
+                        payload: { authError: err.message }
+                    })
+            })
+    };
+}
