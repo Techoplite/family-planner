@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm, Form } from './hooks/useForm'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { FormControl, makeStyles, Typography } from '@material-ui/core'
+import { FormControl, makeStyles, Typography, FormHelperText } from '@material-ui/core'
 import CustomButton from './inputs/CustomButton';
 import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
@@ -68,8 +68,8 @@ const Signup = (props) => {
 
     const validate = () => {
         let errors = {}
-        errors.name = (state.name ? "" : "Name is required") ||
-            /[A-ZÖ][a-zö]+/i.test(state.name) ? "" : "Name is not valid."
+        errors.name = (state.name ? "" : "Name is required.") ||
+            (/^[A-Za-z]+$/i.test(state.name) ? "" : "Name is not valid.")
         errors.email = (state.email ? "" : "Email is required.") ||
             (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
         errors.password = (state.password ? "" : "Password is required.") ||
@@ -95,6 +95,7 @@ const Signup = (props) => {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
+        state.name.charAt(0).toUpperCase()
         if (validate()) {
             const credentials = ({ email: state.email, password: state.password })
             props.signup(credentials, state.name, state.color)
@@ -147,6 +148,9 @@ const Signup = (props) => {
                     marginRight: marginX - 2,
 
                 }
+            },
+            formHelperText: {
+                color: "red"
             }
         }
     ))
@@ -165,8 +169,8 @@ const Signup = (props) => {
                 <CustomTextField
                     label="Name"
                     name="name"
-                    autoFocus
                     required
+                    autoFocus
                     value={state.name}
                     onChange={handleOnChange}
                     error={state.errors.name}
@@ -174,7 +178,6 @@ const Signup = (props) => {
                 <CustomTextField
                     label="Email"
                     name="email"
-                    autoFocus
                     required
                     value={state.email}
                     onChange={handleOnChange}
@@ -192,7 +195,13 @@ const Signup = (props) => {
                     fullWidth variant="outlined"
                     className={classes.formControl}
                 >
-                    <Typography variant="h6" align="left">Pick a color</Typography>
+                    <Typography variant="h6" align="left">Pick a color *</Typography>
+                    {state.errors.color && <FormHelperText
+                        className={classes.formHelperText}
+                        align="left">
+                        {state.errors.color}
+                    </FormHelperText>}
+                    <Typography variant="body2" align="left">This is to give you a parsonalised user experience.</Typography>
                     <div className={classes.colorPicker}>
                         {state.availableColors.map(color => {
                             return (
@@ -204,7 +213,6 @@ const Signup = (props) => {
                                         backgroundColor: `${color.value}`
                                     }}
                                     onClick={handleOnClick}
-                                // error={state.errors.color}
                                 />
                             )
                         })}

@@ -7,7 +7,6 @@ const getColorValue = (colorName) => {
         case 'green':
             return "#00e676"
         case 'yellow':
-            console.log('"#ffeb3b" :>> ', "#ffeb3b");
             return "#ffeb3b"
         case 'orange':
             return "#ff9100"

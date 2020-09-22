@@ -30,7 +30,6 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    console.log('user.email form useEffect:>> ', user.email);
     user.email && props.getUserProfile(user.email)
   })
 
@@ -76,7 +75,6 @@ const App = (props) => {
 
 // Redux
 const mapStateToProps = (state) => {
-  console.log('state.firebase.auth :>> ', state.firebase.auth);
   return {
     user: state.firebase.auth,
   }

@@ -81,7 +81,6 @@ export const signup = (credentials, name, color) => {
 export const getUserProfile = (email) => {
     return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore()
-        console.log('email :>> ', email);
         firestore.collection("profiles").where("email", "==", email).get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {

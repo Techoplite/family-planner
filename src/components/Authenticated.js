@@ -6,10 +6,12 @@ import { Redirect } from 'react-router-dom'
 const Authenticated = (props) => {
     // Redux
     const { auth } = props
+    console.log('auth :>> ', auth);
 
     return (
         <>
-            <div>not anonymous</div>
+            <div>Hi {auth.name}, welcome to the home page.</div>
+            <p>This is only a temporary page.</p>
             {auth.isEmpty === false && <Redirect to='/' />}
         </>
     );
@@ -18,7 +20,7 @@ const Authenticated = (props) => {
 // Redux
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth,
+        auth: state.auth,
     }
 }
 
