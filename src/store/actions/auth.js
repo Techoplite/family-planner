@@ -6,10 +6,12 @@ export const login = (credentials) => {
         const email = credentials.email
         const password = credentials.password
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => dispatch(
+            .then((response) => dispatch(
                 {
                     type: 'LOGIN_SUCCESS',
-                    payload: { authError: null }
+                    payload: {
+                        authError: null,
+                    }
                 }
             ))
             .then(() => dispatch(
@@ -72,6 +74,29 @@ export const signup = (credentials, name, color) => {
                         type: 'SIGNUP_ERROR',
                         payload: { authError: err.message }
                     })
+            })
+    };
+}
+
+export const getUserProfile = (email) => {
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore()
+        console.log('email :>> ', email);
+        firestore.collection("profiles").where("email", "==", email).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data()
+                    dispatch(
+                        {
+                            type: 'GET_USER_PROFILE_SUCCESS',
+                            payload: {
+                                name: data.name,
+                                email: data.email,
+                                color: data.color
+                            }
+                        }
+                    )
+                })
             })
     };
 }

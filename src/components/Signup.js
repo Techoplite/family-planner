@@ -8,8 +8,7 @@ import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
 import { Alert } from '@material-ui/lab'
 import { signup } from '../store/actions/auth'
-
-
+import getColorValue from './outputs/ColorValues';
 
 const Signup = (props) => {
 
@@ -28,39 +27,39 @@ const Signup = (props) => {
         availableColors: [
             {
                 name: "red",
-                value: "#ff1744"
+                value: getColorValue("red")
             },
             {
                 name: "blue",
-                value: "#2979ff"
+                value: getColorValue("blue")
             },
             {
                 name: "green",
-                value: "#00e676"
+                value: getColorValue("green")
             },
             {
                 name: "yellow",
-                value: "#ffeb3b"
+                value: getColorValue("yellow")
             },
             {
                 name: "orange",
-                value: "#ff9100"
+                value: getColorValue("orange")
             },
             {
                 name: "pink",
-                value: "#f50057"
+                value: getColorValue("pink")
             },
             {
                 name: "purple",
-                value: "#673ab7"
+                value: getColorValue("repurpled")
             },
             {
                 name: "teal",
-                value: "#009688"
+                value: getColorValue("teal")
             },
             {
                 name: "grey",
-                value: "#607d8b"
+                value: getColorValue("grey")
             },
         ]
     }
@@ -95,7 +94,6 @@ const Signup = (props) => {
     }
 
     const handleOnSubmit = async (e) => {
-        console.log('state.email :>> ', state.email);
         e.preventDefault()
         if (validate()) {
             const credentials = ({ email: state.email, password: state.password })

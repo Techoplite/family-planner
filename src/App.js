@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
@@ -6,12 +6,14 @@ import TemporaryDrawer from './components/TemporaryDrawer';
 import Anonymous from './components/Anonymous';
 import Authenticated from './components/Authenticated';
 import { BrowserRouter as Router } from 'react-router-dom'
+import { getUserProfile } from './store/actions/auth';
+
 
 
 const App = (props) => {
 
   // Redux
-  const { auth } = props
+  const { user } = props
 
   // React
   const initialState = {
@@ -26,6 +28,11 @@ const App = (props) => {
       temporaryDrawer: true
     })
   }
+
+  useEffect(() => {
+    console.log('user.email form useEffect:>> ', user.email);
+    user.email && props.getUserProfile(user.email)
+  })
 
   // Material UI
   const useStyles = makeStyles(theme => ({
@@ -44,34 +51,41 @@ const App = (props) => {
 
   return (
     <Router>
-        <div className={classes.App}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Navbar
-                handleOnClick={handleOnClick}
-              />
-            </Grid>
-            <div className={classes.mainContent}>
-              <Grid item xs={12} sm={8}>
-                <TemporaryDrawer
-                  handleOnClick={handleOnClick}
-                  open={state.temporaryDrawer}
-                  setState={setState}
-                />
-                {auth.isEmpty ? <Anonymous /> : <Authenticated />}
-              </Grid>
-            </div>
+      <div className={classes.App}>
+        <Grid container>
+          <Grid item xs={12}>
+            <Navbar
+              handleOnClick={handleOnClick}
+            />
           </Grid>
-        </div>
+          <div className={classes.mainContent}>
+            <Grid item xs={12} sm={8}>
+              <TemporaryDrawer
+                handleOnClick={handleOnClick}
+                open={state.temporaryDrawer}
+                setState={setState}
+              />
+              {user.isEmpty ? <Anonymous /> : <Authenticated />}
+            </Grid>
+          </div>
+        </Grid>
+      </div>
     </Router>
   );
 }
 
 // Redux
 const mapStateToProps = (state) => {
+  console.log('state.firebase.auth :>> ', state.firebase.auth);
   return {
-    auth: state.firebase.auth,
+    user: state.firebase.auth,
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserProfile: (email) => dispatch(getUserProfile(email))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

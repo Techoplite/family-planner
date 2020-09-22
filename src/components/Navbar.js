@@ -1,16 +1,17 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
 import Message from './outputs/Message';
 import { connect } from 'react-redux'
 import { clearMessage } from './../store/actions/message'
+import getColorValue from './outputs/ColorValues';
 
 const Navbar = (props) => {
 
     // Redux
     const { text, severity } = props.message
-    const { auth, clearMessage } = props
+    const { auth, clearMessage, user } = props
 
     // React
     useEffect(() => {
@@ -26,7 +27,7 @@ const Navbar = (props) => {
                 borderRadius: theme.spacing(10),
                 minWidth: 0,
                 padding: "6px 14px",
-                backgroundColor: "coral", //temporary
+                backgroundColor: getColorValue(user.color),
                 fontSize: "1rem",
                 boxShadow: "none"
             },
@@ -35,6 +36,7 @@ const Navbar = (props) => {
             }
         }
     ))
+
 
     const classes = useStyles()
 
@@ -76,13 +78,14 @@ const Navbar = (props) => {
 const mapStateToProps = (state) => {
     return {
         message: state.message,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        user: state.auth
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        clearMessage: () => dispatch(clearMessage())
+        clearMessage: () => dispatch(clearMessage()),
     }
 }
 
