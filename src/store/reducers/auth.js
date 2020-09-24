@@ -30,6 +30,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'FIND_FAMILY_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }

@@ -6,8 +6,8 @@ import CustomButton from './inputs/CustomButton';
 import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
-import { Alert } from '@material-ui/lab'
-import { signup } from '../store/actions/auth'
+import { Alert, AlertTitle } from '@material-ui/lab'
+import { findFamily, signup } from '../store/actions/auth'
 import getColorValue from './outputs/ColorValues';
 
 const Signup = (props) => {
@@ -24,6 +24,8 @@ const Signup = (props) => {
             password: "",
             color: ""
         },
+        createFamily: false,
+        surname: "",
         availableColors: [
             {
                 name: "red",
@@ -93,13 +95,26 @@ const Signup = (props) => {
         })
     }
 
-    const handleOnSubmit = async (e) => {
+
+    const handleOnSubmit = async (e, id) => {
         e.preventDefault()
-        state.name.charAt(0).toUpperCase()
-        if (validate()) {
-            const credentials = ({ email: state.email, password: state.password })
-            props.signup(credentials, state.name, state.color)
+        switch (id) {
+            case "createFamily":
+                return setState({
+                    ...state,
+                    createFamily: !state.createFamily
+                })
+            case "findFamily":
+                return props.findFamily(state.password)
+            default:
+                state.name.charAt(0).toUpperCase()
+                if (validate()) {
+                    const credentials = ({ email: state.email, password: state.password })
+                    
+                    props.signup(credentials, state.name, state.color, state.surname)
+                }
         }
+
 
     }
 
@@ -150,7 +165,21 @@ const Signup = (props) => {
                 }
             },
             formHelperText: {
-                color: "red"
+                color: "red",
+                marginTop: theme.spacing(0),
+                marginBottom: theme.spacing(2)
+            },
+            typography: {
+                marginBottom: theme.spacing(1),
+                marginTop: theme.spacing(4)
+            },
+            availableFamily: {
+                textAlign: "left",
+                marginTop: theme.spacing(2),
+            },
+
+            customTextField: {
+                marginTop: theme.spacing(0)
             }
         }
     ))
@@ -159,14 +188,20 @@ const Signup = (props) => {
     return (
         <>
             <AccountCircleIcon className={classes.icon} />
-            <Form title="Sign up"
-                onSubmit={handleOnSubmit} >
+            <Form title="Sign up">
                 {props.authError &&
                     <Alert className={classes.message}
                         variant="outlined"
                         severity="error">{props.authError}
                     </Alert>}
+                <Typography
+                    variant="subtitle1"
+                    className={classes.typography}
+                    align="left">
+                    Enter your first name
+                    </Typography>
                 <CustomTextField
+                    className={classes.customTextField}
                     label="Name"
                     name="name"
                     required
@@ -175,7 +210,14 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.name}
                 />
+                <Typography
+                    variant="subtitle1"
+                    className={classes.typography}
+                    align="left">
+                    Enter your email
+                    </Typography>
                 <CustomTextField
+                    className={classes.customTextField}
                     label="Email"
                     name="email"
                     required
@@ -183,7 +225,14 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.email}
                 />
+                <Typography
+                    variant="subtitle1"
+                    className={classes.typography}
+                    align="left">
+                    Enter your family's password or create a new one to add your family
+                    </Typography>
                 <CustomTextField
+                    className={classes.customTextField}
                     label="Password"
                     name="password"
                     required
@@ -191,11 +240,51 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.password}
                 />
+                <CustomButton
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                    onClick={(e) => handleOnSubmit(e, "findFamily")}
+                    style={{ marginBottom: "0" }}>
+                    Find your family
+            </CustomButton>
+                {props.availableFamily &&
+
+                    <Alert severity="success" variant="outlined" className={classes.availableFamily}>
+                        <AlertTitle>Success</AlertTitle>
+                    By submitting this form you will join the <strong>{props.availableFamily}</strong> family.
+                    </Alert>}
+                <CustomButton
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    type="submit"
+                    onClick={(e) => handleOnSubmit(e, "createFamily")}
+                    style={{ marginBottom: "0" }}>
+                    Create new family
+            </CustomButton>
+                {state.createFamily &&
+                    <CustomTextField
+                        label="Surname"
+                        name="surname"
+                        required
+                        autoFocus
+                        value={state.surname}
+                        onChange={handleOnChange}
+                        error={state.errors.surname}
+                    />}
                 <FormControl
                     fullWidth variant="outlined"
                     className={classes.formControl}
                 >
-                    <Typography variant="h6" align="left">Pick a color *</Typography>
+                    <Typography
+                        variant="subtitle1"
+                        className={classes.typography}
+                        align="left"
+                        style={{ marginBottom: "0" }}>
+                        Pick a color *
+                        </Typography>
                     {state.errors.color && <FormHelperText
                         className={classes.formHelperText}
                         align="left">
@@ -223,7 +312,7 @@ const Signup = (props) => {
                     color="primary"
                     fullWidth
                     type="submit"
-                >
+                    onClick={(e) => handleOnSubmit(e, "signup")} >
                     SIGN UP
             </CustomButton>
             </Form>
@@ -234,14 +323,16 @@ const Signup = (props) => {
 // Redux
 const mapStateToprops = state => {
     return {
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        availableFamily: state.auth.availableFamily
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        signup: (credentials, name, color) => dispatch(signup(credentials, name, color)),
-        setMessage: (text, severity) => dispatch(setMessage(text, severity))
+        signup: (credentials, name, color, surname) => dispatch(signup(credentials, name, color, surname)),
+        setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+        findFamily: (password) => dispatch(findFamily(password))
     }
 }
 

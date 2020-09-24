@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom'
 const Authenticated = (props) => {
     // Redux
     const { auth } = props
-    console.log('auth :>> ', auth);
 
     return (
         <>

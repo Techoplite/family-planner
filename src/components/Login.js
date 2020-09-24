@@ -29,7 +29,6 @@ const Login = (props) => {
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         if (validate()) {
-            console.log('{ email: state.email, password: state.password } :>> ', { email: state.email, password: state.password });
             props.login({ email: state.email, password: state.password })
         }
 
