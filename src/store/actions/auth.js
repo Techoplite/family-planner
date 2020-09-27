@@ -42,6 +42,8 @@ export const logout = () => {
 
 export const signup = (credentials, name, color, surname) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const capitalisedName = name.charAt(0).toUpperCase() + name.slice(1)
+        console.log('capitalisedName :>> ', capitalisedName);
         const firebase = getFirebase()
         const email = credentials.email
         const password = credentials.password
@@ -49,18 +51,19 @@ export const signup = (credentials, name, color, surname) => {
             .then(() => {
                 const firestore = getFirestore()
                 if (surname === "") {
-                    firestore.collection("families").where("password", "==", password).get()
+                    firestore.collection("families").where("family.password", "==", password).get()
                         .then(snapshot => {
                             snapshot.docs.forEach(doc => {
                                 const familyDOCRef = doc.ref
-                                const familyData = doc.data()
-                                familyData.members.push(name)
+                                const family = doc.data().family
+                                family.members.push(capitalisedName)
+                                console.log('family :>> ', family);
                                 firestore.runTransaction(transaction => {
                                     return transaction.get(familyDOCRef)
-                                        .then(family => {
-                                            family.exists &&
+                                        .then(doc => {
+                                            doc.exists &&
                                                 transaction.set(familyDOCRef, {
-                                                    familyData
+                                                    family
                                                 },
                                                 )
                                         })
@@ -74,9 +77,12 @@ export const signup = (credentials, name, color, surname) => {
                     const batch = firestore.batch()
                     const families = firestore.collection("families").doc()
                     batch.set(families, {
-                        surname,
-                        members: [name],
-                        password
+                        family: {
+                            surname,
+                            members: [capitalisedName],
+                            password
+                        }
+
                     })
                     batch.commit()
 
@@ -88,7 +94,7 @@ export const signup = (credentials, name, color, surname) => {
                         type: 'SIGNUP_SUCCESS',
                         payload: {
                             authError: null,
-                            name,
+                            capitalisedName,
                             email,
                             color,
                             surname
@@ -137,14 +143,15 @@ export const getUserProfile = (email) => {
 export const findFamily = (password) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firestore = getFirestore()
-        firestore.collection("families").where("password", "==", password).get()
+        console.log('password', password)
+        firestore.collection("families").where("family.password", "==", password).get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     const data = doc.data()
                     dispatch({
                         type: "FIND_FAMILY_SUCCESS",
                         payload: {
-                            availableFamily: data.surname
+                            availableFamily: data.family.surname
                         }
                     })
                 })
