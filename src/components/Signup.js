@@ -259,7 +259,7 @@ const Signup = (props) => {
 
                     <Alert severity="error" variant="outlined" className={classes.availableFamily}>
                         <AlertTitle>Error</AlertTitle>
-                    There is no family associated to this password. Please enter the correct password or create a new family.
+                    There is no family associated with this password. Please enter the correct password or create a new family.
                     </Alert>}
                 <CustomButton
                     variant="contained"
@@ -296,7 +296,7 @@ const Signup = (props) => {
                         align="left">
                         {state.errors.color}
                     </FormHelperText>}
-                    <Typography variant="body2" align="left">This is to give you a parsonalised user experience.</Typography>
+                    <Typography variant="body2" align="left">This is to give you a personalised user experience.</Typography>
                     <div className={classes.colorPicker}>
                         {state.availableColors.map(color => {
                             return (
