@@ -175,3 +175,15 @@ export const findFamily = (password) => {
             });
     }
 }
+
+export const resetFamily = () => {
+    return (dispatch) => {
+        dispatch({
+            type: "RESET_FAMILY",
+            payload: {
+                authError: null,
+                availableFamily: false
+            }
+        })
+    }
+}

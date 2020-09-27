@@ -40,6 +40,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'RESET_FAMILY':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }

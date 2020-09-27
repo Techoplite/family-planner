@@ -7,7 +7,7 @@ import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
 import { Alert, AlertTitle } from '@material-ui/lab'
-import { findFamily, signup } from '../store/actions/auth'
+import { findFamily, signup, resetFamily } from '../store/actions/auth'
 import getColorValue from './outputs/ColorValues';
 
 const Signup = (props) => {
@@ -100,18 +100,19 @@ const Signup = (props) => {
         e.preventDefault()
         switch (id) {
             case "createFamily":
-                return setState({
+                setState({
                     ...state,
                     createFamily: !state.createFamily
                 })
+                return props.resetFamily()
             case "findFamily":
                 return props.findFamily(state.password)
-            default:    
-            if (validate()) {
-                const credentials = ({ email: state.email, password: state.password })
+            default:
+                if (validate()) {
+                    const credentials = ({ email: state.email, password: state.password })
 
-                props.signup(credentials, state.name, state.color, state.surname)
-            }
+                    props.signup(credentials, state.name, state.color, state.surname)
+                }
         }
 
 
@@ -337,7 +338,8 @@ const mapDispatchToProps = dispatch => {
     return {
         signup: (credentials, name, color, surname) => dispatch(signup(credentials, name, color, surname)),
         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
-        findFamily: (password) => dispatch(findFamily(password))
+        findFamily: (password) => dispatch(findFamily(password)),
+        resetFamily: () => dispatch(resetFamily())
     }
 }
 
