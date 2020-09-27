@@ -42,8 +42,13 @@ export const logout = () => {
 
 export const signup = (credentials, name, color, surname) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
-        const capitalisedName = name.charAt(0).toUpperCase() + name.slice(1)
-        console.log('capitalisedName :>> ', capitalisedName);
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
+        const capitalisedName = toTitleCase(name)
         const firebase = getFirebase()
         const email = credentials.email
         const password = credentials.password
@@ -57,7 +62,6 @@ export const signup = (credentials, name, color, surname) => {
                                 const familyDOCRef = doc.ref
                                 const family = doc.data().family
                                 family.members.push(capitalisedName)
-                                console.log('family :>> ', family);
                                 firestore.runTransaction(transaction => {
                                     return transaction.get(familyDOCRef)
                                         .then(doc => {
@@ -74,11 +78,12 @@ export const signup = (credentials, name, color, surname) => {
 
                 }
                 else {
+                    const capitalisedSurname = toTitleCase(surname)
                     const batch = firestore.batch()
                     const families = firestore.collection("families").doc()
                     batch.set(families, {
                         family: {
-                            surname,
+                            surname: capitalisedSurname,
                             members: [capitalisedName],
                             password
                         }
@@ -137,24 +142,36 @@ export const getUserProfile = (email) => {
                     )
                 })
             })
+
     };
 }
 
 export const findFamily = (password) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firestore = getFirestore()
-        console.log('password', password)
         firestore.collection("families").where("family.password", "==", password).get()
             .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    const data = doc.data()
+                if (snapshot.docs.length > 0) {
+                    snapshot.docs.forEach(doc => {
+                        const data = doc.data()
+                        dispatch({
+                            type: "FIND_FAMILY_SUCCESS",
+                            payload: {
+                                availableFamily: data.family.surname
+                            }
+                        })
+                    })
+                } else {
                     dispatch({
-                        type: "FIND_FAMILY_SUCCESS",
+                        type: "FIND_FAMILY_ERROR",
                         payload: {
-                            availableFamily: data.family.surname
+                            availableFamily: null
                         }
                     })
-                })
+                }
             })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            });
     }
 }

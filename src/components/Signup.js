@@ -254,6 +254,12 @@ const Signup = (props) => {
                         <AlertTitle>Success</AlertTitle>
                     By submitting this form you will join the <strong>{props.availableFamily}</strong> family.
                     </Alert>}
+                {props.availableFamily === null &&
+
+                    <Alert severity="error" variant="outlined" className={classes.availableFamily}>
+                        <AlertTitle>Error</AlertTitle>
+                    There is no family associated to this password. Please enter the correct password or create a new family.
+                    </Alert>}
                 <CustomButton
                     variant="contained"
                     color="secondary"

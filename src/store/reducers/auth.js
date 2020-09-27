@@ -35,6 +35,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'FIND_FAMILY_ERROR':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }
