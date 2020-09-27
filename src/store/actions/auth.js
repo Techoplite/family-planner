@@ -58,14 +58,11 @@ export const signup = (credentials, name, color, surname) => {
                                 firestore.runTransaction(transaction => {
                                     return transaction.get(familyDOCRef)
                                         .then(family => {
-                                            if (!family.exists) {
-                                                console.log("Document does not exist!")
-                                            }
-                                            console.log("Document exists")
-                                            transaction.set(familyDOCRef, {
-                                                familyData
-                                            },
-                                            )
+                                            family.exists &&
+                                                transaction.set(familyDOCRef, {
+                                                    familyData
+                                                },
+                                                )
                                         })
                                 })
                             })
