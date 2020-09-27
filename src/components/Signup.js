@@ -105,13 +105,12 @@ const Signup = (props) => {
                     createFamily: !state.createFamily
                 })
             case "findFamily":
-                console.log("finding family");
                 return props.findFamily(state.password)
             default:
                 state.name.charAt(0).toUpperCase()
                 if (validate()) {
                     const credentials = ({ email: state.email, password: state.password })
-                    
+
                     props.signup(credentials, state.name, state.color, state.surname)
                 }
         }
