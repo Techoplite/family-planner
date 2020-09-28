@@ -42,6 +42,7 @@ export const logout = () => {
 
 export const signup = (credentials, name, color, surname) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
+
         function toTitleCase(str) {
             return str.replace(/\w\S*/g, function (txt) {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -54,7 +55,13 @@ export const signup = (credentials, name, color, surname) => {
         const password = credentials.password
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
+                var user = firebase.auth().currentUser;
                 const firestore = getFirestore()
+                firestore.collection("profiles").doc(user.uid).set({
+                    name: capitalisedName,
+                    email,
+                    color,
+                })
                 if (surname === "") {
                     firestore.collection("families").where("family.password", "==", password).get()
                         .then(snapshot => {
