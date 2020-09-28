@@ -73,7 +73,7 @@ const Signup = (props) => {
         errors.name = (state.name ? "" : "Name is required.") ||
             (/^[A-Za-z]+$/i.test(state.name) ? "" : "Name is not valid.")
         errors.email = (state.email ? "" : "Email is required.") ||
-            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
+            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.") 
         errors.password = (state.password ? "" : "Password is required.") ||
             ((state.password.length >= 8 &&
                 /[a-z]/i.test(state.password) &&
@@ -225,6 +225,11 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.email}
                 />
+                {props.authError === "Email already taken" && <FormHelperText
+                    className={classes.formHelperText}
+                    align="left">
+                    This email has already been taken by another user.
+                </FormHelperText>}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}

@@ -24,6 +24,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'SIGNUP_ERROR':
+            return {
+                ...state,
+                ...action.payload
+            }
         case 'GET_USER_PROFILE_SUCCESS':
             return {
                 ...state,

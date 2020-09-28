@@ -61,6 +61,7 @@ export const signup = (credentials, name, color, surname) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 var user = firebase.auth().currentUser;
+                console.log('user :>> ', user);
 
                 // Add user email to collection
                 const emails = firestore.collection("emails").doc()
@@ -129,14 +130,14 @@ export const signup = (credentials, name, color, surname) => {
                     setMessage("Sign up successful", "success")
                 )
             })
-            .catch((err) => {
+            .catch((error) => {
                 dispatch(
                     {
                         type: 'SIGNUP_ERROR',
-                        payload: { authError: err.message }
+                        payload: { authError: "Email already taken" }
                     })
                 dispatch(
-                    setMessage("Ops...something went wrong", "error")
+                    setMessage(error.message, "error")
                 )
             })
     };
