@@ -30,7 +30,7 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    user.email && props.getUserProfile(user.email)
+    // user.email && props.getUserProfile(user.email)
   })
 
   // Material UI

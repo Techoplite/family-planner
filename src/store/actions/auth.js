@@ -50,18 +50,30 @@ export const signup = (credentials, name, color, surname) => {
         }
 
         const capitalisedName = toTitleCase(name)
-        const firebase = getFirebase()
         const email = credentials.email
         const password = credentials.password
+
+        const firebase = getFirebase()
+        const firestore = getFirestore()
+        const batch = firestore.batch()
+
+        // Create new user
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 var user = firebase.auth().currentUser;
-                const firestore = getFirestore()
+
+                // Add user email to collection
+                const emails = firestore.collection("emails").doc()
+                batch.set(emails, { email: email })
+
+                // Add profile associated to the user
                 firestore.collection("profiles").doc(user.uid).set({
                     name: capitalisedName,
                     email,
                     color,
                 })
+
+                // Join family
                 if (surname === "") {
                     firestore.collection("families").where("family.password", "==", password).get()
                         .then(snapshot => {
@@ -84,9 +96,10 @@ export const signup = (credentials, name, color, surname) => {
 
 
                 }
+
+                // Create new family
                 else {
                     const capitalisedSurname = toTitleCase(surname)
-                    const batch = firestore.batch()
                     const families = firestore.collection("families").doc()
                     batch.set(families, {
                         family: {
@@ -96,9 +109,8 @@ export const signup = (credentials, name, color, surname) => {
                         }
 
                     })
-                    batch.commit()
-
                 }
+                batch.commit()
             })
             .then(() => {
                 dispatch(
