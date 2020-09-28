@@ -64,8 +64,8 @@ export const signup = (credentials, name, color, surname) => {
                 console.log('user :>> ', user);
 
                 // Add user email to collection
-                const emails = firestore.collection("emails").doc()
-                batch.set(emails, { email: email })
+                const passwords = firestore.collection("passwords").doc()
+                batch.set(passwords, { password })
 
                 // Add profile associated to the user
                 firestore.collection("profiles").doc(user.uid).set({
@@ -108,7 +108,6 @@ export const signup = (credentials, name, color, surname) => {
                             members: [capitalisedName],
                             password
                         }
-
                     })
                 }
                 batch.commit()
@@ -177,7 +176,8 @@ export const findFamily = (password) => {
                         dispatch({
                             type: "FIND_FAMILY_SUCCESS",
                             payload: {
-                                availableFamily: data.family.surname
+                                availableFamily: data.family.surname,
+                                authError: null
                             }
                         })
                     })
@@ -205,5 +205,20 @@ export const resetFamily = () => {
                 availableFamily: false
             }
         })
+    }
+}
+
+export const passwordAlreadyTaken = () => {
+    return (dispatch) => {
+        dispatch({
+            type: "PASSWORD_ALREADY_TAKEN",
+            payload: {
+                authError: "Password already taken",
+
+            }
+        })
+        dispatch(
+            setMessage("This password has already been taken.", "error")
+        )
     }
 }

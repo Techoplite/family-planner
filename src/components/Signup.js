@@ -7,8 +7,11 @@ import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
 import { Alert, AlertTitle } from '@material-ui/lab'
-import { findFamily, signup, resetFamily } from '../store/actions/auth'
+import { findFamily, signup, resetFamily, passwordAlreadyTaken } from '../store/actions/auth'
 import getColorValue from './outputs/ColorValues';
+import firebase from './../config/firebase'
+
+var db = firebase.firestore();
 
 const Signup = (props) => {
 
@@ -73,7 +76,7 @@ const Signup = (props) => {
         errors.name = (state.name ? "" : "Name is required.") ||
             (/^[A-Za-z]+$/i.test(state.name) ? "" : "Name is not valid.")
         errors.email = (state.email ? "" : "Email is required.") ||
-            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.") 
+            (errors.email = (/^$|.+@.+..+/).test(state.email) ? "" : "Email is not valid.")
         errors.password = (state.password ? "" : "Password is required.") ||
             ((state.password.length >= 8 &&
                 /[a-z]/i.test(state.password) &&
@@ -100,10 +103,17 @@ const Signup = (props) => {
         e.preventDefault()
         switch (id) {
             case "createFamily":
-                setState({
-                    ...state,
-                    createFamily: !state.createFamily
-                })
+                db.collection("passwords").where("password", "==", state.password).get()
+                    .then(snapshot => {
+                        if (snapshot.docs.length > 0) {
+                            props.passwordAlreadyTaken()
+                        } else {
+                            setState({
+                                ...state,
+                                createFamily: !state.createFamily
+                            })
+                        }
+                    })
                 return props.resetFamily()
             case "findFamily":
                 return props.findFamily(state.password)
@@ -225,11 +235,7 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.email}
                 />
-                {props.authError === "Email already taken" && <FormHelperText
-                    className={classes.formHelperText}
-                    align="left">
-                    This email has already been taken by another user.
-                </FormHelperText>}
+              
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -245,6 +251,11 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.password}
                 />
+                {props.authError === "Password already taken" && <FormHelperText
+                    className={classes.formHelperText}
+                    align="left">
+                    This password has already been taken by another family.
+                </FormHelperText>}
                 <CustomButton
                     variant="contained"
                     color="primary"
@@ -344,7 +355,8 @@ const mapDispatchToProps = dispatch => {
         signup: (credentials, name, color, surname) => dispatch(signup(credentials, name, color, surname)),
         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
         findFamily: (password) => dispatch(findFamily(password)),
-        resetFamily: () => dispatch(resetFamily())
+        resetFamily: () => dispatch(resetFamily()),
+        passwordAlreadyTaken: () => dispatch(passwordAlreadyTaken())
     }
 }
 
