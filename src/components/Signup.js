@@ -173,7 +173,7 @@ const Signup = (props) => {
             errors.name !== "" ||
             errors.email !== "" ||
             errors.color !== "" ||
-            errors.password !== "") && props.setMessage("Please check all fileds", "error") && console.log("error");
+            errors.password !== "") && props.setMessage("Please check all fields", "error") && console.log("error");
     }, [errors, props])
 
 
