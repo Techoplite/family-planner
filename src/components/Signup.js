@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm, Form } from './hooks/useForm'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { FormControl, makeStyles, Typography, FormHelperText } from '@material-ui/core'
@@ -16,6 +16,45 @@ var db = firebase.firestore();
 const Signup = (props) => {
 
     // React
+    const allColors = [
+        {
+            name: "red",
+            value: getColorValue("red")
+        },
+        {
+            name: "blue",
+            value: getColorValue("blue")
+        },
+        {
+            name: "green",
+            value: getColorValue("green")
+        },
+        {
+            name: "yellow",
+            value: getColorValue("yellow")
+        },
+        {
+            name: "orange",
+            value: getColorValue("orange")
+        },
+        {
+            name: "pink",
+            value: getColorValue("pink")
+        },
+        {
+            name: "purple",
+            value: getColorValue("purple")
+        },
+        {
+            name: "teal",
+            value: getColorValue("teal")
+        },
+        {
+            name: "grey",
+            value: getColorValue("grey")
+        },
+    ]
+
     const initialState = {
         name: "",
         email: "",
@@ -29,44 +68,7 @@ const Signup = (props) => {
         },
         createFamily: false,
         surname: "",
-        availableColors: [
-            {
-                name: "red",
-                value: getColorValue("red")
-            },
-            {
-                name: "blue",
-                value: getColorValue("blue")
-            },
-            {
-                name: "green",
-                value: getColorValue("green")
-            },
-            {
-                name: "yellow",
-                value: getColorValue("yellow")
-            },
-            {
-                name: "orange",
-                value: getColorValue("orange")
-            },
-            {
-                name: "pink",
-                value: getColorValue("pink")
-            },
-            {
-                name: "purple",
-                value: getColorValue("repurpled")
-            },
-            {
-                name: "teal",
-                value: getColorValue("teal")
-            },
-            {
-                name: "grey",
-                value: getColorValue("grey")
-            },
-        ]
+        availableColors: allColors
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
@@ -127,6 +129,27 @@ const Signup = (props) => {
 
 
     }
+
+
+
+
+    useEffect(() => {
+        const setAvailableColors = (family) => {
+            let updatedAvailableColors = []
+            family.availableColors.map(color => {
+                return state.availableColors.filter(availableColor => availableColor.name === color && (updatedAvailableColors = [...updatedAvailableColors, availableColor]))
+            })
+            setState({
+                ...state,
+                availableColors: updatedAvailableColors
+            })
+        }
+        props.availableFamily ? setAvailableColors(props.availableFamily) : setState({
+            ...state,
+            availableColors: allColors
+        })
+    }, [props.availableFamily])
+
 
     // Material UI
     const cirlceSize = 70
@@ -235,7 +258,7 @@ const Signup = (props) => {
                     onChange={handleOnChange}
                     error={state.errors.email}
                 />
-              
+
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -269,7 +292,7 @@ const Signup = (props) => {
 
                     <Alert severity="success" variant="outlined" className={classes.availableFamily}>
                         <AlertTitle>Success</AlertTitle>
-                    By submitting this form you will join the <strong>{props.availableFamily}</strong> family.
+                    By submitting this form you will join the <strong>{props.availableFamily.surname}</strong> family.
                     </Alert>}
                 {props.availableFamily === null &&
 

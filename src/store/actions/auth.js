@@ -61,7 +61,6 @@ export const signup = (credentials, name, color, surname) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 var user = firebase.auth().currentUser;
-                console.log('user :>> ', user);
 
                 // Add user email to collection
                 const passwords = firestore.collection("passwords").doc()
@@ -82,6 +81,8 @@ export const signup = (credentials, name, color, surname) => {
                                 const familyDOCRef = doc.ref
                                 const family = doc.data().family
                                 family.members.push(capitalisedName)
+                                const updatedAvailableColors = family.availableColors.filter(availableColor => availableColor !== color)
+                                family.availableColors = updatedAvailableColors
                                 firestore.runTransaction(transaction => {
                                     return transaction.get(familyDOCRef)
                                         .then(doc => {
@@ -100,13 +101,27 @@ export const signup = (credentials, name, color, surname) => {
 
                 // Create new family
                 else {
+                    const colors = [
+                        "red",
+                        "blue",
+                        "green",
+                        "yellow",
+                        "orange",
+                        "pink",
+                        "purple",
+                        "teal",
+                        "grey",
+                    ]
+                    const availableColors = colors.filter(availableColor => availableColor !== color)
+                    
                     const capitalisedSurname = toTitleCase(surname)
                     const families = firestore.collection("families").doc()
                     batch.set(families, {
                         family: {
                             surname: capitalisedSurname,
                             members: [capitalisedName],
-                            password
+                            password,
+                            availableColors
                         }
                     })
                 }
@@ -176,7 +191,7 @@ export const findFamily = (password) => {
                         dispatch({
                             type: "FIND_FAMILY_SUCCESS",
                             payload: {
-                                availableFamily: data.family.surname,
+                                availableFamily: data.family,
                                 authError: null
                             }
                         })
