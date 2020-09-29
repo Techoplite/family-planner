@@ -321,11 +321,15 @@ const Signup = (props) => {
                         <AlertTitle>Success</AlertTitle>
                     By submitting this form you will join the <strong>{props.availableFamily.surname}</strong> family.
                     </Alert>}
-                {props.availableFamily === null &&
-
+                {props.authError === "No match" &&
                     <Alert severity="error" variant="outlined" className={classes.availableFamily}>
                         <AlertTitle>Error</AlertTitle>
                     There is no family associated with this password. Please enter the correct password or create a new family.
+                    </Alert>}
+                {props.authError === "Maximum number of memebers reached" &&
+                    <Alert severity="error" variant="outlined" className={classes.availableFamily}>
+                        <AlertTitle>Error</AlertTitle>
+                    This family has already reached the maximum number of members available.
                     </Alert>}
                 <CustomButton
                     variant="contained"

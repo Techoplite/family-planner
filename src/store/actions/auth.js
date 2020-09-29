@@ -188,13 +188,29 @@ export const findFamily = (password) => {
                 if (snapshot.docs.length > 0) {
                     snapshot.docs.forEach(doc => {
                         const data = doc.data()
-                        dispatch({
-                            type: "FIND_FAMILY_SUCCESS",
-                            payload: {
-                                availableFamily: data.family,
-                                authError: null
-                            }
-                        })
+                        if (data.family.members.length > 9) {
+                            console.log('data.family.members.length :>> ', data.family.members.length);
+                            dispatch({
+                                type: "FIND_FAMILY_SUCCESS",
+                                payload: {
+                                    availableFamily: data.family,
+                                    authError: null
+                                }
+                            })
+                        } else {
+                            console.log("too many members")
+
+                            dispatch({
+                                type: "FIND_FAMILY_ERROR",
+                                payload: {
+                                    availableFamily: null,
+                                    authError: "Maximum number of memebers reached"
+                                }
+                            })
+                            dispatch(
+                                setMessage("Maximum number of members reached.", "error")
+                            )
+                        }
                     })
                 } else {
                     dispatch({
@@ -220,7 +236,6 @@ export const resetFamily = () => {
         dispatch({
             type: "RESET_FAMILY",
             payload: {
-                // authError: null,
                 availableFamily: false
             }
         })
