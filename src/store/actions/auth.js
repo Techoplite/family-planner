@@ -236,7 +236,8 @@ export const resetFamily = () => {
         dispatch({
             type: "RESET_FAMILY",
             payload: {
-                availableFamily: false
+                availableFamily: false,
+                authError: null
             }
         })
     }

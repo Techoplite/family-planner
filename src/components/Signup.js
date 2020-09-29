@@ -118,8 +118,8 @@ const Signup = (props) => {
                     })
                 return props.resetFamily()
             case "findFamily":
-                state.password !== "" ? props.findFamily(state.password) : props.passwordNeeded()
-                return props.resetFamily()
+                return state.password !== "" ? props.findFamily(state.password) : props.passwordNeeded()
+                // return props.resetFamily()
 
             default:
                 if (validate()) {
