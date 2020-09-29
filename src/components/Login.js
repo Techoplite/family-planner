@@ -93,6 +93,7 @@ const Login = (props) => {
                     value={state.password}
                     onChange={handleOnChange}
                     error={state.errors.password}
+                    type="password"
                 />
                 <CustomButton
                     variant="contained"

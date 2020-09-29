@@ -119,7 +119,7 @@ const Signup = (props) => {
                 return props.resetFamily()
             case "findFamily":
                 return state.password !== "" ? props.findFamily(state.password) : props.passwordNeeded()
-                // return props.resetFamily()
+            // return props.resetFamily()
 
             default:
                 if (validate()) {
@@ -291,6 +291,7 @@ const Signup = (props) => {
                     className={classes.customTextField}
                     label="Password"
                     name="password"
+                    type="password" 
                     required
                     value={state.password}
                     onChange={handleOnChange}
