@@ -226,7 +226,8 @@ const Signup = (props) => {
             formHelperText: {
                 color: "red",
                 marginTop: theme.spacing(0),
-                marginBottom: theme.spacing(2)
+                marginBottom: theme.spacing(2),
+                marginLeft: theme.spacing(1)
             },
             typography: {
                 marginBottom: theme.spacing(1),
