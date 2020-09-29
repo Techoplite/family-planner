@@ -54,6 +54,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'PASSWORD_NEEDED':
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }

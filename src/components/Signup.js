@@ -7,7 +7,7 @@ import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
 import { Alert, AlertTitle } from '@material-ui/lab'
-import { findFamily, signup, resetFamily, passwordAlreadyTaken } from '../store/actions/auth'
+import { findFamily, signup, resetFamily, passwordAlreadyTaken, passwordNeeded } from '../store/actions/auth'
 import getColorValue from './outputs/ColorValues';
 import firebase from './../config/firebase'
 
@@ -118,7 +118,9 @@ const Signup = (props) => {
                     })
                 return props.resetFamily()
             case "findFamily":
-                return props.findFamily(state.password)
+                state.password !== "" ? props.findFamily(state.password) : props.passwordNeeded()
+                return props.resetFamily()
+
             default:
                 if (validate()) {
                     const credentials = ({ email: state.email, password: state.password })
@@ -149,6 +151,16 @@ const Signup = (props) => {
             availableColors: allColors
         })
     }, [props.availableFamily])
+
+    const { errors } = state
+
+    useEffect(() => {
+        errors && (
+            errors.name !== "" ||
+            errors.email !== "" ||
+            errors.color !== "" ||
+            errors.password !== "") && props.setMessage("Please check all fileds", "error") && console.log("error");
+    }, [errors, props])
 
 
     // Material UI
@@ -222,11 +234,6 @@ const Signup = (props) => {
         <>
             <AccountCircleIcon className={classes.icon} />
             <Form title="Sign up">
-                {props.authError &&
-                    <Alert className={classes.message}
-                        variant="outlined"
-                        severity="error">{props.authError}
-                    </Alert>}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -263,7 +270,7 @@ const Signup = (props) => {
                     variant="subtitle1"
                     className={classes.typography}
                     align="left">
-                    Enter your family's password or create a new one to add your family
+                    Enter your family's password or create a new password to add your family
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
@@ -277,7 +284,7 @@ const Signup = (props) => {
                 {props.authError === "Password already taken" && <FormHelperText
                     className={classes.formHelperText}
                     align="left">
-                    This password has already been taken by another family.
+                    Password already taken.
                 </FormHelperText>}
                 <CustomButton
                     variant="contained"
@@ -286,8 +293,14 @@ const Signup = (props) => {
                     type="submit"
                     onClick={(e) => handleOnSubmit(e, "findFamily")}
                     style={{ marginBottom: "0" }}>
-                    Find your family
+                    Join family
             </CustomButton>
+                {props.authError === "Password needed" &&
+
+                    <Alert severity="warning" variant="outlined" className={classes.availableFamily}>
+                        <AlertTitle>Error</AlertTitle>
+                    You need to provide your family's password before joining it.
+                    </Alert>}
                 {props.availableFamily &&
 
                     <Alert severity="success" variant="outlined" className={classes.availableFamily}>
@@ -379,7 +392,8 @@ const mapDispatchToProps = dispatch => {
         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
         findFamily: (password) => dispatch(findFamily(password)),
         resetFamily: () => dispatch(resetFamily()),
-        passwordAlreadyTaken: () => dispatch(passwordAlreadyTaken())
+        passwordAlreadyTaken: () => dispatch(passwordAlreadyTaken()),
+        passwordNeeded: () => dispatch(passwordNeeded())
     }
 }
 

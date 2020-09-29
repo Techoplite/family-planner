@@ -200,9 +200,13 @@ export const findFamily = (password) => {
                     dispatch({
                         type: "FIND_FAMILY_ERROR",
                         payload: {
-                            availableFamily: null
+                            availableFamily: null,
+                            authError: "No match"
                         }
                     })
+                    dispatch(
+                        setMessage("The password provided is not associated to any family.", "error")
+                    )
                 }
             })
             .catch(function (error) {
@@ -216,7 +220,7 @@ export const resetFamily = () => {
         dispatch({
             type: "RESET_FAMILY",
             payload: {
-                authError: null,
+                // authError: null,
                 availableFamily: false
             }
         })
@@ -234,6 +238,21 @@ export const passwordAlreadyTaken = () => {
         })
         dispatch(
             setMessage("This password has already been taken.", "error")
+        )
+    }
+}
+
+export const passwordNeeded = () => {
+    return (dispatch) => {
+        dispatch({
+            type: "PASSWORD_NEEDED",
+            payload: {
+                authError: "Password needed",
+
+            }
+        })
+        dispatch(
+            setMessage("You need to provide your family's password.", "warning")
         )
     }
 }
