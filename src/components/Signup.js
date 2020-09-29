@@ -132,7 +132,21 @@ const Signup = (props) => {
 
     }
 
+    const getBorder = (color) => {
+        return state.color === color.name ?
+            {
+                backgroundColor: `${color.value}`,
+                border: "4px solid #3F51B5",
+                marginTop: marginY - 2,
+                marginBottom: marginY - 2,
+                marginLeft: marginX - 2,
+                marginRight: marginX - 2,
+            } :
+            {
+                backgroundColor: `${color.value}`
 
+            }
+    }
 
 
     useEffect(() => {
@@ -356,9 +370,8 @@ const Signup = (props) => {
                                     className={classes.colorCircle}
                                     id={color.name}
                                     key={color.name}
-                                    style={{
-                                        backgroundColor: `${color.value}`
-                                    }}
+                                    style={getBorder(color)}
+
                                     onClick={handleOnClick}
                                 />
                             )
