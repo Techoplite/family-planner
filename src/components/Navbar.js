@@ -8,6 +8,7 @@ import { clearMessage } from './../store/actions/message'
 import getColorValue from './outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
+import { Brightness1 } from '@material-ui/icons';
 
 const Navbar = (props) => {
 
@@ -33,18 +34,28 @@ const Navbar = (props) => {
                 boxShadow: "none",
                 lineHeight: "1rem",
                 letterSpacing: 0,
-                backgroundColor: "transparent"
+                backgroundColor: "transparent",
+                "&:hover": {
+                    background: "none",
+                    boxShadow: "none"
+                }
             },
             message: {
                 borderRadius: "0"
             },
             avatar: {
                 backgroundColor: `${getColorValue(user.color)}`,
-                margin: "auto"
+                margin: "auto",
+                "&:hover": {
+                    opacity: "0.9",
+                }
             },
             link: {
                 textDecoration: "none",
                 color: "white"
+            },
+            logo: {
+                // need to change color on hover
             }
         }
     ))
@@ -59,7 +70,7 @@ const Navbar = (props) => {
                     <Grid item xs={2} />
                     <Grid item xs>
                         <Link className={classes.link} to="/">
-                            <Typography variant="h4">iFam</Typography>
+                            <Typography variant="h4" className={classes.logo}>iFam</Typography>
                         </Link>
                     </Grid>
                     <Grid item xs={2}>
