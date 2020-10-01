@@ -30,6 +30,7 @@ const Authenticated = (props) => {
     return (
         <>
             {auth.email && <Redirect to='/' />}
+            This is a work in progress...
             <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
                 <Grid item xs={8} sm={12}>
                     <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
