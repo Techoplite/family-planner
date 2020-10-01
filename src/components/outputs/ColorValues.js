@@ -13,7 +13,7 @@ const getColorValue = (colorName) => {
         case 'pink':
             return "#ff337a"
         case 'purple':
-            return "#7c51c8"
+            return "#ff337a"
         case 'teal':
             return "#009688"
         case 'grey':
