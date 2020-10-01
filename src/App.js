@@ -50,7 +50,7 @@ const App = (props) => {
 
   return (
     <Router>
-      {user.email &&
+      {user &&
         <div className={classes.App}>
           <Grid container>
             <Grid item xs={12}>

@@ -26,10 +26,12 @@ const Navbar = (props) => {
             circleButton: {
                 borderRadius: theme.spacing(10),
                 minWidth: 0,
-                padding: "6px 14px",
+                padding: " 8px 10px",
                 backgroundColor: getColorValue(user.color),
-                fontSize: "1rem",
-                boxShadow: "none"
+                fontSize: "1.5rem",
+                boxShadow: "none",
+                lineHeight: "1rem",
+                letterSpacing: 0
             },
             message: {
                 borderRadius: "0"
