@@ -31,13 +31,13 @@ const Authenticated = (props) => {
         <>
             {auth.email && <Redirect to='/' />}
             <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
-                <Grid item xs={10}>
+                <Grid item xs={8} sm={12}>
                     <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={8} sm={12}>
                     <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={8} sm={12}>
                     <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
                 </Grid>
             </Grid>
