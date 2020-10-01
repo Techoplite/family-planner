@@ -1,19 +1,19 @@
 const getColorValue = (colorName) => {
     switch (colorName) {
         case 'red':
-            return "#d22d2d"
+            return "#f44336"
         case 'blue':
-            return "#2979ff"
+            return "#2196f3"
         case 'green':
-            return "#00e676"
+            return "#618833"
         case 'yellow':
-            return "#ffeb3b"
+            return "#ffc107"
         case 'orange':
             return "#ff9100"
         case 'pink':
             return "#ff337a"
         case 'purple':
-            return "#ff337a"
+            return "#af52bf"
         case 'teal':
             return "#009688"
         case 'grey':
