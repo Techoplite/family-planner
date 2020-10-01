@@ -49,7 +49,7 @@ const Navbar = (props) => {
                         <Typography variant="h4">iFam</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        {auth && auth.isEmpty === false ?
+                        {auth && user.color ?
                             <CustomButton
                                 variant="contained"
                                 color="primary"

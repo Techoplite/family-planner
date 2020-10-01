@@ -13,7 +13,7 @@ import { getUserProfile } from './store/actions/auth';
 const App = (props) => {
 
   // Redux
-  const { user } = props
+  const { auth, user } = props
 
   // React
   const initialState = {
@@ -30,8 +30,8 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    user.email && props.getUserProfile(user.email)
-  })
+    auth.email && props.getUserProfile(auth.email)
+  }, [auth.email])
 
   // Material UI
   const useStyles = makeStyles(theme => ({
@@ -50,25 +50,26 @@ const App = (props) => {
 
   return (
     <Router>
-      <div className={classes.App}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Navbar
-              handleOnClick={handleOnClick}
-            />
-          </Grid>
-          <div className={classes.mainContent}>
-            <Grid item xs={12} sm={8}>
-              <TemporaryDrawer
+      {user.email &&
+        <div className={classes.App}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Navbar
                 handleOnClick={handleOnClick}
-                open={state.temporaryDrawer}
-                setState={setState}
               />
-              {user.isEmpty ? <Anonymous /> : <Authenticated />}
             </Grid>
-          </div>
-        </Grid>
-      </div>
+            <div className={classes.mainContent}>
+              <Grid item xs={12} sm={8}>
+                <TemporaryDrawer
+                  handleOnClick={handleOnClick}
+                  open={state.temporaryDrawer}
+                  setState={setState}
+                />
+                {auth.isEmpty ? <Anonymous /> : <Authenticated />}
+              </Grid>
+            </div>
+          </Grid>
+        </div>}
     </Router>
   );
 }
@@ -76,7 +77,8 @@ const App = (props) => {
 // Redux
 const mapStateToProps = (state) => {
   return {
-    user: state.firebase.auth,
+    auth: state.firebase.auth,
+    user: state.auth
   }
 }
 
