@@ -21,26 +21,23 @@ const Authenticated = (props) => {
             marginTop: "-50px"
         },
         icon: {
-            fontSize: "10vh",
+            fontSize: "5rem",
             color: "white",
         },
-        gridItem: {
-            height: "20vh"
-        }
     }))
     const classes = useStyles()
 
     return (
         <>
             {auth.email && <Redirect to='/' />}
-            <Grid container direction="column" justify="center" alignItems="center" align="center" className={classes.container}>
-                <Grid item xs={3} className={classes.gridItem}>
+            <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
+                <Grid item xs={10}>
                     <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
                 </Grid>
-                <Grid item xs={3} className={classes.gridItem}>
+                <Grid item xs={10}>
                     <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
                 </Grid>
-                <Grid item xs={3} className={classes.gridItem}>
+                <Grid item xs={10}>
                     <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
                 </Grid>
             </Grid>

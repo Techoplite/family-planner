@@ -11,7 +11,12 @@ const Section = (props) => {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#3f51b5",
-            height: "auto"
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
+            paddingTop: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
+            borderRadius: theme.spacing(1),
+            
         },
         header: {
             color: "white",
