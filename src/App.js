@@ -50,7 +50,6 @@ const App = (props) => {
 
   return (
     <Router>
-      {user &&
         <div className={classes.App}>
           <Grid container>
             <Grid item xs={12}>
@@ -65,11 +64,11 @@ const App = (props) => {
                   open={state.temporaryDrawer}
                   setState={setState}
                 />
-                {auth.isEmpty ? <Anonymous /> : <Authenticated />}
+                {!user.email ? <Anonymous /> : <Authenticated />}
               </Grid>
             </div>
           </Grid>
-        </div>}
+        </div>
     </Router>
   );
 }

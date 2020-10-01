@@ -11,7 +11,7 @@ const Authenticated = (props) => {
         <>
             <div>Hi {auth.name}, welcome to the home page.</div>
             <p>This is only a temporary page.</p>
-            {auth.isEmpty === false && <Redirect to='/' />}
+            {auth.email && <Redirect to='/' />}
         </>
     );
 }
