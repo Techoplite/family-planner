@@ -36,11 +36,11 @@ const App = (props) => {
   // Material UI
   const useStyles = makeStyles(theme => ({
     mainContent: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(18),
       display: "flex",
       justifyContent: "center",
       width: "100%",
-      padding: `0 ${theme.spacing(2)}px`
+      padding: `0 ${theme.spacing(2)}px`,
     },
     App: {
       marginBottom: "2rem"
@@ -50,25 +50,25 @@ const App = (props) => {
 
   return (
     <Router>
-        <div className={classes.App}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Navbar
-                handleOnClick={handleOnClick}
-              />
-            </Grid>
-            <div className={classes.mainContent}>
-              <Grid item xs={12} sm={8}>
-                <TemporaryDrawer
-                  handleOnClick={handleOnClick}
-                  open={state.temporaryDrawer}
-                  setState={setState}
-                />
-                {!user.email ? <Anonymous /> : <Authenticated />}
-              </Grid>
-            </div>
+      <div className={classes.App}>
+        <Grid container>
+          <Grid item xs={12}>
+            <Navbar
+              handleOnClick={handleOnClick}
+            />
           </Grid>
-        </div>
+          <div className={classes.mainContent}>
+            <Grid item xs={12} sm={8}>
+              <TemporaryDrawer
+                handleOnClick={handleOnClick}
+                open={state.temporaryDrawer}
+                setState={setState}
+              />
+              {!user.email ? <Anonymous /> : <Authenticated />}
+            </Grid>
+          </div>
+        </Grid>
+      </div>
     </Router>
   );
 }
