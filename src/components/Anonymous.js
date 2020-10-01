@@ -1,6 +1,6 @@
 import React from 'react'
 import Login from './Login'
-import Signup from './Signup';
+import Signup from './Signup'
 import { Route, Switch } from 'react-router-dom'
 
 

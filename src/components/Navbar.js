@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { clearMessage } from './../store/actions/message'
 import getColorValue from './outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from 'react-router-dom'
 
 const Navbar = (props) => {
 
@@ -40,6 +41,10 @@ const Navbar = (props) => {
             avatar: {
                 backgroundColor: `${getColorValue(user.color)}`,
                 margin: "auto"
+            },
+            link: {
+                textDecoration: "none",
+                color: "white"
             }
         }
     ))
@@ -53,7 +58,9 @@ const Navbar = (props) => {
                 <Grid container alignItems="center">
                     <Grid item xs={2} />
                     <Grid item xs>
-                        <Typography variant="h4">iFam</Typography>
+                        <Link className={classes.link} to="/">
+                            <Typography variant="h4">iFam</Typography>
+                        </Link>
                     </Grid>
                     <Grid item xs={2}>
                         {auth && user.color ?
