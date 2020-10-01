@@ -38,7 +38,7 @@ const Navbar = (props) => {
                 borderRadius: "0"
             },
             avatar: {
-                backgroundColor: `${user.color}`,
+                backgroundColor: `${getColorValue(user.color)}`,
                 margin: "auto"
             }
         }
