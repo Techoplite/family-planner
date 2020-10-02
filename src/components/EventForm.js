@@ -96,7 +96,7 @@ const EventForm = () => {
                     variant="subtitle1"
                     className={classes.typography}
                     align="left">
-                    Which member/s of the family are attending
+                    Which member/s of the family is/are attending
                     </Typography>
                 <Autocomplete
                     multiple
