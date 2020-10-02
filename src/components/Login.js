@@ -10,8 +10,6 @@ import { Alert } from '@material-ui/lab'
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { withRouter } from 'react-router-dom'
 
-
-
 const Login = (props) => {
 
     // React
