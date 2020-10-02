@@ -8,7 +8,6 @@ import { clearMessage } from './../store/actions/message'
 import getColorValue from './outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
-import { Brightness1 } from '@material-ui/icons';
 
 const Navbar = (props) => {
 

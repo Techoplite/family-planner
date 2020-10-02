@@ -13,7 +13,7 @@ import { getUserProfile } from './store/actions/auth';
 const App = (props) => {
 
   // Redux
-  const { auth, user } = props
+  const { auth, user, getUserProfile } = props
 
   // React
   const initialState = {
@@ -30,8 +30,8 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    auth.email && props.getUserProfile(auth.email)
-  }, [auth.email])
+    auth.email && getUserProfile(auth.email)
+  }, [auth.email, getUserProfile])
 
   // Material UI
   const useStyles = makeStyles(theme => ({

@@ -39,28 +39,28 @@ const Authenticated = (props) => {
 
     return (
         <>
-            <Switch>
-                <Route exact path="/">
-                    {auth.email && <Redirect to='/' />}
+            {auth.email && <Redirect to='/' />}
+            <Route exact path="/">
                     This is a work in progress...
-                <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/calendar">
-                                <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
-                            </Link>
-                        </Grid>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/shopping-list">
-                                <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
-                            </Link>
-                        </Grid>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/todo-list">
-                                <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </Route>
+            <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
+                <Grid item xs={8} sm={12}>
+                    <Link className={classes.link} to="/calendar">
+                        <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
+                    </Link>
+                </Grid>
+                <Grid item xs={8} sm={12}>
+                    <Link className={classes.link} to="/shopping-list">
+                        <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
+                    </Link>
+                </Grid>
+                <Grid item xs={8} sm={12}>
+                    <Link className={classes.link} to="/todo-list">
+                        <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
+                    </Link>
+                </Grid>
+            </Grid>
+            </Route>    
+            <Switch>
                 This is a work in progress....
                 <Route exact path="/calendar" component={Calendar} />
                 <Route exact path="/shopping-list" component={ShoppingList} />
