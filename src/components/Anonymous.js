@@ -15,7 +15,7 @@ const Anonymous = () => {
                 <p>At the moment I have only implemented the authentication system,
             so feel free to sign up with a dummy email and password.</p>
 
-                <p>You could also join the "Doe family", but I am afraid they have already reached the maximum number of members that can register within a family (9). Anyway if you want to check for validation their password is "doepass1".</p>
+                <p>You could also join the "Doe family", but I am afraid they have already reached the maximum number of members that can register within a family (9). Anyway if you want to check for validation, their password is "doepass1".</p>
 
                 <p>One last thing. As I develop following a 'mobile-first' approach, if you are viewing it on a deskop screen you might want to righ-click on this webpage, select 'inspect' and then press 'Ctrl + Shift + M'</p>
 
