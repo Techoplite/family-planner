@@ -67,6 +67,9 @@ const EventForm = () => {
 
     return (
         <>
+            <div>WORK IN PROGRESS...</div>
+            <br/>
+            <br/>
             <EventIcon className={classes.icon} />
             <Form
                 title="Add new event"
@@ -103,7 +106,7 @@ const EventForm = () => {
                     id="tags-outlined"
                     options={familyMembers}
                     getOptionLabel={(option) => option.name}
-                    defaultValue={[familyMembers[0]]}
+                    // defaultValue={[familyMembers[0]]}
                     filterSelectedOptions
                     renderInput={(params) => (
                         <TextField
