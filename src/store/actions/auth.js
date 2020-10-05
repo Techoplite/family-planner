@@ -66,13 +66,6 @@ export const signup = (credentials, name, color, surname) => {
                 const passwords = firestore.collection("passwords").doc()
                 batch.set(passwords, { password })
 
-                // Add profile associated to the user
-                firestore.collection("profiles").doc(user.uid).set({
-                    name: capitalisedName,
-                    email,
-                    color,
-                })
-
                 // Join family
                 if (surname === "") {
                     firestore.collection("families").where("family.password", "==", password).get()
@@ -94,6 +87,13 @@ export const signup = (credentials, name, color, surname) => {
                                         })
                                 })
                                     .then(() => {
+                                        // Add profile associated to the user
+                                        firestore.collection("profiles").doc(user.uid).set({
+                                            name: capitalisedName,
+                                            email,
+                                            color,
+                                            password
+                                        })
                                         dispatch(
                                             {
                                                 type: 'SIGNUP_SUCCESS',
@@ -110,7 +110,7 @@ export const signup = (credentials, name, color, surname) => {
                                         dispatch(
                                             setMessage("Sign up successful", "success")
                                         )
-                                })
+                                    })
                             })
                         })
 
@@ -142,6 +142,13 @@ export const signup = (credentials, name, color, surname) => {
                     }
                     batch.set(families, {
                         family
+                    })
+                    // Add profile associated to the user
+                    firestore.collection("profiles").doc(user.uid).set({
+                        name: capitalisedName,
+                        email,
+                        color,
+                        password
                     })
                 }
                 batch.commit()
@@ -179,7 +186,7 @@ export const signup = (credentials, name, color, surname) => {
                             setMessage(error.message, "error")
                         )
                     })
-            });
+            })
     }
 }
 
@@ -189,21 +196,41 @@ export const getUserProfile = (email) => {
         firestore.collection("profiles").where("email", "==", email).get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
-                    const data = doc.data()
+                    const userProfile = doc.data()
                     dispatch(
                         {
                             type: 'GET_USER_PROFILE_SUCCESS',
                             payload: {
-                                name: data.name,
-                                email: data.email,
-                                color: data.color
+                                userProfile
+                            }
+                        }
+                    )
+                    dispatch(getUserFamily(userProfile.password))
+
+                })
+            })
+    };
+}
+
+export const getUserFamily = (password) => {
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore()
+        firestore.collection("families").where("family.password", "==", password).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const family = doc.data().family
+                    console.log('data :>> ', family);
+                    dispatch(
+                        {
+                            type: 'GET_USER_FAMILY_SUCCESS',
+                            payload: {
+                                family
                             }
                         }
                     )
                 })
             })
-
-    };
+    }
 }
 
 export const findFamily = (password) => {

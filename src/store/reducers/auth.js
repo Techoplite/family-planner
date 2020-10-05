@@ -1,6 +1,5 @@
 const initialState = {
     authError: null,
-
 }
 
 const user = (state = initialState, action) => {
@@ -30,6 +29,11 @@ const user = (state = initialState, action) => {
                 ...action.payload
             }
         case 'GET_USER_PROFILE_SUCCESS':
+            return {
+                ...state,
+                ...action.payload
+            }
+        case 'GET_USER_FAMILY_SUCCESS':
             return {
                 ...state,
                 ...action.payload
