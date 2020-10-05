@@ -80,7 +80,7 @@ export const signup = (credentials, name, color, surname) => {
                             snapshot.docs.forEach(doc => {
                                 const familyDOCRef = doc.ref
                                 const family = doc.data().family
-                                family.members.push(capitalisedName)
+                                family.members.push({ capitalisedName, email, color })
                                 const updatedAvailableColors = family.availableColors.filter(availableColor => availableColor !== color)
                                 family.availableColors = updatedAvailableColors
                                 firestore.runTransaction(transaction => {
@@ -113,12 +113,12 @@ export const signup = (credentials, name, color, surname) => {
                         "grey",
                     ]
                     const availableColors = colors.filter(availableColor => availableColor !== color)
-                    
+
                     const capitalisedSurname = toTitleCase(surname)
                     const families = firestore.collection("families").doc()
                     const family = {
                         surname: capitalisedSurname,
-                        members: [capitalisedName],
+                        members: [{ capitalisedName, email, color }],
                         password,
                         availableColors
                     }
@@ -129,33 +129,40 @@ export const signup = (credentials, name, color, surname) => {
                 batch.commit()
             })
             .then(() => {
-                dispatch(
-                    {
-                        type: 'SIGNUP_SUCCESS',
-                        payload: {
-                            authError: null,
-                            capitalisedName,
-                            email,
-                            color,
-                            surname
-                        }
-                    }
-                )
-                dispatch(
-                    setMessage("Sign up successful", "success")
-                )
-            })
-            .catch((error) => {
-                dispatch(
-                    {
-                        type: 'SIGNUP_ERROR',
-                        payload: { authError: "Email already taken" }
+                firestore.collection("families").where("family.password", "==", password).get()
+                    .then(snapshot => {
+                        snapshot.docs.forEach(doc => {
+                            const family = doc.data().family
+                            dispatch(
+                                {
+                                    type: 'SIGNUP_SUCCESS',
+                                    payload: {
+                                        authError: null,
+                                        capitalisedName,
+                                        email,
+                                        color,
+                                        surname: toTitleCase(surname),
+                                        family
+                                    }
+                                }
+                            )
+                            dispatch(
+                                setMessage("Sign up successful", "success")
+                            )
+                        })
                     })
-                dispatch(
-                    setMessage(error.message, "error")
-                )
-            })
-    };
+                    .catch((error) => {
+                        dispatch(
+                            {
+                                type: 'SIGNUP_ERROR',
+                                payload: { authError: "Email already taken" }
+                            })
+                        dispatch(
+                            setMessage(error.message, "error")
+                        )
+                    })
+            });
+    }
 }
 
 export const getUserProfile = (email) => {
@@ -189,8 +196,7 @@ export const findFamily = (password) => {
                 if (snapshot.docs.length > 0) {
                     snapshot.docs.forEach(doc => {
                         const data = doc.data()
-                        if (data.family.members.length > 9) {
-                            console.log('data.family.members.length :>> ', data.family.members.length);
+                        if (data.family.members.length <+ 9) {
                             dispatch({
                                 type: "FIND_FAMILY_SUCCESS",
                                 payload: {
