@@ -196,7 +196,7 @@ export const findFamily = (password) => {
                 if (snapshot.docs.length > 0) {
                     snapshot.docs.forEach(doc => {
                         const data = doc.data()
-                        if (data.family.members.length <+ 9) {
+                        if (data.family.members.length <= 9) {
                             dispatch({
                                 type: "FIND_FAMILY_SUCCESS",
                                 payload: {
