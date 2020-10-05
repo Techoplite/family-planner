@@ -80,7 +80,7 @@ export const signup = (credentials, name, color, surname) => {
                             snapshot.docs.forEach(doc => {
                                 const familyDOCRef = doc.ref
                                 const family = doc.data().family
-                                family.members.push({ capitalisedName, email, color })
+                                family.members.push({ name: capitalisedName, email, color })
                                 const updatedAvailableColors = family.availableColors.filter(availableColor => availableColor !== color)
                                 family.availableColors = updatedAvailableColors
                                 firestore.runTransaction(transaction => {
@@ -92,6 +92,24 @@ export const signup = (credentials, name, color, surname) => {
                                                 },
                                                 )
                                         })
+                                })
+                                    .then(() => {
+                                        dispatch(
+                                            {
+                                                type: 'SIGNUP_SUCCESS',
+                                                payload: {
+                                                    authError: null,
+                                                    capitalisedName,
+                                                    email,
+                                                    color,
+                                                    surname: toTitleCase(surname),
+                                                    family
+                                                }
+                                            }
+                                        )
+                                        dispatch(
+                                            setMessage("Sign up successful", "success")
+                                        )
                                 })
                             })
                         })
@@ -118,7 +136,7 @@ export const signup = (credentials, name, color, surname) => {
                     const families = firestore.collection("families").doc()
                     const family = {
                         surname: capitalisedSurname,
-                        members: [{ capitalisedName, email, color }],
+                        members: [{ name: capitalisedName, email, color }],
                         password,
                         availableColors
                     }
