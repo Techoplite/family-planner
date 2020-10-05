@@ -116,13 +116,14 @@ export const signup = (credentials, name, color, surname) => {
                     
                     const capitalisedSurname = toTitleCase(surname)
                     const families = firestore.collection("families").doc()
+                    const family = {
+                        surname: capitalisedSurname,
+                        members: [capitalisedName],
+                        password,
+                        availableColors
+                    }
                     batch.set(families, {
-                        family: {
-                            surname: capitalisedSurname,
-                            members: [capitalisedName],
-                            password,
-                            availableColors
-                        }
+                        family
                     })
                 }
                 batch.commit()
