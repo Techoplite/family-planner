@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import CustomButton from './inputs/CustomButton'
@@ -13,14 +13,24 @@ const Navbar = (props) => {
 
     // Redux
     const { text, severity } = props.message
-    const { auth, clearMessage, user } = props
+    const { clearMessage, user } = props
+
 
     // React
+    const initialState = {
+        color: null,
+    }
+    const [state, setState] = useState(initialState)
+
     useEffect(() => {
         text !== null && window.setTimeout(() => {
             clearMessage();
         }, 5000);
-    }, [text, clearMessage])
+        user.userProfile && setState({
+            ...state,
+            color: user.userProfile.color
+        })
+    }, [text, clearMessage, user.userProfile])
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -43,7 +53,7 @@ const Navbar = (props) => {
                 borderRadius: "0"
             },
             avatar: {
-                backgroundColor: `${getColorValue(user.color)}`,
+                backgroundColor: `${getColorValue(state.color)}`,
                 margin: "auto",
                 "&:hover": {
                     opacity: "0.9",
@@ -73,7 +83,7 @@ const Navbar = (props) => {
                         </Link>
                     </Grid>
                     <Grid item xs={2}>
-                        {auth && user.color ?
+                        {user.userProfile ?
                             <Avatar className={classes.avatar}>
                                 <CustomButton
                                     variant="contained"
@@ -82,7 +92,7 @@ const Navbar = (props) => {
                                     onClick={props.handleOnClick}
                                     list={props.list}
                                 >
-                                    {auth.email.charAt(0)}
+                                    {user.userProfile.email.charAt(0)}
                                 </CustomButton>
                             </Avatar>
                             : <AccountCircleOutlinedIcon
@@ -104,7 +114,6 @@ const Navbar = (props) => {
 const mapStateToProps = (state) => {
     return {
         message: state.message,
-        auth: state.firebase.auth,
         user: state.auth
     }
 }

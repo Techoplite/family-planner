@@ -64,7 +64,7 @@ const App = (props) => {
                 open={state.temporaryDrawer}
                 setState={setState}
               />
-              {!user.email ? <Anonymous /> : <Authenticated />}
+              {!user.userProfile ? <Anonymous /> : <Authenticated />}
             </Grid>
           </div>
         </Grid>

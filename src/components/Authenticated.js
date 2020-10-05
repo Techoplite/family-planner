@@ -39,7 +39,7 @@ const Authenticated = (props) => {
 
     return (
         <>
-            {auth.email && <Redirect to='/' />}
+            {auth.userProfile.email && <Redirect to='/' />}
             <Route exact path="/">
                     This is a work in progress...
             <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
