@@ -5,6 +5,8 @@ import { makeStyles, TextField, Typography } from '@material-ui/core'
 import CustomTextField from './inputs/CustomTextField';
 import { Autocomplete } from '@material-ui/lab';
 import { connect } from 'react-redux'
+import Chip from '@material-ui/core/Chip';
+import getColorvalue from './outputs/ColorValues'
 
 
 
@@ -27,7 +29,7 @@ const EventForm = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-    
+
 
     useEffect(() => {
         family && state.familyMembers !== family.members && setState({
@@ -104,6 +106,21 @@ const EventForm = (props) => {
                 <Autocomplete
                     multiple
                     id="tags-outlined"
+                    renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                            <Chip
+                                variant="outlined"
+                                key={option}
+                                style={{
+                                    backgroundColor: `${getColorvalue(state.familyMembers[state.familyMembers.indexOf(option)].color)}`,
+                                    color: "white"
+                                }}
+                                label={option.name}
+                                onDelete={() => console.log("test")}
+                                {...getTagProps({ index })}
+                            />
+                        ))
+                    }
                     options={state.familyMembers}
                     getOptionLabel={(option) => option.name}
                     // defaultValue={[familyMembers[0]]}
