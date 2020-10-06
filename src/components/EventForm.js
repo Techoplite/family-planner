@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm, Form } from './hooks/useForm'
 import EventIcon from '@material-ui/icons/Event';
 import { makeStyles, TextField, Typography } from '@material-ui/core'
 import CustomTextField from './inputs/CustomTextField';
 import { Autocomplete } from '@material-ui/lab';
+import { connect } from 'react-redux'
 
 
 
-const EventForm = () => {
+
+const EventForm = (props) => {
+
+    // Redux 
+    const { familyMembers } = props
 
     // React 
     const initialState = {
@@ -16,25 +21,20 @@ const EventForm = () => {
         errors: {
             email: "",
             password: ""
-        }
+        },
+        familyMembers: familyMembers
     }
 
-    const familyMembers = [
-        {
-            name: "John"
-        },
-        {
-            name: "Jane"
-        },
-        {
-            name: "Mirko"
-        },
-        {
-            name: "Chiara"
-        },
-    ]
-
     const { state, handleOnChange, setState } = useForm(initialState)
+
+    // useEffect(() => {
+    //     setState({
+    //         ...state,
+    //         familyMembers: [
+
+    //         ]
+    //     }, [])
+    // })
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -68,8 +68,8 @@ const EventForm = () => {
     return (
         <>
             <div>WORK IN PROGRESS...</div>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <EventIcon className={classes.icon} />
             <Form
                 title="Add new event"
@@ -104,7 +104,7 @@ const EventForm = () => {
                 <Autocomplete
                     multiple
                     id="tags-outlined"
-                    options={familyMembers}
+                    options={state.familyMembers}
                     getOptionLabel={(option) => option.name}
                     // defaultValue={[familyMembers[0]]}
                     filterSelectedOptions
@@ -122,4 +122,11 @@ const EventForm = () => {
     );
 }
 
-export default EventForm;
+// Redux
+const mapStateToProps = (state) => {
+    return {
+        familyMembers: state.auth.family.members
+    }
+}
+
+export default connect(mapStateToProps)(EventForm);

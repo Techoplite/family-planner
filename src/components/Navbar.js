@@ -26,10 +26,10 @@ const Navbar = (props) => {
         text !== null && window.setTimeout(() => {
             clearMessage();
         }, 5000);
-        user.userProfile && setState({
+        user.userProfile && setState(state => setState({
             ...state,
             color: user.userProfile.color
-        })
+        }))
     }, [text, clearMessage, user.userProfile])
 
     // Material UI
