@@ -219,7 +219,6 @@ export const getUserFamily = (password) => {
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     const family = doc.data().family
-                    console.log('data :>> ', family);
                     dispatch(
                         {
                             type: 'GET_USER_FAMILY_SUCCESS',

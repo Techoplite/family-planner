@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 const EventForm = (props) => {
 
     // Redux 
-    const { familyMembers } = props
+    const { family } = props
 
     // React 
     const initialState = {
@@ -22,19 +22,19 @@ const EventForm = (props) => {
             email: "",
             password: ""
         },
-        familyMembers: familyMembers
+        familyMembers: ["rgeg"]
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-    // useEffect(() => {
-    //     setState({
-    //         ...state,
-    //         familyMembers: [
+    
 
-    //         ]
-    //     }, [])
-    // })
+    useEffect(() => {
+        family && state.familyMembers !== family.members && setState({
+            ...state,
+            familyMembers: family.members
+        })
+    })
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -125,7 +125,7 @@ const EventForm = (props) => {
 // Redux
 const mapStateToProps = (state) => {
     return {
-        familyMembers: state.auth.family.members
+        family: state.auth.family
     }
 }
 
