@@ -8,8 +8,9 @@ import { connect } from 'react-redux'
 import Chip from '@material-ui/core/Chip';
 import getColorvalue from './outputs/ColorValues'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import Checkbox from '@material-ui/core/Checkbox';
+
+
 
 
 
@@ -26,7 +27,7 @@ const EventForm = (props) => {
         title: "",
         date: "",
         time: "",
-        timeSelected: "specified",
+        noTimeSelected: false,
         location: "",
         membersAttending: [],
         familyMembers: []
@@ -56,6 +57,14 @@ const EventForm = (props) => {
             ...state,
             membersAttending: [...state.membersAttending, state.familyMembers[index]]
         });
+    }
+
+    const handleCheckbox = (e) => {
+        const { name, checked } = e.target
+        setState({
+            ...state,
+            [name]: checked
+        })
     }
 
     useEffect(() => {
@@ -158,7 +167,7 @@ const EventForm = (props) => {
                 <TextField
                     onChange={handleOnChange}
 
-                    {...(state.timeSelected === "not-specified" && { disabled: true })}
+                    {...(state.noTimeSelected && { disabled: true })}
                     id="time"
                     label="Time"
                     type="time"
@@ -177,16 +186,18 @@ const EventForm = (props) => {
                 <div
                     className={classes.radioGroup}
                 >
-                    <RadioGroup
-                        aria-label="time"
-                        name="timeSelected"
-                        value={state.timeSelected}
-                        onChange={handleOnChange}
-
-                    >
-                        <FormControlLabel value="specified" control={<Radio color="primary" />} label="Specify a time" />
-                        <FormControlLabel value="not-specified" control={<Radio color="primary" />} label="Not specified" />
-                    </RadioGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={state.checkedB}
+                                onChange={handleCheckbox}
+                                color="primary"
+                                name="noTimeSelected"
+                                value={state.noTimeSelected}
+                            />
+                        }
+                        label="Not specified"
+                    />
                 </div>
 
                 {/* Location */}
