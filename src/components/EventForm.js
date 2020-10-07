@@ -7,6 +7,10 @@ import { Autocomplete } from '@material-ui/lab';
 import { connect } from 'react-redux'
 import Chip from '@material-ui/core/Chip';
 import getColorvalue from './outputs/ColorValues'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
 
 
 
@@ -18,13 +22,11 @@ const EventForm = (props) => {
 
     // React 
     const initialState = {
-        email: "",
-        password: "",
+        timeSelected: "specified",
         errors: {
-            email: "",
-            password: ""
+
         },
-        familyMembers: ["rgeg"]
+        familyMembers: []
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
@@ -61,6 +63,10 @@ const EventForm = (props) => {
             },
             dateTimeWrapper: {
                 marginTop: theme.spacing(4)
+            },
+            radioGroup: {
+                display: "flex",
+                justifyContent: "left",
             }
         }
     ))
@@ -113,6 +119,7 @@ const EventForm = (props) => {
                     Pick a time
                 </Typography>
                 <TextField
+                    {...(state.timeSelected === "not-specified" && { disabled: true })}
                     id="time"
                     label="Time"
                     type="time"
@@ -125,8 +132,22 @@ const EventForm = (props) => {
                         step: 300, // 5 min
                     }}
                     variant="outlined"
-                    fullWidth   
+                    fullWidth
                 />
+                <div
+                    className={classes.radioGroup}
+                >
+                    <RadioGroup
+                        aria-label="time"
+                        name="timeSelected"
+                        value={state.timeSelected}
+                        onChange={handleOnChange}
+
+                    >
+                        <FormControlLabel value="specified" control={<Radio color="primary" />} label="Specify a time" />
+                        <FormControlLabel value="not-specified" control={<Radio color="primary" />} label="Not specified" />
+                    </RadioGroup>
+                </div>
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
