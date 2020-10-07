@@ -80,7 +80,7 @@ const EventForm = (props) => {
                     variant="subtitle1"
                     className={classes.typography}
                     align="left">
-                    Enter a title for this event
+                    Enter a title
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
@@ -89,8 +89,49 @@ const EventForm = (props) => {
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
+                    align="left"
+                >
+                    Pick a date
+                </Typography>
+                <TextField
+                    id="date"
+                    label="Date"
+                    type="date"
+                    defaultValue="2017-05-24"
+                    className={classes.textField}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                />
+                <Typography
+                    variant="subtitle1"
+                    className={classes.typography}
+                    align="left"
+                >
+                    Pick a time
+                </Typography>
+                <TextField
+                    id="time"
+                    label="Time"
+                    type="time"
+                    defaultValue="07:30"
+                    className={classes.textField}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    inputProps={{
+                        step: 300, // 5 min
+                    }}
+                    variant="outlined"
+                    fullWidth   
+                />
+                <Typography
+                    variant="subtitle1"
+                    className={classes.typography}
                     align="left">
-                    Enter a location for this event
+                    Enter a location
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
