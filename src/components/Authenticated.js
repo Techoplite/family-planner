@@ -15,6 +15,7 @@ import TodoList from './TodoList'
 
 
 const Authenticated = (props) => {
+    
     // Redux
     const { auth } = props
 

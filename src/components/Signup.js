@@ -10,10 +10,15 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import { findFamily, signup, resetFamily, passwordAlreadyTaken, passwordNeeded } from '../store/actions/auth'
 import getColorValue from './outputs/ColorValues';
 import firebase from './../config/firebase'
+import { Redirect } from 'react-router-dom'
+
 
 var db = firebase.firestore();
 
 const Signup = (props) => {
+
+    // Redux
+    const { auth } = props
 
     // React
     const allColors = [
@@ -247,6 +252,7 @@ const Signup = (props) => {
     const classes = useStyles()
     return (
         <>
+            {auth.email && <Redirect to='/' />}
             <AccountCircleIcon className={classes.icon} />
             <Form title="Sign up">
                 <Typography
@@ -291,7 +297,7 @@ const Signup = (props) => {
                     className={classes.customTextField}
                     label="Password"
                     name="password"
-                    type="password" 
+                    type="password"
                     required
                     value={state.password}
                     onChange={handleOnChange}
@@ -401,7 +407,8 @@ const Signup = (props) => {
 const mapStateToprops = state => {
     return {
         authError: state.auth.authError,
-        availableFamily: state.auth.availableFamily
+        availableFamily: state.auth.availableFamily,
+        auth: state.auth,
     }
 }
 

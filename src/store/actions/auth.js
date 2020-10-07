@@ -103,7 +103,13 @@ export const signup = (credentials, name, color, surname) => {
                                                     email,
                                                     color,
                                                     surname: toTitleCase(surname),
-                                                    family
+                                                    family,
+                                                    userProfile: {
+                                                        name: capitalisedName,
+                                                        email,
+                                                        color,
+                                                        password
+                                                    }
                                                 }
                                             }
                                         )
@@ -167,7 +173,13 @@ export const signup = (credentials, name, color, surname) => {
                                         email,
                                         color,
                                         surname: toTitleCase(surname),
-                                        family
+                                        family,
+                                        userProfile: {
+                                            name: capitalisedName,
+                                            email,
+                                            color,
+                                            password
+                                        }
                                     }
                                 }
                             )
