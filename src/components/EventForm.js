@@ -17,14 +17,19 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 const EventForm = (props) => {
 
+    const currentdate = new Date();
+    const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
+        + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
+    const time = currentdate.getHours() + ":" + currentdate.getMinutes()
+
     // Redux 
     const { family } = props
 
     // React 
     const initialState = {
         title: "",
-        date: "",
-        time: "",
+        date: date,
+        time: time,
         timeSelected: "specified",
         location: "",
         membersAttending: [],
@@ -32,6 +37,7 @@ const EventForm = (props) => {
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
+
 
     const handleMembersAttendingOnChange = (e) => {
         e.preventDefault()
@@ -213,12 +219,12 @@ const EventForm = (props) => {
                                 }}
                                 label={option.name}
                                 {...getTagProps({ index })}
-                            onMouseDown={() => {
-                                setState({
-                                    ...state,
-                                    membersAttending: state.membersAttending.filter(member => member.name !== option.name)
-                                })
-                            }}
+                                onMouseDown={() => {
+                                    setState({
+                                        ...state,
+                                        membersAttending: state.membersAttending.filter(member => member.name !== option.name)
+                                    })
+                                }}
                             />
                         ))
                     }
