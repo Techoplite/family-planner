@@ -22,16 +22,27 @@ const EventForm = (props) => {
 
     // React 
     const initialState = {
+        title: "",
+        date: "",
+        time: "",
         timeSelected: "specified",
-        errors: {
-
-        },
+        location: "",
+        membersAttending: [],
         familyMembers: []
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-
+    const handleMembersAttendingOnChange = (e) => {
+        e.preventDefault()
+        const { id } = e.target
+        const index = id.substr(id.length - 1)
+        console.log('id :>> ', id);
+        id.includes("tags-outlined-option") && setState({
+            ...state,
+            membersAttending: [...state.membersAttending, state.familyMembers[index]]
+        });
+    }
 
     useEffect(() => {
         family && state.familyMembers !== family.members && setState({
@@ -82,6 +93,7 @@ const EventForm = (props) => {
             <Form
                 title="Add new event"
             >
+                {/* Title */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -91,7 +103,13 @@ const EventForm = (props) => {
                 <CustomTextField
                     className={classes.customTextField}
                     label="Title"
+                    onChange={handleOnChange}
+                    value={state.title}
+                    name="title"
+
                 />
+
+                {/* Date */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -100,17 +118,21 @@ const EventForm = (props) => {
                     Pick a date
                 </Typography>
                 <TextField
+                    onChange={handleOnChange}
                     id="date"
                     label="Date"
                     type="date"
-                    defaultValue="2017-05-24"
                     className={classes.textField}
                     InputLabelProps={{
                         shrink: true,
                     }}
                     variant="outlined"
                     fullWidth
+                    value={state.date}
+                    name="date"
                 />
+
+                {/* Time */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -119,11 +141,12 @@ const EventForm = (props) => {
                     Pick a time
                 </Typography>
                 <TextField
+                    onChange={handleOnChange}
+
                     {...(state.timeSelected === "not-specified" && { disabled: true })}
                     id="time"
                     label="Time"
                     type="time"
-                    defaultValue="07:30"
                     className={classes.textField}
                     InputLabelProps={{
                         shrink: true,
@@ -133,6 +156,8 @@ const EventForm = (props) => {
                     }}
                     variant="outlined"
                     fullWidth
+                    value={state.time}
+                    name="time"
                 />
                 <div
                     className={classes.radioGroup}
@@ -148,6 +173,8 @@ const EventForm = (props) => {
                         <FormControlLabel value="not-specified" control={<Radio color="primary" />} label="Not specified" />
                     </RadioGroup>
                 </div>
+
+                {/* Location */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -156,9 +183,13 @@ const EventForm = (props) => {
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
-
+                    onChange={handleOnChange}
                     label="Location"
+                    value={state.location}
+                    name="location"
                 />
+
+                {/* Members Attending */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
@@ -166,26 +197,33 @@ const EventForm = (props) => {
                     Which member/s of the family is/are attending
                     </Typography>
                 <Autocomplete
+                    name="membersAttending"
+                    onChange={handleMembersAttendingOnChange}
                     multiple
                     id="tags-outlined"
-                    renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
+                    renderTags={(options, getTagProps) =>
+                        options.map((option, index) => (
                             <Chip
                                 variant="outlined"
-                                key={option}
+                                key={option.name}
+                                id={option.name}
                                 style={{
                                     backgroundColor: `${getColorvalue(state.familyMembers[state.familyMembers.indexOf(option)].color)}`,
                                     color: "white"
                                 }}
                                 label={option.name}
-                                onDelete={() => console.log("test")}
                                 {...getTagProps({ index })}
+                            onMouseDown={() => {
+                                setState({
+                                    ...state,
+                                    membersAttending: state.membersAttending.filter(member => member.name !== option.name)
+                                })
+                            }}
                             />
                         ))
                     }
                     options={state.familyMembers}
                     getOptionLabel={(option) => option.name}
-                    // defaultValue={[familyMembers[0]]}
                     filterSelectedOptions
                     renderInput={(params) => (
                         <TextField
