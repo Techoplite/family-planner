@@ -17,10 +17,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 
 const EventForm = (props) => {
 
-    const currentdate = new Date();
-    const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
-        + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
-    const time = currentdate.getHours() + ":" + currentdate.getMinutes()
 
     // Redux 
     const { family } = props
@@ -28,8 +24,8 @@ const EventForm = (props) => {
     // React 
     const initialState = {
         title: "",
-        date: date,
-        time: time,
+        date: "",
+        time: "",
         timeSelected: "specified",
         location: "",
         membersAttending: [],
@@ -38,6 +34,18 @@ const EventForm = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
+    const setDefaultDateAndTime = () => {
+        const currentdate = new Date();
+        const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
+            + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
+        const time = currentdate.getHours() + ":" + currentdate.getMinutes()
+        setState({
+            ...state,
+            date,
+            time
+        })
+
+    }
 
     const handleMembersAttendingOnChange = (e) => {
         e.preventDefault()
@@ -55,6 +63,7 @@ const EventForm = (props) => {
             ...state,
             familyMembers: family.members
         })
+        state.date === "" && state.time === "" && setDefaultDateAndTime()
     })
 
     // Material UI
