@@ -30,6 +30,7 @@ const EventForm = (props) => {
         noTimeSelected: false,
         location: "",
         membersAttending: [],
+        membersNotAttending: [],
         familyMembers: []
     }
 
@@ -52,10 +53,13 @@ const EventForm = (props) => {
         e.preventDefault()
         const { id } = e.target
         const index = id.substr(id.length - 1)
-        console.log('id :>> ', id);
+        const memberToAdd = state.membersNotAttending[index]
         id.includes("tags-outlined-option") && setState({
             ...state,
-            membersAttending: [...state.membersAttending, state.familyMembers[index]]
+            membersAttending: [...state.membersAttending, memberToAdd],
+            membersNotAttending: state.membersNotAttending.filter(member =>
+                member.email !== memberToAdd.email
+            )
         });
     }
 
@@ -70,7 +74,8 @@ const EventForm = (props) => {
     useEffect(() => {
         family && state.familyMembers !== family.members && setState({
             ...state,
-            familyMembers: family.members
+            familyMembers: family.members,
+            membersNotAttending: family.members
         })
         state.date === "" && state.time === "" && setDefaultDateAndTime()
     })
@@ -242,7 +247,8 @@ const EventForm = (props) => {
                                 onMouseDown={() => {
                                     setState({
                                         ...state,
-                                        membersAttending: state.membersAttending.filter(member => member.name !== option.name)
+                                        membersAttending: state.membersAttending.filter(member => member.name !== option.name),
+                                        membersNotAttending: [...state.membersNotAttending, state.familyMembers.find(member => member.name === option.name)]
                                     })
                                 }}
                             />
