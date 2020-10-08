@@ -9,11 +9,8 @@ import Chip from '@material-ui/core/Chip';
 import getColorvalue from './outputs/ColorValues'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
-
-
-
-
+import CustomButton from './inputs/CustomButton';
+import { setMessage } from '../store/actions/message'
 
 
 const EventForm = (props) => {
@@ -31,7 +28,12 @@ const EventForm = (props) => {
         location: "",
         membersAttending: [],
         membersNotAttending: [],
-        familyMembers: []
+        familyMembers: [],
+        errors: {
+            title: "",
+            date: "",
+            location: ""
+        }
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
@@ -47,6 +49,25 @@ const EventForm = (props) => {
             time
         })
 
+    }
+
+    const validate = () => {
+        let errors = {}
+        errors.title = (state.title ? "" : "Title is required.") ||
+            (/.*[a-zA-Z].*/i.test(state.title) ? "" : "Title must contain letters.")
+        errors.date = (state.date ? "" : "Date is required.")
+        errors.location = (errors.location = (/^[A-Za-z]+$/i).test(state.location) || state.location === "" ? "" : "Location cannot contain numbers.")
+        setState({
+            ...state,
+            errors
+        })
+        return Object.values(errors).every(value => value === "")
+    }
+
+    const handleOnSubmit = async e => {
+        e.preventDefault()
+        validate()
+        console.log('e.target :>> ', e.target);
     }
 
     const handleMembersAttendingOnChange = (e) => {
@@ -73,6 +94,8 @@ const EventForm = (props) => {
         })
     }
 
+    const { errors } = state
+
     useEffect(() => {
         family && state.familyMembers !== family.members && setState({
             ...state,
@@ -80,6 +103,10 @@ const EventForm = (props) => {
             membersNotAttending: family.members
         })
         state.date === "" && state.time === "" && setDefaultDateAndTime()
+        errors && (
+            errors.title !== "" ||
+            errors.date !== "" ||
+            errors.location !== "") && props.setMessage("Please check all fields", "error") && console.log("error");
     })
 
     // Material UI
@@ -123,20 +150,25 @@ const EventForm = (props) => {
             <EventIcon className={classes.icon} />
             <Form
                 title="Add new event"
+                onSubmit={handleOnSubmit}
             >
                 {/* Title */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
                     align="left">
-                    Enter a title
+                    Enter a title*
                     </Typography>
                 <CustomTextField
+                    autoFocus
+                    required
                     className={classes.customTextField}
                     label="Title"
                     onChange={handleOnChange}
                     value={state.title}
                     name="title"
+                    helperText={state.errors.title}
+                    error={state.errors.title ? true : false}
 
                 />
 
@@ -146,7 +178,7 @@ const EventForm = (props) => {
                     className={classes.typography}
                     align="left"
                 >
-                    Pick a date
+                    Pick a date*
                 </Typography>
                 <TextField
                     onChange={handleOnChange}
@@ -161,6 +193,9 @@ const EventForm = (props) => {
                     fullWidth
                     value={state.date}
                     name="date"
+                    required
+                    error={state.errors.date ? true : false}
+                    helperText={state.errors.date}
                 />
 
                 {/* Time */}
@@ -220,6 +255,8 @@ const EventForm = (props) => {
                     label="Location"
                     value={state.location}
                     name="location"
+                    helperText={state.errors.location}
+                    error={state.errors.location ? true : false}
                 />
 
                 {/* Members Attending */}
@@ -270,6 +307,14 @@ const EventForm = (props) => {
                         />
                     )}
                 />
+                <CustomButton
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                >
+                    SIGN UP
+                </CustomButton>
             </Form>
         </>
     );
@@ -282,4 +327,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(EventForm);
+const mapDispatchToProps = dispatch => {
+    return {
+        setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventForm);
