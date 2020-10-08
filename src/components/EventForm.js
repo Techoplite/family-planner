@@ -40,7 +40,7 @@ const EventForm = (props) => {
         const currentdate = new Date();
         const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
             + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
-        const time = currentdate.getHours() + ":" + currentdate.getMinutes()
+        const time = currentdate.getHours() + ":" + (currentdate.getMinutes() < 10 ? "0" + currentdate.getMinutes() : currentdate.getMinutes())
         setState({
             ...state,
             date,
@@ -54,6 +54,8 @@ const EventForm = (props) => {
         const { id } = e.target
         const index = id.substr(id.length - 1)
         const memberToAdd = state.membersNotAttending[index]
+
+        // Move item selected from membersNotAttending to membersAttending
         id.includes("tags-outlined-option") && setState({
             ...state,
             membersAttending: [...state.membersAttending, memberToAdd],
@@ -245,6 +247,8 @@ const EventForm = (props) => {
                                 label={option.name}
                                 {...getTagProps({ index })}
                                 onMouseDown={() => {
+
+                                    // Move item selected from membersAttending to membersAttending membersNotAttending
                                     setState({
                                         ...state,
                                         membersAttending: state.membersAttending.filter(member => member.name !== option.name),
