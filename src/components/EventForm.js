@@ -11,13 +11,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
+import { addEvent } from '../store/actions/event'
 
 
 const EventForm = (props) => {
 
 
     // Redux 
-    const { family } = props
+    const { family, user } = props
 
     // React 
     const initialState = {
@@ -66,8 +67,7 @@ const EventForm = (props) => {
 
     const handleOnSubmit = async e => {
         e.preventDefault()
-        validate()
-        console.log('e.target :>> ', e.target);
+        validate() && props.addEvent(state, family.password, user)
     }
 
     const handleMembersAttendingOnChange = (e) => {
@@ -323,13 +323,15 @@ const EventForm = (props) => {
 // Redux
 const mapStateToProps = (state) => {
     return {
-        family: state.auth.family
+        family: state.auth.family,
+        user: state.auth.userProfile.email
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+        addEvent: (state, family, user) => dispatch(addEvent(state, family, user)),
     }
 }
 

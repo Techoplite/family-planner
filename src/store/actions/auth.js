@@ -144,7 +144,8 @@ export const signup = (credentials, name, color, surname) => {
                         surname: capitalisedSurname,
                         members: [{ name: capitalisedName, email, color }],
                         password,
-                        availableColors
+                        availableColors,
+                        events: []
                     }
                     batch.set(families, {
                         family
