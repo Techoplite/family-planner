@@ -1,14 +1,12 @@
-const initialState = {
-    events: []
-}
+const initialState = []
 
 const event = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_EVENT':
-            return {
+        case 'ADD_EVENT_SUCCESS':
+            return [
                 ...state,
-                events: [...state.events, action.payload]
-            }
+                action.payload
+            ]
         default:
             return state
     }

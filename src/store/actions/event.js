@@ -36,21 +36,23 @@ export const addEvent = (state, familyPassword, user) => {
                     })
                 })
             })
-
-        // .then(() => {
-        //     dispatch({
-        //         type: "ADD_EVENT_SUCCESS",
-        //         payload:
-        //         {
-        //             title,
-        //             date,
-        //             time,
-        //             location,
-        //             membersAttending,
-        //             family,
-        //             user
-        //         }
-        //     })
-        // })
+        .then(() => {
+            dispatch({
+                type: "ADD_EVENT_SUCCESS",
+                payload:
+                {
+                    title,
+                    date,
+                    time,
+                    location,
+                    membersAttending,
+                    family: familyPassword,
+                    user
+                }
+            })
+            dispatch(
+                setMessage("Event successfully added to family calendar.", "success")
+            )
+        })
     }
 }
