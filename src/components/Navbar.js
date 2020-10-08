@@ -53,7 +53,7 @@ const Navbar = (props) => {
                 borderRadius: "0"
             },
             avatar: {
-                backgroundColor: `${getColorValue(state.color)}`,
+                backgroundColor: `${state.color ? getColorValue(state.color) : getColorValue(user.color)}`,
                 margin: "auto",
                 "&:hover": {
                     opacity: "0.9",
