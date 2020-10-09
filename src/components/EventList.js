@@ -8,7 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TodayIcon from '@material-ui/icons/Today';
 import { makeStyles, Typography } from '@material-ui/core'
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 
 
@@ -55,6 +56,12 @@ const EventList = (props) => {
             },
             row: {
                 // width: "fit-content"
+            },
+            addCircleIcon: {
+                fontSize: "4.5rem",
+                position: "fixed",
+                bottom: "1rem",
+                right: "1rem",
             }
         }
     ))
@@ -92,6 +99,7 @@ const EventList = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Link to="/calendar/add-event"><AddCircleIcon className={classes.addCircleIcon} color="secondary" /></Link>
         </>
     );
 }
