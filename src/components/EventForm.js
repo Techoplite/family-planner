@@ -12,6 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
 import { addEvent } from '../store/actions/event'
+import { withRouter } from 'react-router-dom';
 
 
 const EventForm = (props) => {
@@ -335,4 +336,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventForm));

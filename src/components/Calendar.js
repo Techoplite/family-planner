@@ -1,25 +1,43 @@
-import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react'
+import {
+    Redirect, withRouter, Route, Switch, useRouteMatch
+} from 'react-router-dom'
 import EventForm from './EventForm'
+import { connect } from 'react-redux'
+import EventList from './EventList'
 
 
+const Calendar = (props) => {
 
-const Calendar = () => {
+    //React Router DOM
+    const { path, url } = useRouteMatch()
+    console.log('path, url :>> ', path, url);
 
-    // React
-    const initialState = {
-        events: []
-    }
-
-    const [state, setState] = useState(initialState)
+    // Redux 
+    const { auth } = props
 
     return (
         <>
-            {state.events.length > 0 ?
-                console.log("state is not empty") : <EventForm />
+            <Switch>
+                <Route exact path={`${path}/events`} component={EventList} />
+                <Route exact path={`${path}/add-event`} component={EventForm} />
+            </Switch>
+            {auth.family && auth.family.events.length > 0 ?
+                <Redirect to={`${url}/events`} />
+                // <EventList/>
+                :
+                <Redirect to={`${url}/add-event`} />
             }
+
         </>
     );
 }
 
-export default withRouter(Calendar);
+// Redux
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(Calendar));

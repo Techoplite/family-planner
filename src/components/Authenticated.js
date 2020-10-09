@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import Section from './Section'
 import { Grid, makeStyles } from '@material-ui/core';
 import EventIcon from '@material-ui/icons/Event';
@@ -10,12 +10,14 @@ import { Link, Switch, Route } from 'react-router-dom'
 import Calendar from './Calendar'
 import ShoppingList from './ShoppingList'
 import TodoList from './TodoList'
+import EventList from './EventList';
+import EventForm from './EventForm';
 
 
 
 
 const Authenticated = (props) => {
-    
+
     // Redux
     const { auth } = props
 
@@ -40,32 +42,34 @@ const Authenticated = (props) => {
 
     return (
         <>
-            {auth.userProfile.email && <Redirect to='/' />}
-            <Route exact path="/">
+            {/* {auth.userProfile.email && <Redirect to='/' />} */}
+            <Switch>
+                <Route exact path="/">
                     This is a work in progress...
             <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
-                <Grid item xs={8} sm={12}>
-                    <Link className={classes.link} to="/calendar">
-                        <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
-                    </Link>
-                </Grid>
-                <Grid item xs={8} sm={12}>
-                    <Link className={classes.link} to="/shopping-list">
-                        <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
-                    </Link>
-                </Grid>
-                <Grid item xs={8} sm={12}>
-                    <Link className={classes.link} to="/todo-list">
-                        <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
-                    </Link>
-                </Grid>
-            </Grid>
-            </Route>    
-            <Switch>
+                        <Grid item xs={8} sm={12}>
+                            <Link className={classes.link} to="/calendar">
+                                <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
+                            </Link>
+                        </Grid>
+                        <Grid item xs={8} sm={12}>
+                            <Link className={classes.link} to="/shopping-list">
+                                <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
+                            </Link>
+                        </Grid>
+                        <Grid item xs={8} sm={12}>
+                            <Link className={classes.link} to="/todo-list">
+                                <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Route>
                 This is a work in progress....
-                <Route exact path="/calendar" component={Calendar} />
-                <Route exact path="/shopping-list" component={ShoppingList} />
-                <Route exact path="/todo-list" component={TodoList} />
+                <Route path="/calendar" component={Calendar} />
+                <Route path="/shopping-list" component={ShoppingList} />
+                <Route path="/todo-list" component={TodoList} />
+                <Route path={`calendar/events`} component={EventList} />
+                <Route path={`calendar/add-event`} component={EventForm} />
             </Switch>
         </>
     );
@@ -78,4 +82,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Authenticated);
+export default withRouter(connect(mapStateToProps)(Authenticated));
