@@ -314,7 +314,7 @@ const EventForm = (props) => {
                     fullWidth
                     type="submit"
                 >
-                    SIGN UP
+                    ADD EVENT
                 </CustomButton>
             </Form>
         </>
