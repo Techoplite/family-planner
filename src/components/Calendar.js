@@ -18,17 +18,16 @@ const Calendar = (props) => {
 
     return (
         <>
+            
+            {auth.family && auth.family.events.length > 0 ?
+                <Redirect to={`${url}/events`} />
+                :
+                <Redirect to={`${url}/add-event`} />
+            }
             <Switch>
                 <Route exact path={`${path}/events`} component={EventList} />
                 <Route exact path={`${path}/add-event`} component={EventForm} />
             </Switch>
-            {auth.family && auth.family.events.length > 0 ?
-                <Redirect to={`${url}/events`} />
-                // <EventList/>
-                :
-                <Redirect to={`${url}/add-event`} />
-            }
-
         </>
     );
 }

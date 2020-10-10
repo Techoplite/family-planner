@@ -42,7 +42,7 @@ const Authenticated = (props) => {
 
     return (
         <>
-            {/* {auth.userProfile.email && <Redirect to='/' />} */}
+            {auth.userProfile.email && <Redirect to='/' />}
             <Switch>
                 <Route exact path="/">
                     This is a work in progress...
@@ -68,8 +68,6 @@ const Authenticated = (props) => {
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/shopping-list" component={ShoppingList} />
                 <Route path="/todo-list" component={TodoList} />
-                <Route path={`calendar/events`} component={EventList} />
-                <Route path={`calendar/add-event`} component={EventForm} />
             </Switch>
         </>
     );
