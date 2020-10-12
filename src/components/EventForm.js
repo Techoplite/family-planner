@@ -152,11 +152,15 @@ const EventForm = (props) => {
                 marginTop: theme.spacing(0)
             },
             dateTimeWrapper: {
-                marginTop: theme.spacing(4)
+                display: "flex"
             },
             radioGroup: {
                 display: "flex",
                 justifyContent: "left",
+            },
+            picker: {
+                display: "flex",
+                flexDirection: "column"
             }
         }
     ))
@@ -178,8 +182,10 @@ const EventForm = (props) => {
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
-                    align="left">
-                    Enter a title*
+                    align="left"
+                    style={{ width: "50%" }}
+                >
+                    Enter a title
                     </Typography>
                 <CustomTextField
                     autoFocus
@@ -195,80 +201,85 @@ const EventForm = (props) => {
                 />
 
                 {/* Date */}
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left"
-                >
-                    Pick a date*
+                <div className={classes.dateTimeWrapper}>
+                    <div className={classes.picker}>
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left"
+                        >
+                            Pick a date
                 </Typography>
-                <TextField
-                    onChange={handleOnChange}
-                    id="date"
-                    label="Date"
-                    type="date"
-                    className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    value={state.date}
-                    name="date"
-                    required
-                    error={state.errors.date ? true : false}
-                    helperText={state.errors.date}
-                />
+                        <TextField
+                            onChange={handleOnChange}
+                            id="date"
+                            label="Date"
+                            type="date"
+                            className={classes.textField}
+                            // stlye={{ minWidth: "310px" }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            variant="outlined"
+                            value={state.date}
+                            name="date"
+                            required
+                            error={state.errors.date ? true : false}
+                            helperText={state.errors.date}
+                        />
+                    </div>
 
-                {/* Time */}
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left"
-                >
-                    Pick a time
-                </Typography>
-                <TextField
-                    onChange={handleOnChange}
-
-                    {...(state.noTimeSelected && { disabled: true })}
-                    id="time"
-                    label="Time"
-                    type="time"
-                    className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    inputProps={{
-                        step: 300, // 5 min
-                    }}
-                    variant="outlined"
-                    fullWidth
-                    value={state.time}
-                    name="time"
-                />
-                <div
-                    className={classes.radioGroup}
-                >
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={state.checkedB}
-                                onChange={handleCheckbox}
-                                color="primary"
-                                name="noTimeSelected"
-                                value={state.noTimeSelected}
+                    {/* Time */}
+                    <div className={classes.picker} style={{ marginLeft: "1rem" }}>
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left"
+                        >
+                            Pick a time
+                        </Typography>
+                        <TextField
+                            onChange={handleOnChange}
+                            {...(state.noTimeSelected && { disabled: true })}
+                            id="time"
+                            label="Time"
+                            type="time"
+                            className={classes.textField}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            inputProps={{
+                                step: 300, // 5 min
+                            }}
+                            variant="outlined"
+                            value={state.time}
+                            name="time"
+                        />
+                        <div
+                            className={classes.radioGroup}
+                        >
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={state.checkedB}
+                                        onChange={handleCheckbox}
+                                        color="primary"
+                                        name="noTimeSelected"
+                                        value={state.noTimeSelected}
+                                    />
+                                }
+                                label="All day"
                             />
-                        }
-                        label="All day"
-                    />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Location */}
                 <Typography
                     variant="subtitle1"
                     className={classes.typography}
-                    align="left">
+                    align="left"
+                    style={{ marginTop: "-3px" }}>
                     Enter a location
                     </Typography>
                 <CustomTextField
@@ -286,7 +297,7 @@ const EventForm = (props) => {
                     variant="subtitle1"
                     className={classes.typography}
                     align="left">
-                    Which member/s of the family is/are attending
+                    Family member/s attending
                     </Typography>
                 <Autocomplete
                     name="membersAttending"
