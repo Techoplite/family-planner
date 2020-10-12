@@ -58,7 +58,7 @@ const EventList = (props) => {
             },
             table: {
                 marginTop: theme.spacing(2),
-                marginBottom: theme.spacing(7),
+                marginBottom: theme.spacing(9),
             },
             row: {
                 width: "fit-content",
