@@ -260,7 +260,7 @@ const EventForm = (props) => {
                                 value={state.noTimeSelected}
                             />
                         }
-                        label="Not specified"
+                        label="All day"
                     />
                 </div>
 
