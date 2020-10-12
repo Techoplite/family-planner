@@ -11,6 +11,7 @@ import { makeStyles, Typography } from '@material-ui/core'
 import { Link, withRouter } from 'react-router-dom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import getColorValue from './outputs/ColorValues'
 
 
 
@@ -99,7 +100,7 @@ const EventList = (props) => {
                                 </TableCell>
                                 <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`}
                                     {event.membersAttending.map(member => <FiberManualRecordIcon key={member.name}
-                                        style={{ color: member.color, verticalAlign: "bottom" }} />)}
+                                        style={{ color: getColorValue(member.color), verticalAlign: "middle" }} />)}
                                 </TableCell>
                             </TableRow>
                         ))}
