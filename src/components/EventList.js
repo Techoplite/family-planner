@@ -10,6 +10,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import { makeStyles, Typography } from '@material-ui/core'
 import { Link, withRouter } from 'react-router-dom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 
 
@@ -47,15 +48,13 @@ const EventList = (props) => {
                 display: "flex",
                 justifyContent: "left",
             },
-            head: {
-                backgroundColor: "lightgrey",
-            },
             table: {
                 marginTop: theme.spacing(2),
                 // width: "fit-content"
             },
             row: {
-                // width: "fit-content"
+                width: "fit-content",
+                paddingLeft: 0
             },
             addCircleIcon: {
                 fontSize: "4.5rem",
@@ -83,8 +82,8 @@ const EventList = (props) => {
                 >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell align="right">Date</TableCell>
-                            <TableCell>Event</TableCell>
+                            <TableCell align="right" className={classes.row}>Date</TableCell>
+                            <TableCell className={classes.row}>Event</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -93,7 +92,10 @@ const EventList = (props) => {
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
                                     {event.date}
                                 </TableCell>
-                                <TableCell >{event.title}</TableCell>
+                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`}
+                                    {event.membersAttending.map(member => <FiberManualRecordIcon key={member.name}
+                                        style={{ color: member.color, verticalAlign: "bottom" }} />)}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
