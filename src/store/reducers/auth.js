@@ -63,6 +63,14 @@ const user = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             }
+        case 'ADD_EVENT_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    events: [...state.family.events, action.payload]
+                }
+            }
         default:
             return state
     }

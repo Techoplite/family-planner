@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,6 +18,21 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 
 const EventList = (props) => {
+
+    // React 
+    const initialState = {
+        events: []
+    }
+    const [state, setState] = useState(initialState)
+
+    useEffect(() => {
+        state && state.events.length === 0 && setState(() =>
+            setState({
+                ...state,
+                events: auth.family.events
+            }), []
+        )
+    })
 
     // Redux
     const { auth } = props
@@ -101,12 +116,12 @@ const EventList = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {auth.family && auth.family.events.map((event) => (
+                        {state.events && state.events.map((event) => (
                             <TableRow key={event.title}>
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
-                                    {event.date} {<br/>} {event.time}
+                                    {event.date} {<br />} {event.time}
                                 </TableCell>
-                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br/>}
+                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br />}
                                     {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
                                         style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}
                                 </TableCell>

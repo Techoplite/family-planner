@@ -11,7 +11,6 @@ const Calendar = (props) => {
 
     //React Router DOM
     const { path, url } = useRouteMatch()
-    console.log('path, url :>> ', path, url);
 
     // Redux 
     const { auth } = props
