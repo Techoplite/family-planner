@@ -12,6 +12,8 @@ import { Link, withRouter } from 'react-router-dom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import getColorValue from './outputs/ColorValues'
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -67,6 +69,12 @@ const EventList = (props) => {
                 position: "fixed",
                 bottom: "1rem",
                 right: "1rem",
+            },
+            MuiIconButton: {
+                padding: 0
+            },
+            tooltip: {
+                margin: 0
             }
         }
     ))
@@ -99,8 +107,8 @@ const EventList = (props) => {
                                     {event.date}
                                 </TableCell>
                                 <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`}
-                                    {event.membersAttending.map(member => <FiberManualRecordIcon key={member.name}
-                                        style={{ color: getColorValue(member.color), verticalAlign: "middle" }} />)}
+                                    {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
+                                        style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}
                                 </TableCell>
                             </TableRow>
                         ))}
