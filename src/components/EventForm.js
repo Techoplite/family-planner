@@ -11,7 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
-import { addEvent } from '../store/actions/event'
+import { addEvent } from '../store/actions/auth'
 import { withRouter } from 'react-router-dom';
 
 

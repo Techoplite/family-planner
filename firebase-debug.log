@@ -1,0 +1,14 @@
+[debug] [2020-10-12T10:30:50.048Z] ----------------------------------------------------------------------
+[debug] [2020-10-12T10:30:50.050Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\oricc\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-10-12T10:30:50.050Z] CLI Version:   8.10.0
+[debug] [2020-10-12T10:30:50.050Z] Platform:      win32
+[debug] [2020-10-12T10:30:50.050Z] Node Version:  v12.16.3
+[debug] [2020-10-12T10:30:50.052Z] Time:          Mon Oct 12 2020 11:30:50 GMT+0100 (British Summer Time)
+[debug] [2020-10-12T10:30:50.052Z] ----------------------------------------------------------------------
+[debug] [2020-10-12T10:30:50.052Z] 
+[debug] [2020-10-12T10:30:50.061Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-10-12T10:30:50.062Z] > authorizing via signed-in user
+[debug] [2020-10-12T10:30:50.062Z] [iam] checking project family-planner-94216 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-10-12T10:30:50.065Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-10-12T10:30:50.065Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
