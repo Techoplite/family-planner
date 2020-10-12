@@ -106,7 +106,7 @@ const EventList = (props) => {
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
                                     {event.date}
                                 </TableCell>
-                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`}
+                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br/>}
                                     {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
                                         style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}
                                 </TableCell>
