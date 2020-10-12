@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useForm, Form } from './hooks/useForm'
 import EventIcon from '@material-ui/icons/Event';
 import { makeStyles, TextField, Typography } from '@material-ui/core'
@@ -13,6 +13,12 @@ import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
 import { addEvent } from '../store/actions/auth'
 import { Redirect, withRouter } from 'react-router-dom';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 
 const EventForm = (props) => {
@@ -24,8 +30,6 @@ const EventForm = (props) => {
     const initialState = {
         redirect: false,
         title: "",
-        date: "",
-        time: "",
         noTimeSelected: false,
         location: "",
         membersAttending: [],
@@ -40,24 +44,19 @@ const EventForm = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
-    const getNowTime = () => {
-        const currentdate = new Date();
-        const time = currentdate.getHours() + ":" + (currentdate.getMinutes() < 10 ? "0" + currentdate.getMinutes() : currentdate.getMinutes())
-        return time
-    }
-
-    const setDefaultDateAndTime = () => {
-        const currentdate = new Date();
-        const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
-            + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
-        getNowTime()
+    const handleDateChange = (date) => {
         setState({
             ...state,
-            date,
-            time: getNowTime()
-        })
+            date
+        });
+    };
 
-    }
+    const handleTimeChange = (time) => {
+        setState({
+            ...state,
+            time
+        });
+    };
 
     const validate = () => {
         let errors = {}
@@ -102,17 +101,11 @@ const EventForm = (props) => {
 
     const handleCheckbox = (e) => {
         const { name, checked } = e.target
-        state.time === "" ? setState({
+        setState({
             ...state,
             [name]: checked,
-            time: getNowTime()
 
-        }) :
-            setState({
-                ...state,
-                [name]: checked,
-                time: ""
-            })
+        })
     }
 
     const { errors } = state
@@ -123,7 +116,7 @@ const EventForm = (props) => {
             familyMembers: family.members,
             membersNotAttending: family.members
         })
-        state.date === "" && state.time === "" && setDefaultDateAndTime()
+
         errors && (
             errors.title !== "" ||
             errors.date !== "" ||
@@ -152,7 +145,8 @@ const EventForm = (props) => {
                 marginTop: theme.spacing(0)
             },
             dateTimeWrapper: {
-                display: "flex"
+                display: "flex",
+                justifyContent: "space-evenly"
             },
             radioGroup: {
                 display: "flex",
@@ -160,7 +154,7 @@ const EventForm = (props) => {
             },
             picker: {
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
             }
         }
     ))
@@ -183,7 +177,6 @@ const EventForm = (props) => {
                     variant="subtitle1"
                     className={classes.typography}
                     align="left"
-                    style={{ width: "50%" }}
                 >
                     Enter a title
                     </Typography>
@@ -210,27 +203,31 @@ const EventForm = (props) => {
                         >
                             Pick a date
                 </Typography>
-                        <TextField
-                            onChange={handleOnChange}
-                            id="date"
-                            label="Date"
-                            type="date"
-                            className={classes.textField}
-                            // stlye={{ minWidth: "310px" }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            variant="outlined"
-                            value={state.date}
-                            name="date"
-                            required
-                            error={state.errors.date ? true : false}
-                            helperText={state.errors.date}
-                        />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePicker
+                                style={{ width: "170px" }}
+                                placeholder="12/10/2020"
+                                onChange={date => handleDateChange(date)}
+                                format="dd/MM/yyyy"
+                                id="date"
+                                label="Date"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputVariant="outlined"
+                                value={state.date}
+                                name="date"
+                                required
+                                error={state.errors.date ? true : false}
+                                helperText={state.errors.date}
+                            />
+                        </MuiPickersUtilsProvider>
                     </div>
 
                     {/* Time */}
-                    <div className={classes.picker} style={{ marginLeft: "1rem" }}>
+                    <div className={classes.picker}
+                        style={{ width: "160px" }}>
                         <Typography
                             variant="subtitle1"
                             className={classes.typography}
@@ -238,39 +235,42 @@ const EventForm = (props) => {
                         >
                             Pick a time
                         </Typography>
-                        <TextField
-                            onChange={handleOnChange}
-                            {...(state.noTimeSelected && { disabled: true })}
-                            id="time"
-                            label="Time"
-                            type="time"
-                            className={classes.textField}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            inputProps={{
-                                step: 300, // 5 min
-                            }}
-                            variant="outlined"
-                            value={state.time}
-                            name="time"
-                        />
-                        <div
-                            className={classes.radioGroup}
-                        >
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={state.checkedB}
-                                        onChange={handleCheckbox}
-                                        color="primary"
-                                        name="noTimeSelected"
-                                        value={state.noTimeSelected}
-                                    />
-                                }
-                                label="All day"
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardTimePicker
+                                placeholder="08:00 AM"
+                                mask="__:__ _M"
+                                onChange={time => handleTimeChange(time)}
+                                {...(state.noTimeSelected && { disabled: true })}
+                                id="time"
+                                label="Time"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    step: 300, // 5 min
+                                }}
+                                inputVariant="outlined"
+                                value={state.time}
+                                name="time"
                             />
-                        </div>
+                            <div
+                                className={classes.radioGroup}
+                            >
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={state.checkedB}
+                                            onChange={handleCheckbox}
+                                            color="primary"
+                                            name="noTimeSelected"
+                                            value={state.noTimeSelected}
+                                        />
+                                    }
+                                    label="All day"
+                                />
+                            </div>
+                        </MuiPickersUtilsProvider>
                     </div>
                 </div>
 
