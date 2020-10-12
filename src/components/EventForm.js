@@ -40,15 +40,21 @@ const EventForm = (props) => {
 
     const { state, handleOnChange, setState } = useForm(initialState)
 
+    const getNowTime = () => {
+        const currentdate = new Date();
+        const time = currentdate.getHours() + ":" + (currentdate.getMinutes() < 10 ? "0" + currentdate.getMinutes() : currentdate.getMinutes())
+        return time
+    }
+
     const setDefaultDateAndTime = () => {
         const currentdate = new Date();
         const date = currentdate.getFullYear() + "-" + ((currentdate.getMonth() + 1) < 10 ? "0" + (currentdate.getMonth() + 1) : (currentdate.getMonth() + 1))
             + "-" + (currentdate.getDate() < 10 ? "0" + currentdate.getDate() : currentdate.getDate())
-        const time = currentdate.getHours() + ":" + (currentdate.getMinutes() < 10 ? "0" + currentdate.getMinutes() : currentdate.getMinutes())
+        getNowTime()
         setState({
             ...state,
             date,
-            time
+            time: getNowTime()
         })
 
     }
@@ -96,11 +102,17 @@ const EventForm = (props) => {
 
     const handleCheckbox = (e) => {
         const { name, checked } = e.target
-        setState({
+        state.time === "" ? setState({
             ...state,
             [name]: checked,
-            time: ""
-        })
+            time: getNowTime()
+
+        }) :
+            setState({
+                ...state,
+                [name]: checked,
+                time: ""
+            })
     }
 
     const { errors } = state
