@@ -19,23 +19,23 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const EventList = (props) => {
 
+    // Redux
+    const { auth } = props
+
     // React 
     const initialState = {
-        events: []
+        events: [],
     }
     const [state, setState] = useState(initialState)
 
     useEffect(() => {
-        state && state.events.length === 0 && setState(() =>
-            setState({
-                ...state,
+        state && auth.family && setState((prevState) =>
+            ({
+                ...prevState,
                 events: auth.family.events
-            }), []
-        )
-    })
-
-    // Redux
-    const { auth } = props
+            }
+            ))
+    }, [auth.family && auth.family])
 
 
     // Material UI
@@ -116,8 +116,8 @@ const EventList = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {state.events && state.events.map((event) => (
-                            <TableRow key={event.title}>
+                        {state && state.events.map((event) => (
+                            <TableRow key={event.title + state.events.indexOf(event)}>
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
                                     {event.date} {<br />} {event.time}
                                 </TableCell>

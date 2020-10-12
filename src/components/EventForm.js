@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, Form } from './hooks/useForm'
 import EventIcon from '@material-ui/icons/Event';
 import { makeStyles, TextField, Typography } from '@material-ui/core'
@@ -12,17 +12,17 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
 import { addEvent } from '../store/actions/auth'
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 
 const EventForm = (props) => {
-
 
     // Redux 
     const { family, user } = props
 
     // React 
     const initialState = {
+        redirect: false,
         title: "",
         date: "",
         time: "",
@@ -61,7 +61,8 @@ const EventForm = (props) => {
         errors.location = (errors.location = (/^[A-Za-z]+$/i).test(state.location) || state.location === "" ? "" : "Location cannot contain numbers.")
         setState({
             ...state,
-            errors
+            errors,
+            redirect: true
         })
         return Object.values(errors).every(value => value === "")
     }
@@ -69,6 +70,12 @@ const EventForm = (props) => {
     const handleOnSubmit = async e => {
         e.preventDefault()
         validate() && props.addEvent(state, family.password, user)
+        return () => {
+            setState({
+                ...state,
+                redirect: false
+            })
+        }
     }
 
     const handleMembersAttendingOnChange = (e) => {
@@ -108,7 +115,7 @@ const EventForm = (props) => {
         errors && (
             errors.title !== "" ||
             errors.date !== "" ||
-            errors.location !== "") && props.setMessage("Please check all fields", "error") && console.log("error");
+            errors.location !== "") && props.setMessage("Please check all fields", "error");
     })
 
     // Material UI
@@ -146,6 +153,7 @@ const EventForm = (props) => {
 
     return (
         <>
+            {state.redirect && <Redirect to="/calendar/events" />}
             <div>WORK IN PROGRESS...</div>
             <br />
             <br />

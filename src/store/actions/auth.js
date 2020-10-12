@@ -262,8 +262,6 @@ export const findFamily = (password) => {
                                 }
                             })
                         } else {
-                            console.log("too many members")
-
                             dispatch({
                                 type: "FIND_FAMILY_ERROR",
                                 payload: {
@@ -360,8 +358,6 @@ export const addEvent = (state, familyPassword, user) => {
                         family: familyPassword,
                         user
                     })
-                    console.log('family :>> ', family);
-                    console.log('familyDOCRef :>> ', familyDOCRef);
                     firestore.runTransaction(transaction => {
                         return transaction.get(familyDOCRef)
                             .then(doc => {
