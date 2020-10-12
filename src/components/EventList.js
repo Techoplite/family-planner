@@ -48,9 +48,14 @@ const EventList = (props) => {
                 display: "flex",
                 justifyContent: "left",
             },
+            head: {
+                backgroundColor: "lightgrey",
+                width: "fit-content",
+                paddingLeft: 0
+            },
             table: {
                 marginTop: theme.spacing(2),
-                // width: "fit-content"
+                marginBottom: theme.spacing(7),
             },
             row: {
                 width: "fit-content",
@@ -76,14 +81,14 @@ const EventList = (props) => {
             <TableContainer>
                 <Table
                     stickyHeader
-                    // size="small"
+                    size="small"
                     aria-label="sticky table"
                     className={classes.table}
                 >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell align="right" className={classes.row}>Date</TableCell>
-                            <TableCell className={classes.row}>Event</TableCell>
+                            <TableCell align="right" className={classes.head}>Date</TableCell>
+                            <TableCell className={classes.head}>Event</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
