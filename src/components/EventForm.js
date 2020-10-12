@@ -91,7 +91,8 @@ const EventForm = (props) => {
         const { name, checked } = e.target
         setState({
             ...state,
-            [name]: checked
+            [name]: checked,
+            time: ""
         })
     }
 
