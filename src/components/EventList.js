@@ -104,7 +104,7 @@ const EventList = (props) => {
                         {auth.family && auth.family.events.map((event) => (
                             <TableRow key={event.title}>
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
-                                    {event.date}
+                                    {event.date} {<br/>} {event.time}
                                 </TableCell>
                                 <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br/>}
                                     {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
