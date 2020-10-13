@@ -224,6 +224,7 @@ const EventForm = (props) => {
                                 required
                                 error={state.errors.date ? true : false}
                                 helperText={state.errors.date}
+                                minDate={new Date()}
                             />
                         </MuiPickersUtilsProvider>
                     </div>
