@@ -90,7 +90,8 @@ const EventList = (props) => {
             },
             tooltip: {
                 margin: 0
-            }
+            },
+            time: { color: "grey" }
         }
     ))
 
@@ -119,7 +120,12 @@ const EventList = (props) => {
                         {state && state.events.map((event) => (
                             <TableRow key={event.title + state.events.indexOf(event)}>
                                 <TableCell align="right" component="th" scope="row" className={classes.row}>
-                                    {event.date} {<br />} {event.time}
+                                    <div>
+                                        {event.date}
+                                    </div>
+                                    <div className={classes.time}>
+                                        {event.time}
+                                    </div>
                                 </TableCell>
                                 <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br />}
                                     {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}

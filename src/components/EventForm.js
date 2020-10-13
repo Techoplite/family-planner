@@ -65,11 +65,10 @@ const EventForm = (props) => {
         errors.title = (state.title ? "" : "Title is required.") ||
             (/.*[a-zA-Z].*/i.test(state.title) ? "" : "Title must contain letters.")
         errors.date = (state.date ? "" : "Date is required.")
-        errors.location = (errors.location = (/^[A-Za-z]+$/i).test(state.location) || state.location === "" ? "" : "Location cannot contain numbers.")
+        errors.location = (errors.location = (/^[A-Za-z ]+$/i).test(state.location) || state.location === "" ? "" : "Location cannot contain numbers.")
         setState({
             ...state,
             errors,
-            redirect: true
         })
         return Object.values(errors).every(value => value === "")
     }
@@ -93,20 +92,29 @@ const EventForm = (props) => {
         return day + "/" + month + "/" + year
     }
 
+    const redirect = () => {
+        setState({
+            ...state,
+            redirect: true
+        })
+    }
+
     const handleOnSubmit = async e => {
         e.preventDefault()
         convertTime(state.date)
         convertDate(state.time)
         if (validate()) {
-            const time = state.noTimeSelected ? "" : convertTime(state.date)
+            const time = state.noTimeSelected ? "" : convertTime(state.time)
+            const location = state.location[0].toUpperCase() + state.location.substring(1)
             const convertedState = {
                 ...state,
                 date: convertDate(state.date),
-                time
+                time,
+                location,
             }
             props.addEvent(convertedState, family.password, user)
+            redirect()
         }
-
         return () => {
             setState({
                 ...state,
@@ -153,10 +161,6 @@ const EventForm = (props) => {
             errors.title !== "" ||
             errors.date !== "" ||
             errors.location !== "") && props.setMessage("Please check all fields", "error")
-
-        console.log('convertTime(state.time)', convertTime(state.time))
-
-
     })
 
 
