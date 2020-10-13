@@ -35,6 +35,8 @@ const EventForm = (props) => {
         membersAttending: [],
         membersNotAttending: [],
         familyMembers: [],
+        date: new Date(),
+        time: new Date(),
         errors: {
             title: "",
             date: "",
@@ -72,9 +74,39 @@ const EventForm = (props) => {
         return Object.values(errors).every(value => value === "")
     }
 
+    const convertTime = (date) => {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        hours = hours < 10 ? '0' + hours : hours;
+        const strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
+    const convertDate = (date) => {
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
+        return day + "/" + month + "/" + year
+    }
+
     const handleOnSubmit = async e => {
         e.preventDefault()
-        validate() && props.addEvent(state, family.password, user)
+        convertTime(state.date)
+        convertDate(state.time)
+        if (validate()) {
+            const time = state.noTimeSelected ? "" : convertTime(state.date)
+            const convertedState = {
+                ...state,
+                date: convertDate(state.date),
+                time
+            }
+            props.addEvent(convertedState, family.password, user)
+        }
+
         return () => {
             setState({
                 ...state,
@@ -120,8 +152,14 @@ const EventForm = (props) => {
         errors && (
             errors.title !== "" ||
             errors.date !== "" ||
-            errors.location !== "") && props.setMessage("Please check all fields", "error");
+            errors.location !== "") && props.setMessage("Please check all fields", "error")
+
+        console.log('convertTime(state.time)', convertTime(state.time))
+
+
     })
+
+
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -209,7 +247,6 @@ const EventForm = (props) => {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
                                 style={{ width: "150px" }}
-                                placeholder="12/10/2020"
                                 onChange={date => handleDateChange(date)}
                                 format="dd/MM/yyyy"
                                 id="date"
@@ -241,7 +278,6 @@ const EventForm = (props) => {
                         </Typography>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardTimePicker
-                                placeholder="08:00 AM"
                                 mask="__:__ _M"
                                 onChange={time => handleTimeChange(time)}
                                 {...(state.noTimeSelected && { disabled: true })}
