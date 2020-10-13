@@ -142,7 +142,10 @@ const EventForm = (props) => {
                 marginTop: theme.spacing(4)
             },
             customTextField: {
-                marginTop: theme.spacing(0)
+                marginTop: theme.spacing(0),
+                "& .MuiIconButton-root": {
+                    padding: 0
+                }
             },
             dateTimeWrapper: {
                 display: "flex",
@@ -205,13 +208,13 @@ const EventForm = (props) => {
                 </Typography>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <KeyboardDatePicker
-                                style={{ width: "170px" }}
+                                style={{ width: "150px" }}
                                 placeholder="12/10/2020"
                                 onChange={date => handleDateChange(date)}
                                 format="dd/MM/yyyy"
                                 id="date"
                                 label="Date"
-                                className={classes.textField}
+                                className={classes.customTextField}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -227,7 +230,7 @@ const EventForm = (props) => {
 
                     {/* Time */}
                     <div className={classes.picker}
-                        style={{ width: "160px" }}>
+                        style={{ width: "140px" }}>
                         <Typography
                             variant="subtitle1"
                             className={classes.typography}
@@ -243,7 +246,7 @@ const EventForm = (props) => {
                                 {...(state.noTimeSelected && { disabled: true })}
                                 id="time"
                                 label="Time"
-                                className={classes.textField}
+                                className={classes.customTextField}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
