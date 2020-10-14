@@ -390,3 +390,47 @@ export const addEvent = (state, familyPassword, user) => {
             })
     }
 }
+
+export const deleteEvent = (eventToDelete, familyPassword) => {
+    return (dispatch, getState, { getFirestore }) => {
+
+        const firestore = getFirestore()
+
+
+        firestore.collection("families").where("family.password", "==", familyPassword).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const family = doc.data().family
+                    const familyDOCRef = doc.ref
+                    const newEvents = family.events.filter(familyEvent => {
+                        return (
+                            familyEvent.title !== eventToDelete.title &&
+                            familyEvent.date !== eventToDelete.date &&
+                            familyEvent.time !== eventToDelete.time
+                        )
+                    })
+                    family.events = newEvents
+                    firestore.runTransaction(transaction => {
+                        return transaction.get(familyDOCRef)
+                            .then(doc => {
+                                doc.exists &&
+                                    transaction.update(familyDOCRef, {
+                                        family
+                                    }
+                                    )
+                            })
+                    })
+                })
+            })
+            .then(() => {
+                dispatch({
+                    type: "DELETE_EVENT_SUCCESS",
+                    payload: eventToDelete
+                })
+                dispatch(
+                    setMessage("Event successfully deleted from family calendar.", "success")
+                )
+            })
+    }
+}
+

@@ -71,6 +71,16 @@ const user = (state = initialState, action) => {
                     events: [...state.family.events, action.payload]
                 }
             }
+        case 'DELETE_EVENT_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    events: [...state.family.events.filter(familyEvent => {
+                        return familyEvent !== action.payload
+                    })]
+                }
+            }
         default:
             return state
     }

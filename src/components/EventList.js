@@ -14,6 +14,15 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import getColorValue from './outputs/ColorValues'
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { deleteEvent } from '../store/actions/auth'
+
 
 
 
@@ -25,8 +34,39 @@ const EventList = (props) => {
     // React 
     const initialState = {
         events: [],
+        alert: false,
+        eventSelected: {}
     }
     const [state, setState] = useState(initialState)
+
+    const handleClickOpen = (e, eventItem) => {
+        e.preventDefault()
+        const eventSelected = auth.family.events.find(familyEvent =>
+            familyEvent.title === eventItem.title &&
+            familyEvent.date === eventItem.date &&
+            familyEvent.time === eventItem.time
+        )
+        setState({
+            ...state,
+            alert: true,
+            eventSelected
+        })
+    };
+
+    const handleClose = () => {
+        setState({
+            ...state,
+            alert: false
+        })
+    };
+
+    const handleDelete = () => {
+        setState({
+            ...state,
+            alert: false
+        })
+        props.deleteEvent(state.eventSelected, auth.family.password)
+    };
 
     useEffect(() => {
         state && auth.family && setState((prevState) =>
@@ -91,7 +131,21 @@ const EventList = (props) => {
             tooltip: {
                 margin: 0
             },
-            time: { color: "grey" }
+            time: { color: "grey" },
+            delete: {
+                display: "inline",
+                color: "#ba000d",
+                paddingLeft: theme.spacing(1)
+            },
+            eventWrapper: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+            },
+            textWrapper: {
+                diisplay: "flex",
+                flexDirection: "column"
+            }
         }
     ))
 
@@ -127,25 +181,66 @@ const EventList = (props) => {
                                         {event.time}
                                     </div>
                                 </TableCell>
-                                <TableCell className={classes.row}>{event.title} {event.location && `[${event.location}]`} {<br />}
-                                    {event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
-                                        style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}
+                                <TableCell className={classes.row}>
+                                    <div className={classes.eventWrapper}>
+                                        <div className={classes.textWrapper}>
+                                            <div>  {event.title} {event.location && `[${event.location}]`}</div>
+                                            <div>{event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
+                                                style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}</div>
+                                        </div>
+                                        <div className={classes.delete} onClick={e => handleClickOpen(e, event)}
+                                        ><DeleteIcon />
+                                        </div>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog
+                open={state.alert}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Delete this event?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {`By pressing the delete button event '${state.eventSelected.title}' will be permanently deleted from your list.`}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={handleClose}
+                        color="primary"
+                    >
+                        Back
+          </Button>
+                    <Button
+                        onClick={handleDelete}
+                        color="primary" autoFocus
+                    >
+                        Delete
+          </Button>
+                </DialogActions>
+            </Dialog>
             <Link to="/calendar/add-event"><AddCircleIcon className={classes.addCircleIcon} color="secondary" /></Link>
         </>
     );
 }
 
 // Redux
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         auth: state.auth
     }
 }
 
-export default withRouter(connect(mapStateToProps)(EventList));
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteEvent: (eventToDelete, familyPassword) => dispatch(deleteEvent(eventToDelete, familyPassword))
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EventList));
