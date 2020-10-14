@@ -209,9 +209,6 @@ const EventForm = (props) => {
     return (
         <>
             {state.redirect && <Redirect to="/calendar/events" />}
-            <div>WORK IN PROGRESS...</div>
-            <br />
-            <br />
             <EventIcon className={classes.icon} />
             <Form
                 title="Add new event"
