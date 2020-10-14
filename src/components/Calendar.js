@@ -17,7 +17,6 @@ const Calendar = (props) => {
 
     return (
         <>
-            
             {auth.family && auth.family.events.length > 0 ?
                 <Redirect to={`${url}/events`} />
                 :
