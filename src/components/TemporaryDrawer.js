@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Drawer, makeStyles, ListItem, ListItemText, List } from '@material-ui/core'
+import { Drawer, makeStyles, ListItem, ListItemText, List, Divider } from '@material-ui/core'
 import { logout } from './../store/actions/auth'
 import { connect } from 'react-redux'
 import { setMessage } from './../store/actions/message'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Link } from 'react-router-dom'
-
-
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { Link, Redirect } from 'react-router-dom'
+import TodayIcon from '@material-ui/icons/Today';
+import EventIcon from '@material-ui/icons/Event';
 
 const TemporaryDrawer = (props) => {
     // Redux
@@ -26,27 +27,44 @@ const TemporaryDrawer = (props) => {
             temporaryDrawer: false
         })
     }
-    const getLink = (text) => {
-        switch (text) {
-            case 'Log in':
-                return '/login'
-            case 'Sign up':
-                return '/signup'
-            default:
-                return ''
-        }
-    }
 
     useEffect(() => {
         const getList = () => {
             auth && auth.isEmpty ?
                 setState(state => ({
                     ...state,
-                    list: ['Log in', 'Sign up']
+                    list: [
+                        {
+                            name: 'Log in',
+                            link: '/login',
+                            TagName: VpnKeyIcon
+                        },
+                        {
+                            name: 'Sign up',
+                            link: '/signup',
+                            TagName: AccountCircleIcon
+                        }
+                    ]
                 })) :
                 setState(state => ({
                     ...state,
-                    list: ['Log out']
+                    list: [
+                        {
+                            name: 'Log out',
+                            link: '/logout',
+                            TagName: ExitToAppIcon
+                        },
+                        {
+                            name: 'Events',
+                            link: '/calendar/events',
+                            TagName: TodayIcon
+                        },
+                        {
+                            name: 'Add event',
+                            link: '/calendar/add-event',
+                            TagName: EventIcon
+                        },
+                    ]
                 }))
         };
         getList()
@@ -54,7 +72,8 @@ const TemporaryDrawer = (props) => {
 
     const handleOnClick = (e) => {
         e.preventDefault()
-        if (e.currentTarget.children[0].innerText === 'Log out') {
+        if (e.target.innerText === 'Log out') {
+            console.log("code reached here")
             props.logout()
             props.setMessage("Logout successful.", "success")
             props.setState({
@@ -68,6 +87,17 @@ const TemporaryDrawer = (props) => {
         })
 
     }
+
+    const getTagName = (item) => {
+        const TagName = item.TagName
+        return (
+            <TagName
+                className={classes.ExitToAppIcon}
+                color="action"
+            />
+        )
+    }
+
 
     // Material UI
     const useStyles = makeStyles(theme => ({
@@ -87,34 +117,40 @@ const TemporaryDrawer = (props) => {
 
     const classes = useStyles()
 
-    return (
-        <Drawer
-            open={props.open}
-            anchor="right"
-            onClose={handleOnClose}>
-            <List>
-                {state.list && state.list.map(text =>
 
-                    <ListItem
-                        button
-                        onClick={handleOnClick}
-                        key={text}
-                    >
-                        <Link
-                            to={getLink(text)}
-                            className={classes.link}>
-                            <ExitToAppIcon
-                                className={classes.ExitToAppIcon}
-                                color="action"
-                            />
-                            <ListItemText
-                                primary={text}
-                            />
-                        </Link>
-                    </ListItem>
-                )}
-            </List>
-        </Drawer >
+    return (
+        <>
+            { auth.userProfile === undefined && <Redirect to='/' />}
+            <Drawer
+                open={props.open}
+                anchor="right"
+                onClose={handleOnClose}>
+                <List>
+                    {state.list && state.list.map(item =>
+                        <React.Fragment
+                            key={item.name}
+                        >
+                            <ListItem
+                                button
+                                onClick={handleOnClick}
+                                key={item.name}
+                            >
+                                {getTagName(item)}
+                                <Link
+                                    to={item.link}
+                                    className={classes.link}>
+
+                                    <ListItemText
+                                        primary={item.name}
+                                    />
+                                </Link>
+                            </ListItem>
+                            {item.name === 'Log out' && <Divider />}
+                        </React.Fragment>
+                    )}
+                </List>
+            </Drawer >
+        </>
     );
 }
 

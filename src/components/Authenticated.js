@@ -10,10 +10,6 @@ import { Link, Switch, Route } from 'react-router-dom'
 import Calendar from './Calendar'
 import ShoppingList from './ShoppingList'
 import TodoList from './TodoList'
-import EventList from './EventList';
-import EventForm from './EventForm';
-
-
 
 
 const Authenticated = (props) => {
