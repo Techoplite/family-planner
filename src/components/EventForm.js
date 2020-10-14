@@ -105,7 +105,7 @@ const EventForm = (props) => {
         convertDate(state.time)
         if (validate()) {
             const time = state.noTimeSelected ? "" : convertTime(state.time)
-            const location = state.location[0].toUpperCase() + state.location.substring(1)
+            const location = state.location !== "" && state.location[0].toUpperCase() + state.location.substring(1)
             const convertedState = {
                 ...state,
                 date: convertDate(state.date),
