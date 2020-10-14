@@ -108,17 +108,12 @@ const EventList = (props) => {
             },
             head: {
                 backgroundColor: "lightgrey",
-                width: "fit-content",
-                paddingLeft: 0
             },
             table: {
                 marginTop: theme.spacing(2),
                 marginBottom: theme.spacing(9),
             },
-            row: {
-                width: "fit-content",
-                paddingLeft: 0
-            },
+
             addCircleIcon: {
                 fontSize: "4.5rem",
                 position: "fixed",
@@ -166,14 +161,14 @@ const EventList = (props) => {
                 >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell align="right" className={classes.head}>Date</TableCell>
+                            <TableCell align="right" className={classes.head} style={{ width: "10%" }}>Date</TableCell>
                             <TableCell className={classes.head}>Event</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {state && state.events.map((event) => (
                             <TableRow key={event.title + state.events.indexOf(event)}>
-                                <TableCell align="right" component="th" scope="row" className={classes.row}>
+                                <TableCell align="right" component="th" scope="row" style={{ width: "10%" }}>
                                     <div>
                                         {event.date}
                                     </div>
@@ -181,7 +176,7 @@ const EventList = (props) => {
                                         {event.time}
                                     </div>
                                 </TableCell>
-                                <TableCell className={classes.row}>
+                                <TableCell >
                                     <div className={classes.eventWrapper}>
                                         <div className={classes.textWrapper}>
                                             <div>  {event.title} {event.location && `[${event.location}]`}</div>
