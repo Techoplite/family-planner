@@ -129,7 +129,7 @@ const EventList = (props) => {
             time: { color: "grey" },
             delete: {
                 display: "inline",
-                color: "#ba000d",
+                color: "#f44336",
                 paddingLeft: theme.spacing(1)
             },
             eventWrapper: {
