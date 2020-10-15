@@ -135,12 +135,12 @@ const EventList = (props) => {
             eventWrapper: {
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center"
+                alignItems: "end"
             },
             textWrapper: {
                 diisplay: "flex",
                 flexDirection: "column"
-            }
+            },
         }
     ))
 
@@ -148,79 +148,85 @@ const EventList = (props) => {
 
     return (
         <>
-            <TodayIcon className={classes.icon} />
-            <Typography variant="h5">
-                Events
+                <TodayIcon className={classes.icon} />
+                <Typography variant="h5">
+                    Events
             </Typography>
-            <TableContainer>
-                <Table
-                    stickyHeader
-                    size="small"
-                    aria-label="sticky table"
-                    className={classes.table}
-                >
-                    <TableHead className={classes.head}>
-                        <TableRow>
-                            <TableCell align="right" className={classes.head} style={{ width: "10%" }}>Date</TableCell>
-                            <TableCell className={classes.head}>Event</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {state && state.events.map((event) => (
-                            <TableRow key={event.title + state.events.indexOf(event)}>
-                                <TableCell align="right" component="th" scope="row" style={{ width: "10%" }}>
-                                    <div>
-                                        {event.date}
-                                    </div>
-                                    <div className={classes.time}>
-                                        {event.time}
-                                    </div>
-                                </TableCell>
-                                <TableCell >
-                                    <div className={classes.eventWrapper}>
-                                        <div className={classes.textWrapper}>
-                                            <div>  {event.title} {event.location && `[${event.location}]`}</div>
-                                            <div>{event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
-                                                style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}</div>
-                                        </div>
-                                        <div className={classes.delete} onClick={e => handleClickOpen(e, event)}
-                                        ><DeleteIcon />
-                                        </div>
-                                    </div>
-                                </TableCell>
+                <TableContainer>
+                    <Table
+                        stickyHeader
+                        aria-label="sticky table"
+                        className={classes.table}
+                    >
+                        <TableHead className={classes.head}>
+                            <TableRow>
+                                <TableCell align="right" className={classes.head} style={{
+                                    width: "10%", verticalAlign: "baseline"
+                                }}>Date</TableCell>
+                                <TableCell className={classes.head}>Event</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Dialog
-                open={state.alert}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{"Delete this event?"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {`By pressing the delete button event '${state.eventSelected.title}' will be permanently deleted from your list.`}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={handleClose}
-                        color="primary"
-                    >
-                        Back
+                        </TableHead>
+                        <TableBody>
+                            {state && state.events.map((event) => (
+                                <TableRow key={event.title + state.events.indexOf(event)}>
+                                    <TableCell align="right" component="th" scope="row" style={{
+                                        width: "10%",
+                                        verticalAlign: "baseline"
+                                    }}>
+                                        <div>
+                                            {event.date}
+                                        </div>
+                                        <div className={classes.time}>
+                                            {event.time}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell >
+                                        <div className={classes.eventWrapper}>
+                                            <div className={classes.textWrapper}>
+                                                <div>  {event.title} {event.location && `[${event.location}]`}</div>
+                                                <div>{event.membersAttending.map(member => <Tooltip arrow title={member.name} key={member.email} className={classes.tooltip} ><IconButton className={classes.MuiIconButton}><FiberManualRecordIcon key={member.name}
+                                                    style={{ color: getColorValue(member.color), verticalAlign: "middle" }} /></IconButton></Tooltip>)}</div>
+                                            </div>
+                                            <div className={classes.delete} onClick={e => handleClickOpen(e, event)}
+                                            ><DeleteIcon />
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Dialog
+                    open={state.alert}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Delete this event?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {`By pressing the delete button event '${state.eventSelected.title}' will be permanently deleted from your list.`}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={handleClose}
+                            color="primary"
+                        >
+                            Back
           </Button>
-                    <Button
-                        onClick={handleDelete}
-                        color="primary" autoFocus
-                    >
-                        Delete
+                        <Button
+                            onClick={handleDelete}
+                            color="primary" autoFocus
+                        >
+                            Delete
           </Button>
-                </DialogActions>
-            </Dialog>
-            <Link to="/calendar/add-event"><AddCircleIcon className={classes.addCircleIcon} color="secondary" /></Link>
+                    </DialogActions>
+                </Dialog>
+                <Link to="/calendar/add-event">
+                    <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+                </Link>
         </>
     );
 }
