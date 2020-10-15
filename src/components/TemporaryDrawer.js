@@ -120,7 +120,7 @@ const TemporaryDrawer = (props) => {
 
     return (
         <>
-            { auth.userProfile === undefined && <Redirect to='/' />}
+            { auth.email === undefined && <Redirect to='/' />}
             <Drawer
                 open={props.open}
                 anchor="right"
