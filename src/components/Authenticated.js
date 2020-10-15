@@ -41,8 +41,7 @@ const Authenticated = (props) => {
             {auth.userProfile.email && <Redirect to='/' />}
             <Switch>
                 <Route exact path="/">
-                    This is a work in progress...
-            <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
+                    <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
                         <Grid item xs={8} sm={12}>
                             <Link className={classes.link} to="/calendar">
                                 <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
