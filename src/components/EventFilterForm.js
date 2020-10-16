@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import getColorValue from './outputs/ColorValues'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -10,17 +10,9 @@ import DateFnsUtils from '@date-io/date-fns';
 const EventFilterform = (props) => {
 
     // React
-    const { familyMembers } = props
+    const { initialState } = props
 
-    const initialState = {
-        byMembersAttending: [],
-        familyMembers: [],
-        noSingleDay: true,
-        byMultipleDays: "all-events",
-        bySingleDay: new Date(),
-
-    }
-    const [state, setState] = useState(initialState)
+    const [state, setState] = useState(initialState.filter)
 
     const handleChange = (e, color) => {
         const { name } = e.target
@@ -35,7 +27,6 @@ const EventFilterform = (props) => {
                 byMembersAttending: [...state.byMembersAttending, { name, color }]
             })
         }
-
     };
 
     const handleRadioChange = (event) => {
@@ -62,11 +53,12 @@ const EventFilterform = (props) => {
     }
 
     useEffect(() => {
-        setState(prevState => ({
-            ...prevState,
-            familyMembers
-        }))
-    }, [])
+        state.noSingleDay === false &&
+            setState(prevState => ({
+                ...prevState,
+                byMultipleDays: "all-events"
+            }))
+    }, [state.noSingleDay])
 
     // Material UI
     const useStyles = makeStyles((theme) => ({
@@ -157,8 +149,8 @@ const EventFilterform = (props) => {
             <div className={classes.wrapper}>
                 <FormLabel component="legend" className={classes.FormLabel}>By multiple days</FormLabel>
                 <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.byMultipleDays} onChange={handleRadioChange}>
-                    <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" />
-                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month" />
+                    <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.noSingleDay === false && { disabled: true })} />
+                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.noSingleDay === false && { disabled: true })} />
                     <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" />
                 </RadioGroup>
             </div>

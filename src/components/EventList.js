@@ -37,7 +37,14 @@ const EventList = (props) => {
         events: [],
         alert: false,
         eventSelected: {},
-        alertFilter: false
+        alertFilter: false,
+        filter: {
+            byMembersAttending: [],
+            familyMembers: [],
+            noSingleDay: true,
+            byMultipleDays: "all-events",
+            bySingleDay: new Date(),
+        }
     }
     const [state, setState] = useState(initialState)
 
@@ -88,7 +95,14 @@ const EventList = (props) => {
         state && auth.family && setState((prevState) =>
             ({
                 ...prevState,
-                events: auth.family.events
+                events: auth.family.events,
+                filter: {
+                    ...prevState,
+                    filter: {
+                        ...prevState.filter,
+                        familyMembers: auth.family.members
+                    }
+                }
             }
             ))
     }, [auth.family && auth.family])
@@ -262,7 +276,9 @@ const EventList = (props) => {
             <Dialog open={state.alertFilter} onClose={handleClose}>
                 <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
                 <DialogContent>
-                    <EventFilterform familyMembers={auth.family.members} />
+                    <EventFilterform
+                        initialState={state.filter}
+                    />
                     <DialogActions>
                         <Button
                             onClick={handleCloseFilter}
