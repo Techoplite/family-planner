@@ -109,11 +109,15 @@ const EventList = (props) => {
   };
 
   const handleFilter = () => {
-    let eventsFiltered = state.eventsFiltered;
+    let eventsFiltered = state.events;
+    console.log("before", eventsFiltered);
 
     if (state.filter.noSingleDay === false) {
       eventsFiltered = eventsFiltered.filter(
-        (event) => event.date === state.filter.bySingleDay
+        (familyEvent) =>
+          familyEvent.rawDate.toString().substring(0, 15) ===
+            state.filter.bySingleDay.toString().substring(0, 15) &&
+          familyEvent.rawDate.toString().substring(0, 15)
       );
     } else if (state.filter.noSingleDay) {
       switch (state.filter.byMultipleDays) {
@@ -123,10 +127,14 @@ const EventList = (props) => {
               isWithingNext7Days(familyEvent.rawDate) === true && familyEvent
           );
           break;
+        case "all-events":
+          break;
         default:
-          return eventsFiltered;
+          break;
       }
     }
+    console.log(eventsFiltered);
+
     return setState({
       ...state,
       alertFilter: false,
