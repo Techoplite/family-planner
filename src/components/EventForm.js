@@ -109,6 +109,7 @@ const EventForm = (props) => {
             const convertedState = {
                 ...state,
                 date: convertDate(state.date),
+                rawDate: state.date.toString(),
                 time,
                 location,
             }

@@ -94,27 +94,44 @@ const EventList = (props) => {
         })
     };
 
+    const isWithingNext7Days = (date) => {
+        // const lastDateAvailable = (new Date(Date.now() + 7 * 24 * 60 * 60 * 1000))
+        // console.log('lastDateAvailable.getDate()', lastDateAvailable.getDate())
+        // console.log('date.getDate()', date.getDate())
+        const today = new Date();
+        const nextWeek = Date.parse(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7));
+
+        if (nextWeek < Date.parse(date)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const handleFilter = () => {
         let eventsFiltered = state.eventsFiltered
+
         if (state.filter.noSingleDay === false) {
-            eventsFiltered = eventsFiltered.filter(event => event.date === convertDate(state.filter.bySingleDay))
+            eventsFiltered = eventsFiltered.filter(event => event.date === state.filter.bySingleDay)
+        } else if (state.filter.noSingleDay) {
+            switch (state.filter.byMultipleDays) {
+                case 'next-7-days':
+                    eventsFiltered = eventsFiltered.filter(familyEvent => isWithingNext7Days(familyEvent.rawDate) === true && familyEvent
+                    )
+                    break
+                default:
+                    return eventsFiltered
+
+            }
+
         }
-        // console.log('eventsFiltered', eventsFiltered)
         return setState({
             ...state,
             alertFilter: false,
             filter: initialFilter,
             eventsFiltered
         })
-        // else if (state.filter.noSingleDay) {
-        //     switch (state.filter.byMultipleDays) {
-        //         case 'next-7-days':
-        //             return eventsFiltered.filter(event => console.log('convertDate(event.date)', convertDate(event.date)))
-        //         default:
-        //             return eventsFiltered
-        //     }
 
-        // }
 
     }
 
