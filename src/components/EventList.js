@@ -23,6 +23,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { deleteEvent } from '../store/actions/auth'
 import FilterListIcon from '@material-ui/icons/FilterList';
+import EventFilterform from './EventFilterForm';
 
 
 
@@ -35,7 +36,8 @@ const EventList = (props) => {
     const initialState = {
         events: [],
         alert: false,
-        eventSelected: {}
+        eventSelected: {},
+        alertFilter: false
     }
     const [state, setState] = useState(initialState)
 
@@ -52,11 +54,25 @@ const EventList = (props) => {
             eventSelected
         })
     };
+    const handleClickOpenFilter = e => {
+        e.preventDefault()
+        setState({
+            ...state,
+            alertFilter: true,
+        })
+    };
 
     const handleClose = () => {
         setState({
             ...state,
             alert: false
+        })
+    };
+
+    const handleCloseFilter = () => {
+        setState({
+            ...state,
+            alertFilter: false
         })
     };
 
@@ -239,12 +255,32 @@ const EventList = (props) => {
           </Button>
                 </DialogActions>
             </Dialog>
-            <div className={classes.filterIcon}>
+            <div className={classes.filterIcon} onClick={handleClickOpenFilter}>
                 <FiberManualRecordIcon color="secondary" style={{ padding: 0, fontSize: "5.5rem" }} />
                 <FilterListIcon style={{ padding: 0, fontSize: "3rem", position: "absolute", left: "20px", bottom: "22px", color: "white" }} />
             </div>
+            <Dialog open={state.alertFilter} onClose={handleClose}>
+                <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
+                <DialogContent>
+                    <EventFilterform familyMembers={auth.family.members} />
+                    <DialogActions>
+                        <Button
+                            onClick={handleCloseFilter}
+                            color="primary"
+                        >
+                            Back
+          </Button>
+                        <Button
+                            onClick={handleCloseFilter}
+                            color="primary"
+                        >
+                            Filter
+          </Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
             <Link to="/calendar/add-event">
-                <div className={classes.addIcon}>
+                <div className={classes.addIcon} >
                     <div className={classes.whiteBackground}></div>
                     <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
                 </div>

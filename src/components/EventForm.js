@@ -301,7 +301,7 @@ const EventForm = (props) => {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            checked={state.checkedB}
+                                            checked={state.checked}
                                             onChange={handleCheckbox}
                                             color="primary"
                                             name="noTimeSelected"
