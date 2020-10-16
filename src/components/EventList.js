@@ -33,18 +33,28 @@ const EventList = (props) => {
     const { auth } = props
 
     // React 
+
+    const convertDate = (date) => {
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
+        return day + "/" + month + "/" + year
+    }
+
+    const initialFilter = {
+        byMembersAttending: [],
+        familyMembers: [],
+        noSingleDay: true,
+        byMultipleDays: "all-events",
+        bySingleDay: new Date(),
+    }
     const initialState = {
         events: [],
+        eventsFiltered: [],
         alert: false,
         eventSelected: {},
         alertFilter: false,
-        filter: {
-            byMembersAttending: [],
-            familyMembers: [],
-            noSingleDay: true,
-            byMultipleDays: "all-events",
-            bySingleDay: new Date(),
-        }
+        filter: initialFilter
     }
     const [state, setState] = useState(initialState)
 
@@ -79,9 +89,34 @@ const EventList = (props) => {
     const handleCloseFilter = () => {
         setState({
             ...state,
-            alertFilter: false
+            alertFilter: false,
+            filter: initialFilter
         })
     };
+
+    const handleFilter = () => {
+        let eventsFiltered = state.eventsFiltered
+        if (state.filter.noSingleDay === false) {
+            eventsFiltered = eventsFiltered.filter(event => event.date === convertDate(state.filter.bySingleDay))
+        }
+        // console.log('eventsFiltered', eventsFiltered)
+        return setState({
+            ...state,
+            alertFilter: false,
+            filter: initialFilter,
+            eventsFiltered
+        })
+        // else if (state.filter.noSingleDay) {
+        //     switch (state.filter.byMultipleDays) {
+        //         case 'next-7-days':
+        //             return eventsFiltered.filter(event => console.log('convertDate(event.date)', convertDate(event.date)))
+        //         default:
+        //             return eventsFiltered
+        //     }
+
+        // }
+
+    }
 
     const handleDelete = () => {
         setState({
@@ -96,6 +131,7 @@ const EventList = (props) => {
             ({
                 ...prevState,
                 events: auth.family.events,
+                eventsFiltered: auth.family.events,
                 filter: {
                     ...prevState.filter,
                     familyMembers: auth.family.members
@@ -209,8 +245,8 @@ const EventList = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {state && state.events.map((event) => (
-                            <TableRow key={event.title + state.events.indexOf(event)}>
+                        {state && state.eventsFiltered.map((event) => (
+                            <TableRow key={event.title + state.eventsFiltered.indexOf(event)}>
                                 <TableCell align="right" component="th" scope="row" style={{
                                     width: "10%",
                                     verticalAlign: "baseline"
@@ -285,7 +321,7 @@ const EventList = (props) => {
                             Back
           </Button>
                         <Button
-                            onClick={handleCloseFilter}
+                            onClick={handleFilter}
                             color="primary"
                         >
                             Filter
@@ -312,7 +348,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteEvent: (eventToDelete, familyPassword) => dispatch(deleteEvent(eventToDelete, familyPassword))
+        deleteEvent: (eventToDelete, familyPassword) => dispatch(deleteEvent(eventToDelete, familyPassword)),
     }
 }
 
