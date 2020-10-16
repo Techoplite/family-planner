@@ -10,21 +10,26 @@ import DateFnsUtils from '@date-io/date-fns';
 const EventFilterform = (props) => {
 
     // React
-    const { initialState } = props
-
-    const [state, setState] = useState(initialState.filter)
+    const { state, setState } = props
 
     const handleChange = (e, color) => {
         const { name } = e.target
-        if (state.byMembersAttending.find(member => member.name === name && member.color === color)) {
+        if (state.filter.byMembersAttending.find(member => member.name === name && member.color === color)) {
             setState({
                 ...state,
-                byMembersAttending: state.byMembersAttending.filter(member => (member.name !== name) && (member.color !== color))
+                filter: {
+                    ...state.filter,
+                    byMembersAttending: state.filter.byMembersAttending.filter(member => (member.name !== name) && (member.color !== color))
+                }
+
             })
         } else {
             setState({
                 ...state,
-                byMembersAttending: [...state.byMembersAttending, { name, color }]
+                filter: {
+                    ...state.filter,
+                    byMembersAttending: [...state.filter.byMembersAttending, { name, color }]
+                }
             })
         }
     };
@@ -32,14 +37,21 @@ const EventFilterform = (props) => {
     const handleRadioChange = (event) => {
         setState({
             ...state,
-            byMultipleDays: event.target.value
+            filter: {
+                ...state.filter,
+                byMultipleDays: event.target.value
+            }
         });
     };
 
     const handleDateChange = (date) => {
         setState({
             ...state,
-            bySingleDay: date
+            filter: {
+                ...state.filter,
+                bySingleDay: date
+            }
+
         });
     };
 
@@ -47,18 +59,24 @@ const EventFilterform = (props) => {
         const { name, checked } = e.target
         setState({
             ...state,
-            [name]: checked,
+            filter: {
+                ...state.filter,
+                [name]: checked,
+            }
 
         })
     }
 
     useEffect(() => {
-        state.noSingleDay === false &&
+        state.filter.noSingleDay === false &&
             setState(prevState => ({
                 ...prevState,
-                byMultipleDays: "all-events"
+                filter: {
+                    ...prevState.filter,
+                    byMultipleDays: "all-events"
+                }
             }))
-    }, [state.noSingleDay])
+    }, [state.filter.noSingleDay])
 
     // Material UI
     const useStyles = makeStyles((theme) => ({
@@ -122,11 +140,11 @@ const EventFilterform = (props) => {
                             shrink: true,
                         }}
                         inputVariant="outlined"
-                        value={state.bySingleDay}
+                        value={state.filter.bySingleDay}
                         name="date"
                         required
                         minDate={new Date()}
-                        {...(state.noSingleDay && { disabled: true })}
+                        {...(state.filter.noSingleDay && { disabled: true })}
                     />
                 </MuiPickersUtilsProvider>
                 <div
@@ -135,11 +153,11 @@ const EventFilterform = (props) => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={state.noSingleDay}
+                                checked={state.filter.noSingleDay}
                                 onChange={handleCheckbox}
                                 color="primary"
                                 name="noSingleDay"
-                                value={state.noSingleDay}
+                                value={state.filter.noSingleDay}
                             />
                         }
                         label="Unset"
@@ -148,9 +166,9 @@ const EventFilterform = (props) => {
             </div>
             <div className={classes.wrapper}>
                 <FormLabel component="legend" className={classes.FormLabel}>By multiple days</FormLabel>
-                <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.byMultipleDays} onChange={handleRadioChange}>
-                    <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.noSingleDay === false && { disabled: true })} />
-                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.noSingleDay === false && { disabled: true })} />
+                <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.filter.byMultipleDays} onChange={handleRadioChange}>
+                    <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.filter.noSingleDay === false && { disabled: true })} />
+                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.filter.noSingleDay === false && { disabled: true })} />
                     <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" />
                 </RadioGroup>
             </div>
@@ -158,7 +176,7 @@ const EventFilterform = (props) => {
                 <FormControl component="fieldset" className={classes.formControl}>
                     <FormLabel component="legend" className={classes.FormLabel}>By members attending</FormLabel>
                     <FormGroup className={classes.FormGroup}>
-                        {state.familyMembers.map(member =>
+                        {state.filter.familyMembers.map(member =>
                             (
                                 <div className={classes.checkbox} key={member.email}>
                                     <FormControlLabel

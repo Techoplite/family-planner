@@ -97,11 +97,8 @@ const EventList = (props) => {
                 ...prevState,
                 events: auth.family.events,
                 filter: {
-                    ...prevState,
-                    filter: {
-                        ...prevState.filter,
-                        familyMembers: auth.family.members
-                    }
+                    ...prevState.filter,
+                    familyMembers: auth.family.members
                 }
             }
             ))
@@ -277,7 +274,8 @@ const EventList = (props) => {
                 <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
                 <DialogContent>
                     <EventFilterform
-                        initialState={state.filter}
+                        state={state}
+                        setState={setState}
                     />
                     <DialogActions>
                         <Button
