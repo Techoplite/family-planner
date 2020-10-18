@@ -93,9 +93,6 @@ const EventList = (props) => {
   };
 
   const isWithingNext7Days = (date) => {
-    // const lastDateAvailable = (new Date(Date.now() + 7 * 24 * 60 * 60 * 1000))
-    // console.log('lastDateAvailable.getDate()', lastDateAvailable.getDate())
-    // console.log('date.getDate()', date.getDate())
     const today = new Date();
     const nextWeek = Date.parse(
       new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)
@@ -108,6 +105,18 @@ const EventList = (props) => {
     }
   };
 
+  const isWithingNextMonth = (date) => {
+    const today = new Date();
+    const thisYear = today.getFullYear()
+    const nextMonth = today.getMonth() + 1
+    const dateObject = new Date(date)
+    if (nextMonth < dateObject.getMonth() +1 && thisYear === dateObject.getFullYear()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleFilter = () => {
     let eventsFiltered = state.events;
     console.log("before", eventsFiltered);
@@ -116,7 +125,7 @@ const EventList = (props) => {
       eventsFiltered = eventsFiltered.filter(
         (familyEvent) =>
           familyEvent.rawDate.toString().substring(0, 15) ===
-            state.filter.bySingleDay.toString().substring(0, 15) &&
+          state.filter.bySingleDay.toString().substring(0, 15) &&
           familyEvent.rawDate.toString().substring(0, 15)
       );
     } else if (state.filter.noSingleDay) {
@@ -125,6 +134,12 @@ const EventList = (props) => {
           eventsFiltered = eventsFiltered.filter(
             (familyEvent) =>
               isWithingNext7Days(familyEvent.rawDate) === true && familyEvent
+          );
+          break;
+        case "next-month":
+          eventsFiltered = eventsFiltered.filter(
+            (familyEvent) =>
+              isWithingNextMonth(familyEvent.rawDate) === true && familyEvent
           );
           break;
         case "all-events":

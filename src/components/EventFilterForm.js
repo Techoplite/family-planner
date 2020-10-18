@@ -168,13 +168,13 @@ const EventFilterform = (props) => {
                 <FormLabel component="legend" className={classes.FormLabel}>By multiple days</FormLabel>
                 <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.filter.byMultipleDays} onChange={handleRadioChange}>
                     <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.filter.noSingleDay === false && { disabled: true })} />
-                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.filter.noSingleDay === false && { disabled: true })} />
+                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month (not implemented yet)"  {...(state.filter.noSingleDay === false && { disabled: true })} />
                     <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" />
                 </RadioGroup>
             </div>
             <div className={classes.wrapper} style={{ marginBottom: 0 }}>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend" className={classes.FormLabel}>By members attending</FormLabel>
+                    <FormLabel component="legend" className={classes.FormLabel}>By members attending (not implemented yet)</FormLabel>
                     <FormGroup className={classes.FormGroup}>
                         {state.filter.familyMembers.map(member =>
                             (
