@@ -12,14 +12,14 @@ const EventFilterform = (props) => {
     // React
     const { state, setState } = props
 
-    const handleChange = (e, color) => {
-        const { name } = e.target
-        if (state.filter.byMembersAttending.find(member => member.name === name && member.color === color)) {
+    const handleChange = (e, member) => {
+        e.preventDefault()
+        if (state.filter.byMembersAttending.find(familyMember => familyMember === member)) {
             setState({
                 ...state,
                 filter: {
                     ...state.filter,
-                    byMembersAttending: state.filter.byMembersAttending.filter(member => (member.name !== name) && (member.color !== color))
+                    byMembersAttending: state.filter.byMembersAttending.filter(familyMember => (familyMember === member))
                 }
 
             })
@@ -28,7 +28,7 @@ const EventFilterform = (props) => {
                 ...state,
                 filter: {
                     ...state.filter,
-                    byMembersAttending: [...state.filter.byMembersAttending, { name, color }]
+                    byMembersAttending: [...state.filter.byMembersAttending, { member }]
                 }
             })
         }
@@ -174,13 +174,13 @@ const EventFilterform = (props) => {
             </div>
             <div className={classes.wrapper} style={{ marginBottom: 0 }}>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend" className={classes.FormLabel}>By members attending (not implemented yet)</FormLabel>
+                    <FormLabel component="legend" className={classes.FormLabel}>By members attending</FormLabel>
                     <FormGroup className={classes.FormGroup}>
                         {state.filter.familyMembers.map(member =>
                             (
                                 <div className={classes.checkbox} key={member.email}>
                                     <FormControlLabel
-                                        control={<Checkbox color="primary" onChange={(e) => handleChange(e, member.color)} name={member.name} />}
+                                        control={<Checkbox color="primary" onChange={(e) => handleChange(e, member)} name={member.name} />}
                                         label={member.name}
                                     />
                                     <FiberManualRecordIcon style={{ color: getColorValue(member.color) }} />
