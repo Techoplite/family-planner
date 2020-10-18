@@ -45,6 +45,7 @@ const EventList = (props) => {
     byMultipleDays: "all-events",
     bySingleDay: new Date()
   };
+
   const initialState = {
     events: [],
     eventsFiltered: [],
@@ -54,6 +55,14 @@ const EventList = (props) => {
     filter: initialFilter
   };
   const [state, setState] = useState(initialState);
+
+  const resetFilter = {
+    byMembersAttending: [],
+    familyMembers: [...state.filter.familyMembers],
+    noSingleDay: true,
+    byMultipleDays: "all-events",
+    bySingleDay: new Date()
+  }
 
   const handleClickOpen = (e, eventItem) => {
     e.preventDefault();
@@ -88,7 +97,7 @@ const EventList = (props) => {
     setState({
       ...state,
       alertFilter: false,
-      filter: initialFilter
+      filter: resetFilter
     });
   };
 
@@ -110,7 +119,7 @@ const EventList = (props) => {
     const thisYear = today.getFullYear()
     const nextMonth = today.getMonth() + 1
     const dateObject = new Date(date)
-    if (nextMonth < dateObject.getMonth() +1 && thisYear === dateObject.getFullYear()) {
+    if (nextMonth < dateObject.getMonth() + 1 && thisYear === dateObject.getFullYear()) {
       return true;
     } else {
       return false;
@@ -153,7 +162,7 @@ const EventList = (props) => {
     return setState({
       ...state,
       alertFilter: false,
-      filter: initialFilter,
+      filter: resetFilter,
       eventsFiltered
     });
   };

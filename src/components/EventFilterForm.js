@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -168,7 +168,7 @@ const EventFilterform = (props) => {
                 <FormLabel component="legend" className={classes.FormLabel}>By multiple days</FormLabel>
                 <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.filter.byMultipleDays} onChange={handleRadioChange}>
                     <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.filter.noSingleDay === false && { disabled: true })} />
-                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month (not implemented yet)"  {...(state.filter.noSingleDay === false && { disabled: true })} />
+                    <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.filter.noSingleDay === false && { disabled: true })} />
                     <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" />
                 </RadioGroup>
             </div>
