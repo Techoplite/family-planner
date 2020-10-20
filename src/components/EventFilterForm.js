@@ -13,22 +13,28 @@ const EventFilterform = (props) => {
     const { state, setState } = props
 
     const handleChange = (e, member) => {
-        e.preventDefault()
-        if (state.filter.byMembersAttending.find(familyMember => familyMember === member)) {
+        // e.preventDefault()
+        if (state.filter.byMembersAttending.find(familyMember => familyMember.email === member.email)) {
+            // Remove member from the list
             setState({
                 ...state,
                 filter: {
                     ...state.filter,
-                    byMembersAttending: state.filter.byMembersAttending.filter(familyMember => (familyMember === member))
+                    byMembersAttending: state.filter.byMembersAttending.filter(familyMember => (familyMember.email !== member.email))
                 }
 
             })
         } else {
+            // Add member to list
             setState({
                 ...state,
                 filter: {
                     ...state.filter,
-                    byMembersAttending: [...state.filter.byMembersAttending, { member }]
+                    byMembersAttending: [...state.filter.byMembersAttending, {
+                        name: member.name,
+                        color: member.color,
+                        email: member.email
+                    }]
                 }
             })
         }
