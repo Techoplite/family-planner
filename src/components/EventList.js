@@ -132,7 +132,6 @@ const EventList = (props) => {
 
   const handleFilter = () => {
     let eventsFiltered = state.events;
-    console.log("before", eventsFiltered);
 
     if (state.filter.noSingleDay === false) {
       eventsFiltered = eventsFiltered.filter(
@@ -161,24 +160,52 @@ const EventList = (props) => {
           break;
       }
     }
-    let byMembersAttendingEmails = []
-    state.filter.byMembersAttending.map(member =>
-      byMembersAttendingEmails = [...byMembersAttendingEmails, member.email]
-    )
-   
+    if (state.filter.byMembersAttending.length > 0) {
+      let byMembersAttendingEmails = []
+      state.filter.byMembersAttending.map(member =>
+        byMembersAttendingEmails = [...byMembersAttendingEmails, member.email]
+      )
 
-    let eventsFilteredWithMembersAttendingEmails = JSON.parse(JSON.stringify(state.events))
 
-    eventsFilteredWithMembersAttendingEmails.map(familyEvent => familyEvent.membersAttending.map(member => familyEvent.membersAttending[familyEvent.membersAttending.indexOf(member)] = member.email))
 
-    
+      let eventsFilteredWithMembersAttendingEmails = JSON.parse(JSON.stringify(state.events))
+      eventsFilteredWithMembersAttendingEmails.map(familyEvent => familyEvent.membersAttending.map(member => familyEvent.membersAttending[familyEvent.membersAttending.indexOf(member)] = member.email))
 
-    return setState({
-      ...state,
-      alertFilter: false,
-      filter: resetFilter,
-      eventsFiltered
-    });
+      const newFilterByEmail = eventsFilteredWithMembersAttendingEmails.filter(familyEvent => {
+        const stringifiedMembersAttending = JSON.stringify(familyEvent.membersAttending.sort())
+        const stringifiedByMembersAttending = JSON.stringify(byMembersAttendingEmails.sort())
+
+        return stringifiedMembersAttending === stringifiedByMembersAttending
+      })
+
+      let eventsFilteredByMembersAttending = []
+      eventsFiltered = newFilterByEmail.filter(filteredEvent => {
+        let matechesFound = []
+        matechesFound = eventsFiltered.find(familyEvent =>
+          familyEvent.title === filteredEvent.title)
+        console.log('y:>> ', matechesFound)
+        if (matechesFound !== undefined) {
+          eventsFilteredByMembersAttending = [...eventsFilteredByMembersAttending, matechesFound]
+        }
+      })
+      console.log('eventsFiltered outer:>> ', eventsFiltered)
+      console.log('eventsFilteredByMembersAttending :>> ', eventsFilteredByMembersAttending);
+
+
+      setState({
+        ...state,
+        alertFilter: false,
+        filter: resetFilter,
+        eventsFiltered: eventsFilteredByMembersAttending
+      });
+    } else {
+      setState({
+        ...state,
+        alertFilter: false,
+        filter: resetFilter,
+        eventsFiltered
+      })
+    }
   };
 
   const handleDelete = () => {
