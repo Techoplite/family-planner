@@ -126,6 +126,10 @@ const EventList = (props) => {
     }
   };
 
+
+
+
+
   const handleFilter = () => {
     let eventsFiltered = state.events;
     console.log("before", eventsFiltered);
@@ -157,7 +161,12 @@ const EventList = (props) => {
           break;
       }
     }
-    console.log(eventsFiltered);
+    let byMembersAttendingEmails = []
+    state.filter.byMembersAttending.map(member =>
+      byMembersAttendingEmails = [...byMembersAttendingEmails, member.email]
+    )
+    
+    // let eventsFilteredWithMembersAttendingEmails = JSON.parse(JSON.stringify(state.events))
 
     return setState({
       ...state,
