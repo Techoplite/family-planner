@@ -165,8 +165,13 @@ const EventList = (props) => {
     state.filter.byMembersAttending.map(member =>
       byMembersAttendingEmails = [...byMembersAttendingEmails, member.email]
     )
+   
+
+    let eventsFilteredWithMembersAttendingEmails = JSON.parse(JSON.stringify(state.events))
+
+    eventsFilteredWithMembersAttendingEmails.map(familyEvent => familyEvent.membersAttending.map(member => familyEvent.membersAttending[familyEvent.membersAttending.indexOf(member)] = member.email))
+
     
-    // let eventsFilteredWithMembersAttendingEmails = JSON.parse(JSON.stringify(state.events))
 
     return setState({
       ...state,
