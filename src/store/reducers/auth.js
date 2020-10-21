@@ -81,6 +81,11 @@ const user = (state = initialState, action) => {
                     })]
                 }
             }
+        case 'FIND_EVENT_TO_EDIT_SUCCESS':
+            return {
+                ...state,
+                eventSelected: action.payload
+            }
         default:
             return state
     }

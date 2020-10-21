@@ -437,4 +437,30 @@ export const deleteEvent = (eventToDelete, familyPassword) => {
     }
 }
 
+export const findEventToEdit = (eventToEdit, familyPassword) => {
+    return (dispatch, getState, { getFirestore }) => {
+
+        const firestore = getFirestore()
+
+
+        firestore.collection("families").where("family.password", "==", familyPassword).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const family = doc.data().family
+                    const eventToEditFound = family.events.find(familyEvent => {
+                        return (
+                            familyEvent.title === eventToEdit.title &&
+                            familyEvent.date === eventToEdit.date &&
+                            familyEvent.time === eventToEdit.time
+                        )
+                    })
+                    dispatch({
+                        type: "FIND_EVENT_TO_EDIT_SUCCESS",
+                        payload: eventToEditFound
+                    })
+                })
+            })
+    }
+}
+
 

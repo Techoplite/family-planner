@@ -24,20 +24,13 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { deleteEvent } from "../store/actions/auth";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import EventFilterform from "./EventFilterForm";
+import EditIcon from '@material-ui/icons/Edit';
 
 const EventList = (props) => {
   // Redux
   const { auth } = props;
 
   // React
-
-  const convertDate = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return day + "/" + month + "/" + year;
-  };
-
   const initialFilter = {
     byMembersAttending: [],
     familyMembers: [],
@@ -64,7 +57,7 @@ const EventList = (props) => {
     bySingleDay: new Date()
   }
 
-  const handleClickOpen = (e, eventItem) => {
+  const handleClickOpen = (e, eventItem, action) => {
     e.preventDefault();
     const eventSelected = auth.family.events.find(
       (familyEvent) =>
@@ -75,7 +68,8 @@ const EventList = (props) => {
     setState({
       ...state,
       alert: true,
-      eventSelected
+      eventSelected,
+      action
     });
   };
   const handleClickOpenFilter = (e) => {
@@ -125,10 +119,6 @@ const EventList = (props) => {
       return false;
     }
   };
-
-
-
-
 
   const handleFilter = () => {
     let eventsFiltered = state.events;
@@ -216,6 +206,19 @@ const EventList = (props) => {
     props.deleteEvent(state.eventSelected, auth.family.password);
   };
 
+  const handleEdit = () => {
+    setState({
+      ...state,
+      alert: false
+    })
+    props.history.push({
+      pathname: '/edit-event',
+      state: {
+        eventSelected: state.eventSelected,
+      }
+    })
+  }
+
   useEffect(() => {
     state &&
       auth.family &&
@@ -282,6 +285,11 @@ const EventList = (props) => {
       color: "#f44336",
       paddingLeft: theme.spacing(1)
     },
+    edit: {
+      display: "inline",
+      color: "#ffc400",
+      paddingLeft: theme.spacing(1)
+    },
     eventWrapper: {
       display: "flex",
       justifyContent: "space-between",
@@ -307,6 +315,9 @@ const EventList = (props) => {
       background: "white",
       width: "2rem",
       height: "2rem"
+    },
+    actions: {
+      display: "flex",
     }
   }));
 
@@ -380,11 +391,21 @@ const EventList = (props) => {
                           ))}
                         </div>
                       </div>
-                      <div
-                        className={classes.delete}
-                        onClick={(e) => handleClickOpen(e, event)}
-                      >
-                        <DeleteIcon />
+                      <div className={classes.actions}>
+                        <div
+                          id="edit"
+                          className={classes.edit}
+                          onClick={(e) => handleClickOpen(e, event, "edit")}
+                        >
+                          <EditIcon />
+                        </div>
+                        <div
+                          id="delete"
+                          className={classes.delete}
+                          onClick={(e) => handleClickOpen(e, event, "delete")}
+                        >
+                          <DeleteIcon />
+                        </div>
                       </div>
                     </div>
                   </TableCell>
@@ -400,19 +421,26 @@ const EventList = (props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Delete this event?"}
+          {state.action === "delete" && "Delete this event?"}
+          {state.action === "edit" && "Edit event?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {`By pressing the delete button event '${state.eventSelected.title}' will be permanently deleted from your list.`}
+            {state.action === "delete" && `By pressing the delete button, event '${state.eventSelected.title}' will be permanently deleted from your list.`}
+            {state.action === "edit" && `Do you want to edit event '${state.eventSelected.title}'?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Back
           </Button>
-          <Button onClick={handleDelete} color="primary" autoFocus>
-            Delete
+          <Button onClick={
+            state.action === "delete" && handleDelete,
+            state.action === "edit" && handleEdit
+          }
+            color="primary" autoFocus>
+            {state.action === "delete" && "Delete"}
+            {state.action === "edit" && "Edit"}
           </Button>
         </DialogActions>
       </Dialog>

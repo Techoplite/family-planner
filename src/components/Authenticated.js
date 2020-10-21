@@ -10,6 +10,7 @@ import { Link, Switch, Route } from 'react-router-dom'
 import Calendar from './Calendar'
 import ShoppingList from './ShoppingList'
 import TodoList from './TodoList'
+import EditEventForm from './EditEventForm'
 
 
 const Authenticated = (props) => {
@@ -63,6 +64,7 @@ const Authenticated = (props) => {
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/shopping-list" component={ShoppingList} />
                 <Route path="/todo-list" component={TodoList} />
+                <Route path="/edit-event" component={EditEventForm} />
             </Switch>
         </>
     );
