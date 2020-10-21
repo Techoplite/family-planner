@@ -164,11 +164,17 @@ const EditEventForm = (props) => {
             membersNotAttending: family.members
         })
 
-        eventSelectedFound && !state.isEventFound &&
+        if (eventSelectedFound && !state.isEventFound) {
+            const date = eventSelectedFound.date
+            const DD = date.slice(0, 2)
+            const MM = date.slice(3, 5)
+            const YYYY = date.slice(6)
+            const dateConverted = MM + "/" + DD + "/" + YYYY
+            
             setState(prevState => ({
                 ...prevState,
                 title: eventSelected.title,
-                date: eventSelected.date,
+                date: new Date(dateConverted),
                 family: eventSelected.family,
                 location: (eventSelected.location !== false) ? eventSelected.location : "",
                 membersAttending: eventSelected.membersAttending,
@@ -178,6 +184,10 @@ const EditEventForm = (props) => {
                 users: eventSelected.users,
                 isEventFound: true
             }))
+        }
+
+
+
 
         errors && (
             errors.title !== "" ||
