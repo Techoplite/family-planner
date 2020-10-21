@@ -44,7 +44,8 @@ const EditEventForm = (props) => {
             title: "",
             date: "",
             location: ""
-        }
+        },
+        isEventFound: false
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
@@ -163,7 +164,7 @@ const EditEventForm = (props) => {
             membersNotAttending: family.members
         })
 
-        eventSelectedFound &&
+        eventSelectedFound && !state.isEventFound &&
             setState(prevState => ({
                 ...prevState,
                 title: eventSelected.title,
@@ -175,6 +176,7 @@ const EditEventForm = (props) => {
                 time: eventSelected.time !== "" ? eventSelected.time : new Date(),
                 noTimeSelected: eventSelected.time !== "" ? false : true,
                 users: eventSelected.users,
+                isEventFound: true
             }))
 
         errors && (
