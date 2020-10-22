@@ -151,6 +151,34 @@ const EditEventForm = (props) => {
         return defaultValue
     }
 
+    const getInitialMembersNotAttending = () => {
+        const familyMembersEmails = family.members.map(familyMember => familyMember.email)
+        const membersAttendingEmails = eventSelectedFound.membersAttending.map(memberAttending => memberAttending.email)
+        const membersNotAttendingEmails = familyMembersEmails.filter(email => !membersAttendingEmails.includes(email))
+        let membersNotAttending = []
+        membersNotAttendingEmails.filter(email => family.members.filter(member => member.email === email && (membersNotAttending = [...membersNotAttending, member])))
+        console.log('eventSelectedFound :>> ', eventSelectedFound);
+        console.log('familyMembersEmails :>> ', familyMembersEmails);
+        console.log('membersAttendingEmails :>> ', membersAttendingEmails);
+        console.log('membersNotAttendingEmails :>> ', membersNotAttendingEmails)
+        console.log('membersNotAttending :>> ', membersNotAttending);
+        return membersNotAttending
+    }
+    
+    const getMembersNotAttending = () => {
+        const familyMembersEmails = family.members.map(familyMember => familyMember.email)
+        const membersAttendingEmails = state.membersAttending.map(memberAttending => memberAttending.email)
+        const membersNotAttendingEmails = familyMembersEmails.filter(email => !membersAttendingEmails.includes(email))
+        let membersNotAttending = []
+        membersNotAttendingEmails.filter(email => family.members.filter(member => member.email === email && (membersNotAttending = [...membersNotAttending, member])))
+        console.log('eventSelectedFound :>> ', eventSelectedFound);
+        console.log('familyMembersEmails :>> ', familyMembersEmails);
+        console.log('membersAttendingEmails :>> ', membersAttendingEmails);
+        console.log('membersNotAttendingEmails :>> ', membersNotAttendingEmails)
+        console.log('membersNotAttending :>> ', membersNotAttending);
+        return membersNotAttending
+    }
+
     const handleCheckbox = (e) => {
         const { name, checked } = e.target
         setState({
@@ -178,6 +206,7 @@ const EditEventForm = (props) => {
                 family: eventSelected.family,
                 location: (eventSelected.location !== false) ? eventSelected.location : "",
                 membersAttending: eventSelected.membersAttending,
+                membersNotAttending: getInitialMembersNotAttending(),
                 time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
                 noTimeSelected: eventSelected.time !== "" ? false : true,
                 users: eventSelected.users,
@@ -190,6 +219,9 @@ const EditEventForm = (props) => {
             errors.title !== "" ||
             errors.date !== "" ||
             errors.location !== "") && props.setMessage("Please check all fields", "error")
+        return () => {
+            setState(initialState)
+        }
     }, [eventSelectedFound])
 
 
@@ -238,7 +270,7 @@ const EditEventForm = (props) => {
     return (
         <>
             {state.redirect && <Redirect to="/calendar/events" />}
-            {eventSelectedFound &&
+            {eventSelectedFound && state !== initialState &&
                 <>
                     <EventIcon className={classes.icon} />
                     <Form
@@ -386,7 +418,7 @@ const EditEventForm = (props) => {
                                         style={{
                                             backgroundColor:
                                                 // "blue"
-                                            `${getColorvalue(option.color)}`
+                                                `${getColorvalue(option.color)}`
                                             ,
                                             color: "white"
                                         }}
@@ -394,7 +426,7 @@ const EditEventForm = (props) => {
                                         {...getTagProps({ index })}
                                         onMouseDown={() => {
 
-                                            // Move item selected from membersAttending to membersAttending membersNotAttending
+                                            // Move item selected from membersAttending to membersNotAttending
                                             setState({
                                                 ...state,
                                                 membersAttending: state.membersAttending.filter(member => member.name !== option.name),
@@ -404,7 +436,7 @@ const EditEventForm = (props) => {
                                     />
                                 ))
                             }
-                            options={family.members}
+                            options={getMembersNotAttending()}
                             getOptionLabel={(option) => option.name}
                             filterSelectedOptions
                             renderInput={(params) => (
