@@ -354,7 +354,7 @@ const EventForm = (props) => {
                                 key={option.name}
                                 id={option.name}
                                 style={{
-                                    backgroundColor: `${getColorvalue(state.familyMembers[state.familyMembers.indexOf(option)].color)}`,
+                                    backgroundColor: `${getColorvalue(option.color)}`,
                                     color: "white"
                                 }}
                                 label={option.name}
