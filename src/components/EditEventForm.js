@@ -178,7 +178,7 @@ const EditEventForm = (props) => {
                 family: eventSelected.family,
                 location: (eventSelected.location !== false) ? eventSelected.location : "",
                 membersAttending: eventSelected.membersAttending,
-                time: eventSelected.time === "" ? "new Date()" : eventSelected.rawTime,
+                time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
                 noTimeSelected: eventSelected.time !== "" ? false : true,
                 users: eventSelected.users,
                 isEventFound: true
