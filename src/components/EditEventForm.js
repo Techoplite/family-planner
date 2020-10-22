@@ -156,7 +156,7 @@ const EditEventForm = (props) => {
     const { errors } = state
 
     useEffect(() => {
-        props.findEventToEdit(eventSelected, family.password)
+        !state.isEventFound && props.findEventToEdit(eventSelected, family.password)
 
         family && state.familyMembers !== family.members && setState({
             ...state,
@@ -170,16 +170,15 @@ const EditEventForm = (props) => {
             const MM = date.slice(3, 5)
             const YYYY = date.slice(6)
             const dateConverted = MM + "/" + DD + "/" + YYYY
-            
+
             setState(prevState => ({
                 ...prevState,
                 title: eventSelected.title,
-                date: new Date(dateConverted),
+                date: eventSelected.rawDate,
                 family: eventSelected.family,
                 location: (eventSelected.location !== false) ? eventSelected.location : "",
                 membersAttending: eventSelected.membersAttending,
-                rawDate: eventSelected.rawDate,
-                time: eventSelected.time !== "" ? eventSelected.time : new Date(),
+                time: eventSelected.time === "" ? "new Date()" : eventSelected.rawTime,
                 noTimeSelected: eventSelected.time !== "" ? false : true,
                 users: eventSelected.users,
                 isEventFound: true

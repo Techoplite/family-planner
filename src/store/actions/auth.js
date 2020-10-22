@@ -342,18 +342,18 @@ export const addEvent = (state, familyPassword, user) => {
 
         const firestore = getFirestore()
 
-        const { title, date, time, location, membersAttending, rawDate } = state
+        const { title, date, time, location, membersAttending, rawDate, rawTime } = state
 
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     const family = doc.data().family
                     const familyDOCRef = doc.ref
-                    console.log('rawDate', rawDate)
                     family.events.push({
                         title,
                         date,
                         rawDate,
+                        rawTime,
                         time,
                         location,
                         membersAttending,
@@ -445,8 +445,11 @@ export const findEventToEdit = (eventToEdit, familyPassword) => {
 
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
+                console.log('snapshot :>> ', snapshot);
                 snapshot.docs.forEach(doc => {
+                    console.log('doc :>> ', doc);
                     const family = doc.data().family
+                    console.log('family :>> ', family);
                     const eventToEditFound = family.events.find(familyEvent => {
                         return (
                             familyEvent.title === eventToEdit.title &&

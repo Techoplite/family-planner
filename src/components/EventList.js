@@ -199,6 +199,7 @@ const EventList = (props) => {
   };
 
   const handleDelete = () => {
+    console.log("should delete")
     setState({
       ...state,
       alert: false
@@ -217,6 +218,17 @@ const EventList = (props) => {
         eventSelected: state.eventSelected,
       }
     })
+  }
+
+  const getAction = (action) => {
+    switch (action) {
+      case "delete":
+        return handleDelete()
+      case "edit":
+        return handleEdit()
+      default:
+        return handleEdit()
+    }
   }
 
   useEffect(() => {
@@ -434,10 +446,7 @@ const EventList = (props) => {
           <Button onClick={handleClose} color="primary">
             Back
           </Button>
-          <Button onClick={
-            state.action === "delete" && handleDelete,
-            state.action === "edit" && handleEdit
-          }
+          <Button onClick={() => getAction(state.action)}
             color="primary" autoFocus>
             {state.action === "delete" && "Delete"}
             {state.action === "edit" && "Edit"}
