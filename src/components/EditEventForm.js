@@ -45,7 +45,8 @@ const EditEventForm = (props) => {
             date: "",
             location: ""
         },
-        isEventFound: false
+        isEventFound: false,
+        checked: false
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
@@ -165,12 +166,6 @@ const EditEventForm = (props) => {
         })
 
         if (eventSelectedFound && !state.isEventFound) {
-            const date = eventSelectedFound.date
-            const DD = date.slice(0, 2)
-            const MM = date.slice(3, 5)
-            const YYYY = date.slice(6)
-            const dateConverted = MM + "/" + DD + "/" + YYYY
-
             setState(prevState => ({
                 ...prevState,
                 title: eventSelected.title,
@@ -181,7 +176,8 @@ const EditEventForm = (props) => {
                 time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
                 noTimeSelected: eventSelected.time !== "" ? false : true,
                 users: eventSelected.users,
-                isEventFound: true
+                isEventFound: true,
+                checked: eventSelected.time === "" ? true : false,
             }))
         }
 
