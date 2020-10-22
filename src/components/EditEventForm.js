@@ -144,6 +144,13 @@ const EditEventForm = (props) => {
         });
     }
 
+    const getDefaultMembersAttending = () => {
+        const defaultValue = eventSelected.membersAttending
+        console.log('defaultValue :>> ', defaultValue);
+        console.log('eventSelected.membersAttending :>> ', eventSelected.membersAttending);
+        return defaultValue
+    }
+
     const handleCheckbox = (e) => {
         const { name, checked } = e.target
         setState({
@@ -152,8 +159,6 @@ const EditEventForm = (props) => {
 
         })
     }
-
-
     const { errors } = state
 
     useEffect(() => {
@@ -180,9 +185,6 @@ const EditEventForm = (props) => {
                 checked: eventSelected.time === "" ? true : false,
             }))
         }
-
-
-
 
         errors && (
             errors.title !== "" ||
@@ -236,187 +238,196 @@ const EditEventForm = (props) => {
     return (
         <>
             {state.redirect && <Redirect to="/calendar/events" />}
-            <EventIcon className={classes.icon} />
-            <Form
-                title="Edit event"
-                onSubmit={handleOnSubmit}
-            >
-                {/* Title */}
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left"
-                >
-                    Enter a title
-                    </Typography>
-                <CustomTextField
-                    autoFocus
-                    required
-                    className={classes.customTextField}
-                    label="Title"
-                    onChange={handleOnChange}
-                    value={state.title}
-                    name="title"
-                    helperText={state.errors.title}
-                    error={state.errors.title ? true : false}
-
-                />
-
-                {/* Date */}
-                <div className={classes.dateTimeWrapper}>
-                    <div className={classes.picker}>
+            {eventSelectedFound &&
+                <>
+                    <EventIcon className={classes.icon} />
+                    <Form
+                        title="Edit event"
+                        onSubmit={handleOnSubmit}
+                    >
+                        {/* Title */}
                         <Typography
                             variant="subtitle1"
                             className={classes.typography}
                             align="left"
                         >
-                            Pick a date
-                </Typography>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardDatePicker
-                                style={{ width: "150px" }}
-                                onChange={date => handleDateChange(date)}
-                                format="dd/MM/yyyy"
-                                id="date"
-                                label="Date"
-                                className={classes.customTextField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                inputVariant="outlined"
-                                value={state.date}
-                                name="date"
-                                required
-                                error={state.errors.date ? true : false}
-                                helperText={state.errors.date}
-                                minDate={new Date()}
-                            />
-                        </MuiPickersUtilsProvider>
-                    </div>
-
-                    {/* Time */}
-                    <div className={classes.picker}
-                        style={{ width: "140px" }}>
-                        <Typography
-                            variant="subtitle1"
-                            className={classes.typography}
-                            align="left"
-                        >
-                            Pick a time
-                        </Typography>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <KeyboardTimePicker
-                                mask="__:__ _M"
-                                onChange={time => handleTimeChange(time)}
-                                {...(state.noTimeSelected && { disabled: true })}
-                                id="time"
-                                label="Time"
-                                className={classes.customTextField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                inputProps={{
-                                    step: 300, // 5 min
-                                }}
-                                inputVariant="outlined"
-                                value={state.time}
-                                name="time"
-                            />
-                            <div
-                                className={classes.radioGroup}
-                            >
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={state.checked}
-                                            onChange={handleCheckbox}
-                                            color="primary"
-                                            name="noTimeSelected"
-                                            value={state.noTimeSelected}
-                                        />
-                                    }
-                                    label="All day"
-                                />
-                            </div>
-                        </MuiPickersUtilsProvider>
-                    </div>
-                </div>
-
-                {/* Location */}
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left"
-                    style={{ marginTop: "-3px" }}>
-                    Enter a location
+                            Enter a title
                     </Typography>
-                <CustomTextField
-                    className={classes.customTextField}
-                    onChange={handleOnChange}
-                    label="Location"
-                    value={state.location}
-                    name="location"
-                    helperText={state.errors.location}
-                    error={state.errors.location ? true : false}
-                />
+                        <CustomTextField
+                            autoFocus
+                            required
+                            className={classes.customTextField}
+                            label="Title"
+                            onChange={handleOnChange}
+                            value={state.title}
+                            name="title"
+                            helperText={state.errors.title}
+                            error={state.errors.title ? true : false}
 
-                {/* Members Attending */}
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left">
-                    Family member/s attending
-                    </Typography>
-                <Autocomplete
-                    name="membersAttending"
-                    onChange={handleMembersAttendingOnChange}
-                    multiple
-                    id="tags-outlined"
-                    renderTags={(options, getTagProps) =>
-                        options.map((option, index) => (
-                            <Chip
-                                variant="outlined"
-                                key={option.name}
-                                id={option.name}
-                                style={{
-                                    backgroundColor: `${getColorvalue(state.familyMembers[state.familyMembers.indexOf(option)].color)}`,
-                                    color: "white"
-                                }}
-                                label={option.name}
-                                {...getTagProps({ index })}
-                                onMouseDown={() => {
-
-                                    // Move item selected from membersAttending to membersAttending membersNotAttending
-                                    setState({
-                                        ...state,
-                                        membersAttending: state.membersAttending.filter(member => member.name !== option.name),
-                                        membersNotAttending: [...state.membersNotAttending, state.familyMembers.find(member => member.name === option.name)]
-                                    })
-                                }}
-                            />
-                        ))
-                    }
-                    options={state.familyMembers}
-                    getOptionLabel={(option) => option.name}
-                    filterSelectedOptions
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            variant="outlined"
-                            label="Members Attending"
-                            placeholder="Family Member"
                         />
-                    )}
-                />
-                <CustomButton
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                >
-                    EDIT EVENT
+
+                        {/* Date */}
+                        <div className={classes.dateTimeWrapper}>
+                            <div className={classes.picker}>
+                                <Typography
+                                    variant="subtitle1"
+                                    className={classes.typography}
+                                    align="left"
+                                >
+                                    Pick a date
+                </Typography>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                        style={{ width: "150px" }}
+                                        onChange={date => handleDateChange(date)}
+                                        format="dd/MM/yyyy"
+                                        id="date"
+                                        label="Date"
+                                        className={classes.customTextField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputVariant="outlined"
+                                        value={state.date}
+                                        name="date"
+                                        required
+                                        error={state.errors.date ? true : false}
+                                        helperText={state.errors.date}
+                                        minDate={new Date()}
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
+
+                            {/* Time */}
+                            <div className={classes.picker}
+                                style={{ width: "140px" }}>
+                                <Typography
+                                    variant="subtitle1"
+                                    className={classes.typography}
+                                    align="left"
+                                >
+                                    Pick a time
+                        </Typography>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardTimePicker
+                                        mask="__:__ _M"
+                                        onChange={time => handleTimeChange(time)}
+                                        {...(state.noTimeSelected && { disabled: true })}
+                                        id="time"
+                                        label="Time"
+                                        className={classes.customTextField}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            step: 300, // 5 min
+                                        }}
+                                        inputVariant="outlined"
+                                        value={state.time}
+                                        name="time"
+                                    />
+                                    <div
+                                        className={classes.radioGroup}
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={state.checked}
+                                                    onChange={handleCheckbox}
+                                                    color="primary"
+                                                    name="noTimeSelected"
+                                                    value={state.noTimeSelected}
+                                                />
+                                            }
+                                            label="All day"
+                                        />
+                                    </div>
+                                </MuiPickersUtilsProvider>
+                            </div>
+                        </div>
+
+                        {/* Location */}
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left"
+                            style={{ marginTop: "-3px" }}>
+                            Enter a location
+                    </Typography>
+                        <CustomTextField
+                            className={classes.customTextField}
+                            onChange={handleOnChange}
+                            label="Location"
+                            value={state.location}
+                            name="location"
+                            helperText={state.errors.location}
+                            error={state.errors.location ? true : false}
+                        />
+
+                        {/* Members Attending */}
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left">
+                            Family member/s attending
+                    </Typography>
+                        <Autocomplete
+                            defaultValue={getDefaultMembersAttending}
+                            name="membersAttending"
+                            onChange={handleMembersAttendingOnChange}
+                            multiple
+                            id="tags-outlined"
+                            renderTags={(options, getTagProps) =>
+                                options.map((option, index) => (
+                                    <Chip
+                                        variant="outlined"
+                                        key={option.name}
+                                        id={option.name}
+                                        style={{
+                                            backgroundColor:
+                                                // "blue"
+                                            `${getColorvalue(option.color)}`
+                                            ,
+                                            color: "white"
+                                        }}
+                                        label={option.name}
+                                        {...getTagProps({ index })}
+                                        onMouseDown={() => {
+
+                                            // Move item selected from membersAttending to membersAttending membersNotAttending
+                                            setState({
+                                                ...state,
+                                                membersAttending: state.membersAttending.filter(member => member.name !== option.name),
+                                                membersNotAttending: [...state.membersNotAttending, state.familyMembers.find(member => member.name === option.name)]
+                                            })
+                                        }}
+                                    />
+                                ))
+                            }
+                            options={family.members}
+                            getOptionLabel={(option) => option.name}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="outlined"
+                                    label="Members Attending"
+                                    placeholder="Family Member"
+                                />
+                            )}
+                        />
+                        <CustomButton
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            type="submit"
+                        >
+                            EDIT EVENT
                 </CustomButton>
-            </Form>
+                    </Form>
+                </>
+            }
+
         </>
     );
 }

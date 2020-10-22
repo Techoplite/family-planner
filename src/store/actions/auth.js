@@ -445,11 +445,8 @@ export const findEventToEdit = (eventToEdit, familyPassword) => {
 
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
-                console.log('snapshot :>> ', snapshot);
                 snapshot.docs.forEach(doc => {
-                    console.log('doc :>> ', doc);
                     const family = doc.data().family
-                    console.log('family :>> ', family);
                     const eventToEditFound = family.events.find(familyEvent => {
                         return (
                             familyEvent.title === eventToEdit.title &&
