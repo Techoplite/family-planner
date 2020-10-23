@@ -174,10 +174,17 @@ const EditEventForm = (props) => {
 
         })
     }
+
+    const getOptionsAvailable = () => {
+        const options = state.membersNotAttending
+        console.log('options :>> ', options);
+        console.log('state.membersAttending :>> ', state.membersAttending);
+        return options
+    }
+
     const { errors } = state
 
     useEffect(() => {
-        console.log('eventSelected :>> ', eventSelected);
         !state.isEventFound && props.findEventToEdit(eventSelected, family.password)
 
         family && state.familyMembers !== family.members && setState({
@@ -195,8 +202,6 @@ const EditEventForm = (props) => {
             errors.title !== "" ||
             errors.date !== "" ||
             errors.location !== "") && props.setMessage("Please check all fields", "error")
-
-        console.log('state after useEffect:>> ', state);
     }, [eventSelectedFound,])
 
 
@@ -245,7 +250,7 @@ const EditEventForm = (props) => {
     return (
         <>
             {state.redirect && <Redirect to="/calendar/events" />}
-            {eventSelected && state !== initialState && 
+            {eventSelected && state !== initialState && state.isEventFound &&
                 <>
                     <EventIcon className={classes.icon} />
                     <Form
@@ -379,7 +384,7 @@ const EditEventForm = (props) => {
                             Family member/s attending
                     </Typography>
                         <Autocomplete
-                            getOptionSelected={(option) => option.name}
+                            value={state.membersAttending}
                             defaultValue={getDefaultMembersAttending}
                             name="membersAttending"
                             onChange={handleMembersAttendingOnChange}
@@ -401,7 +406,9 @@ const EditEventForm = (props) => {
                                         label={option.name}
                                         {...getTagProps({ index })}
                                         onMouseDown={() => {
-                                            // Move item selected from membersAttending to membersNotAttending
+                                            // Move item selected from
+                                            // membersAttending to
+                                            // membersNotAttending
                                             setState({
                                                 ...state,
                                                 membersAttending: state.membersAttending.filter(member => member.name !== option.name),
@@ -411,7 +418,7 @@ const EditEventForm = (props) => {
                                     />
                                 ))
                             }
-                            options={state.membersNotAttending}
+                            options={getOptionsAvailable() !== state.options && getOptionsAvailable()}
                             getOptionLabel={(option) => option.name}
                             filterSelectedOptions
                             renderInput={(params) => (
