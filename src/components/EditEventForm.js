@@ -145,38 +145,8 @@ const EditEventForm = (props) => {
     }
 
     const getDefaultMembersAttending = () => {
-        const defaultValue = eventSelected.membersAttending
-        console.log('defaultValue :>> ', defaultValue);
-        console.log('eventSelected.membersAttending :>> ', eventSelected.membersAttending);
+        const defaultValue = eventSelectedFound.membersAttending
         return defaultValue
-    }
-
-    const getInitialMembersNotAttending = () => {
-        const familyMembersEmails = family.members.map(familyMember => familyMember.email)
-        const membersAttendingEmails = eventSelectedFound.membersAttending.map(memberAttending => memberAttending.email)
-        const membersNotAttendingEmails = familyMembersEmails.filter(email => !membersAttendingEmails.includes(email))
-        let membersNotAttending = []
-        membersNotAttendingEmails.filter(email => family.members.filter(member => member.email === email && (membersNotAttending = [...membersNotAttending, member])))
-        console.log('eventSelectedFound :>> ', eventSelectedFound);
-        console.log('familyMembersEmails :>> ', familyMembersEmails);
-        console.log('membersAttendingEmails :>> ', membersAttendingEmails);
-        console.log('membersNotAttendingEmails :>> ', membersNotAttendingEmails)
-        console.log('membersNotAttending :>> ', membersNotAttending);
-        return membersNotAttending
-    }
-    
-    const getMembersNotAttending = () => {
-        const familyMembersEmails = family.members.map(familyMember => familyMember.email)
-        const membersAttendingEmails = state.membersAttending.map(memberAttending => memberAttending.email)
-        const membersNotAttendingEmails = familyMembersEmails.filter(email => !membersAttendingEmails.includes(email))
-        let membersNotAttending = []
-        membersNotAttendingEmails.filter(email => family.members.filter(member => member.email === email && (membersNotAttending = [...membersNotAttending, member])))
-        console.log('eventSelectedFound :>> ', eventSelectedFound);
-        console.log('familyMembersEmails :>> ', familyMembersEmails);
-        console.log('membersAttendingEmails :>> ', membersAttendingEmails);
-        console.log('membersNotAttendingEmails :>> ', membersNotAttendingEmails)
-        console.log('membersNotAttending :>> ', membersNotAttending);
-        return membersNotAttending
     }
 
     const handleCheckbox = (e) => {
@@ -198,20 +168,21 @@ const EditEventForm = (props) => {
             membersNotAttending: family.members
         })
 
+
         if (eventSelectedFound && !state.isEventFound) {
             setState(prevState => ({
                 ...prevState,
-                title: eventSelected.title,
-                date: eventSelected.rawDate,
-                family: eventSelected.family,
-                location: (eventSelected.location !== false) ? eventSelected.location : "",
-                membersAttending: eventSelected.membersAttending,
-                membersNotAttending: getInitialMembersNotAttending(),
-                time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
-                noTimeSelected: eventSelected.time !== "" ? false : true,
-                users: eventSelected.users,
+                title: eventSelectedFound.title,
+                date: eventSelectedFound.rawDate,
+                family: eventSelectedFound.family,
+                location: (eventSelectedFound.location !== false) ? eventSelectedFound.location : "",
+                membersAttending: eventSelectedFound.membersAttending,
+                membersNotAttending: eventSelectedFound.membersNotAttending,
+                time: eventSelectedFound.time === "" ? new Date() : eventSelectedFound.rawTime,
+                noTimeSelected: eventSelectedFound.time !== "" ? false : true,
+                users: eventSelectedFound.users,
                 isEventFound: true,
-                checked: eventSelected.time === "" ? true : false,
+                checked: eventSelectedFound.time === "" ? true : false,
             }))
         }
 
@@ -222,7 +193,7 @@ const EditEventForm = (props) => {
         return () => {
             setState(initialState)
         }
-    }, [eventSelectedFound])
+    }, [eventSelectedFound,])
 
 
 
@@ -404,6 +375,7 @@ const EditEventForm = (props) => {
                             Family member/s attending
                     </Typography>
                         <Autocomplete
+                            getOptionSelected={(option) => option.name}
                             defaultValue={getDefaultMembersAttending}
                             name="membersAttending"
                             onChange={handleMembersAttendingOnChange}
@@ -425,7 +397,6 @@ const EditEventForm = (props) => {
                                         label={option.name}
                                         {...getTagProps({ index })}
                                         onMouseDown={() => {
-
                                             // Move item selected from membersAttending to membersNotAttending
                                             setState({
                                                 ...state,
@@ -436,7 +407,7 @@ const EditEventForm = (props) => {
                                     />
                                 ))
                             }
-                            options={getMembersNotAttending()}
+                            options={state.membersNotAttending}
                             getOptionLabel={(option) => option.name}
                             filterSelectedOptions
                             renderInput={(params) => (
