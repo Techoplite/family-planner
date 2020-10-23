@@ -342,7 +342,7 @@ export const addEvent = (state, familyPassword, user) => {
 
         const firestore = getFirestore()
 
-        const { title, date, time, location, membersAttending, rawDate, rawTime } = state
+        const { title, date, time, location, membersAttending, membersNotAttending, rawDate, rawTime } = state
 
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
@@ -357,6 +357,7 @@ export const addEvent = (state, familyPassword, user) => {
                         time,
                         location,
                         membersAttending,
+                        membersNotAttending,
                         family: familyPassword,
                         user
                     })
@@ -383,6 +384,7 @@ export const addEvent = (state, familyPassword, user) => {
                         time,
                         location,
                         membersAttending,
+                        membersNotAttending,
                         family: familyPassword,
                         user
                     }
