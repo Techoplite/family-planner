@@ -145,8 +145,25 @@ const EditEventForm = (props) => {
     }
 
     const getDefaultMembersAttending = () => {
-        const defaultValue = eventSelectedFound.membersAttending
+        const defaultValue = eventSelected.membersAttending
         return defaultValue
+    }
+
+    const getState = () => {
+        setState(prevState => ({
+            ...prevState,
+            title: eventSelected.title,
+            date: eventSelected.rawDate,
+            family: eventSelected.family,
+            location: (eventSelected.location !== false) ? eventSelected.location : "",
+            membersAttending: eventSelected.membersAttending,
+            membersNotAttending: eventSelected.membersNotAttending,
+            time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
+            noTimeSelected: eventSelected.time !== "" ? false : true,
+            user: eventSelected.user,
+            isEventFound: true,
+            checked: eventSelected.time === "" ? true : false,
+        }))
     }
 
     const handleCheckbox = (e) => {
@@ -160,6 +177,7 @@ const EditEventForm = (props) => {
     const { errors } = state
 
     useEffect(() => {
+        console.log('eventSelected :>> ', eventSelected);
         !state.isEventFound && props.findEventToEdit(eventSelected, family.password)
 
         family && state.familyMembers !== family.members && setState({
@@ -170,29 +188,15 @@ const EditEventForm = (props) => {
 
 
         if (eventSelectedFound && !state.isEventFound) {
-            setState(prevState => ({
-                ...prevState,
-                title: eventSelectedFound.title,
-                date: eventSelectedFound.rawDate,
-                family: eventSelectedFound.family,
-                location: (eventSelectedFound.location !== false) ? eventSelectedFound.location : "",
-                membersAttending: eventSelectedFound.membersAttending,
-                membersNotAttending: eventSelectedFound.membersNotAttending,
-                time: eventSelectedFound.time === "" ? new Date() : eventSelectedFound.rawTime,
-                noTimeSelected: eventSelectedFound.time !== "" ? false : true,
-                users: eventSelectedFound.users,
-                isEventFound: true,
-                checked: eventSelectedFound.time === "" ? true : false,
-            }))
+            getState()
         }
 
         errors && (
             errors.title !== "" ||
             errors.date !== "" ||
             errors.location !== "") && props.setMessage("Please check all fields", "error")
-        return () => {
-            setState(initialState)
-        }
+
+        console.log('state after useEffect:>> ', state);
     }, [eventSelectedFound,])
 
 
@@ -241,7 +245,7 @@ const EditEventForm = (props) => {
     return (
         <>
             {state.redirect && <Redirect to="/calendar/events" />}
-            {eventSelectedFound && state !== initialState &&
+            {eventSelected && state !== initialState && 
                 <>
                     <EventIcon className={classes.icon} />
                     <Form

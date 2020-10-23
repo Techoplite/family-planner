@@ -173,14 +173,10 @@ const EventList = (props) => {
         let matechesFound = []
         matechesFound = eventsFiltered.find(familyEvent =>
           familyEvent.title === filteredEvent.title)
-        console.log('y:>> ', matechesFound)
         if (matechesFound !== undefined) {
           eventsFilteredByMembersAttending = [...eventsFilteredByMembersAttending, matechesFound]
         }
       })
-      console.log('eventsFiltered outer:>> ', eventsFiltered)
-      console.log('eventsFilteredByMembersAttending :>> ', eventsFilteredByMembersAttending);
-
 
       setState({
         ...state,
@@ -199,7 +195,6 @@ const EventList = (props) => {
   };
 
   const handleDelete = () => {
-    console.log("should delete")
     setState({
       ...state,
       alert: false
