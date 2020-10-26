@@ -89,7 +89,16 @@ const user = (state = initialState, action) => {
         case 'EDIT_EVENT_SUCCESS':
             return {
                 ...state,
-                family: action.payload
+                family: {
+                    ...state.family,
+                    events: 
+                    [...state.family.events.filter(event => {
+                           return ( event.name !== action.payload.eventToEdit.name,
+                            event.time !== action.payload.eventToEdit.time,
+                            event.date !== action.payload.eventToEdit.date)
+                        
+                    }), action.payload.eventEdited]
+                }
             }
         default:
             return state

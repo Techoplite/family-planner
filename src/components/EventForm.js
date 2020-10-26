@@ -30,7 +30,8 @@ const EventForm = (props) => {
     const initialState = {
         redirect: false,
         title: "",
-        noTimeSelected: false,
+        noTimeSelected: true,
+        checked: true,
         location: "",
         membersAttending: [],
         membersNotAttending: [],
@@ -283,7 +284,7 @@ const EventForm = (props) => {
                             <KeyboardTimePicker
                                 mask="__:__ _M"
                                 onChange={time => handleTimeChange(time)}
-                                {...(state.noTimeSelected && { disabled: true })}
+                                {...(state.noTimeSelected ? { disabled: true } : { disabled: false })}
                                 id="time"
                                 label="Time"
                                 className={classes.customTextField}

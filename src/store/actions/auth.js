@@ -495,18 +495,22 @@ export const editEvent = (eventToEdit, familyPassword, state) => {
                                     },
                                     )
                             })
-                    }).then(() => {
-                        dispatch({
-                            type: "EDIT_EVENT_SUCCESS",
-                            payload: family
-                        })
-                        dispatch(
-                            setMessage("Event successfully updated to family calendar.", "success")
-                        )
                     })
                 })
             })
-
+            .then(() => {
+                dispatch({
+                    type: "EDIT_EVENT_SUCCESS",
+                    payload:
+                    {
+                        eventToEdit,
+                        eventEdited: state,
+                    }
+                })
+                dispatch(
+                    setMessage("Event successfully updated to family calendar.", "success")
+                )
+            })
     }
 }
 

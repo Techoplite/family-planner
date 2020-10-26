@@ -161,10 +161,11 @@ const EditEventForm = (props) => {
             membersAttending: eventSelected.membersAttending,
             membersNotAttending: eventSelected.membersNotAttending,
             time: eventSelected.time === "" ? new Date() : new Date(eventSelected.rawTime),
-            noTimeSelected: eventSelected.time !== "" ? false : true,
+            noTimeSelected: eventSelected.noTimeSelected,
+            checked: eventSelected.noTimeSelected,
             user: eventSelected.user,
             isEventFound: true,
-            checked: eventSelected.time === "" ? true : false,
+            // checked: eventSelected.time === "" ? true : false,
         }))
     }
 
@@ -173,6 +174,7 @@ const EditEventForm = (props) => {
         setState({
             ...state,
             [name]: checked,
+            checked: checked
 
         })
     }
