@@ -238,7 +238,7 @@ const EventList = (props) => {
           familyMembers: auth.family.members
         }
       }));
-  }, [auth.family && auth.family && auth.family.events]);
+  }, [auth.family && auth.family]);
 
   // Material UI
   const useStyles = makeStyles((theme) => ({
