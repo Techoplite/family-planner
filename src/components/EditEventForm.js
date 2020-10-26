@@ -11,7 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CustomButton from './inputs/CustomButton';
 import { setMessage } from '../store/actions/message'
-import { findEventToEdit } from '../store/actions/auth'
+import { findEventToEdit, editEvent } from '../store/actions/auth'
 import { Redirect, withRouter } from 'react-router-dom';
 import {
     MuiPickersUtilsProvider,
@@ -83,7 +83,7 @@ const EditEventForm = (props) => {
         let minutes = date.getMinutes();
         let ampm = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = hours ? hours : 12;
         minutes = minutes < 10 ? '0' + minutes : minutes;
         hours = hours < 10 ? '0' + hours : hours;
         const strTime = hours + ':' + minutes + ' ' + ampm;
@@ -91,8 +91,8 @@ const EditEventForm = (props) => {
     }
 
     const convertDate = (date) => {
-        const day = date.getDate()
-        const month = date.getMonth() + 1
+        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)
         const year = date.getFullYear()
         return day + "/" + month + "/" + year
     }
@@ -116,8 +116,10 @@ const EditEventForm = (props) => {
                 date: convertDate(state.date),
                 rawDate: state.date.toString(),
                 time,
+                rawTime: state.time.toString(),
                 location,
             }
+            props.editEvent(eventSelected, family.password, convertedState)
             redirect()
         }
         return () => {
@@ -153,12 +155,12 @@ const EditEventForm = (props) => {
         setState(prevState => ({
             ...prevState,
             title: eventSelected.title,
-            date: eventSelected.rawDate,
+            date: new Date(eventSelected.rawDate),
             family: eventSelected.family,
             location: (eventSelected.location !== false) ? eventSelected.location : "",
             membersAttending: eventSelected.membersAttending,
             membersNotAttending: eventSelected.membersNotAttending,
-            time: eventSelected.time === "" ? new Date() : eventSelected.rawTime,
+            time: eventSelected.time === "" ? new Date() : new Date(eventSelected.rawTime),
             noTimeSelected: eventSelected.time !== "" ? false : true,
             user: eventSelected.user,
             isEventFound: true,
@@ -177,8 +179,6 @@ const EditEventForm = (props) => {
 
     const getOptionsAvailable = () => {
         const options = state.membersNotAttending
-        console.log('options :>> ', options);
-        console.log('state.membersAttending :>> ', state.membersAttending);
         return options
     }
 
@@ -459,6 +459,7 @@ const mapDispatchToProps = dispatch => {
     return {
         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
         findEventToEdit: (state, family, user) => dispatch(findEventToEdit(state, family, user)),
+        editEvent: (eventToEdit, familyPassword, state) => dispatch(editEvent(eventToEdit, familyPassword, state))
     }
 }
 

@@ -465,4 +465,52 @@ export const findEventToEdit = (eventToEdit, familyPassword) => {
     }
 }
 
+export const editEvent = (eventToEdit, familyPassword, state) => {
+    return (dispatch, getState, { getFirestore }) => {
+
+        const firestore = getFirestore()
+
+
+        firestore.collection("families").where("family.password", "==", familyPassword).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const familyDOCRef = doc.ref
+                    const family = doc.data().family
+                    let filteredFamilyEvents = family.events.filter(familyEvent => {
+                        return (
+                            familyEvent.title !== eventToEdit.title &&
+                            familyEvent.date !== eventToEdit.date &&
+                            familyEvent.time !== eventToEdit.time
+                        )
+                    })
+                    
+                    filteredFamilyEvents.push(state)
+                    family.events = filteredFamilyEvents
+                    firestore.runTransaction(transaction => {
+                        return transaction.get(familyDOCRef)
+                            .then(doc => {
+                                doc.exists &&
+                                    transaction.set(familyDOCRef, {
+                                        family
+                                    },
+                                    )
+                            })
+                    })
+                })
+            })
+            .then(() => {
+                dispatch({
+                    type: "EDIT_EVENT_SUCCESS",
+                    payload:
+                    {
+                        eventToEdit,
+                        eventEdited: state,
+                    }
+                })
+                dispatch(
+                    setMessage("Event successfully updated to family calendar.", "success")
+                )
+            })
+    }
+}
 

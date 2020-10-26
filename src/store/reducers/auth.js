@@ -86,6 +86,21 @@ const user = (state = initialState, action) => {
                 ...state,
                 eventSelected: action.payload
             }
+        case 'EDIT_EVENT_TO_EDIT_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    events: [...state.family.events.map(event => {
+                        let eventToEdit = (
+                            event.name === action.payload.eventToEdit.name,
+                            event.time === action.payload.eventToEdit.time,
+                            event.date === action.payload.eventToEdit.date)
+                        eventToEdit = action.payload.eventEdited
+
+                    })]
+                }
+            }
         default:
             return state
     }

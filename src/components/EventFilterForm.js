@@ -175,7 +175,7 @@ const EventFilterform = (props) => {
                 <RadioGroup aria-label="by-multiple-days" name="by-multiple-days" value={state.filter.byMultipleDays} onChange={handleRadioChange}>
                     <FormControlLabel value="next-7-days" control={<Radio color="primary" />} label="Next 7 days" {...(state.filter.noSingleDay === false && { disabled: true })} />
                     <FormControlLabel value="next-month" control={<Radio color="primary" />} label="Next month"  {...(state.filter.noSingleDay === false && { disabled: true })} />
-                    <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" />
+                    <FormControlLabel value="all-events" control={<Radio color="primary" />} label="All events" {...(state.filter.noSingleDay === false && { disabled: true })} />
                 </RadioGroup>
             </div>
             <div className={classes.wrapper} style={{ marginBottom: 0 }}>
