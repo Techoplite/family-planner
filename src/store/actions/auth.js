@@ -489,7 +489,7 @@ export const editEvent = (eventToEdit, familyPassword, state) => {
                     console.log('filteredFamilyEvents :>> ', filteredFamilyEvents);
                     family.events = [...filteredFamilyEvents, state]
                     console.log('family.events final :>> ', family.events);
-                    familyDOCRef.update({
+                    return familyDOCRef.update({
                         "family": family
                     })
                 })
