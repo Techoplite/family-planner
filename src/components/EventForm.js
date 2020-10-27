@@ -114,6 +114,7 @@ const EventForm = (props) => {
                 rawTime: state.time.toString(),
                 time,
                 location,
+                
             }
             props.addEvent(convertedState, family.password, user)
             redirect()

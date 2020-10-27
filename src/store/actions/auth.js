@@ -342,7 +342,7 @@ export const addEvent = (state, familyPassword, user) => {
 
         const firestore = getFirestore()
 
-        const { title, date, time, location, membersAttending, membersNotAttending, rawDate, rawTime } = state
+        const { title, date, time, location, membersAttending, membersNotAttending, rawDate, rawTime, noTimeSelected, checked } = state
 
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
@@ -359,7 +359,9 @@ export const addEvent = (state, familyPassword, user) => {
                         membersAttending,
                         membersNotAttending,
                         family: familyPassword,
-                        user
+                        user,
+                        noTimeSelected,
+                        checked
                     })
                     firestore.runTransaction(transaction => {
                         return transaction.get(familyDOCRef)
@@ -381,12 +383,15 @@ export const addEvent = (state, familyPassword, user) => {
                         title,
                         date,
                         rawDate,
+                        rawTime,
                         time,
                         location,
                         membersAttending,
                         membersNotAttending,
                         family: familyPassword,
-                        user
+                        user,
+                        noTimeSelected,
+                        checked
                     }
                 })
                 dispatch(
@@ -467,34 +472,25 @@ export const findEventToEdit = (eventToEdit, familyPassword) => {
 
 export const editEvent = (eventToEdit, familyPassword, state) => {
     return (dispatch, getState, { getFirestore }) => {
-
         const firestore = getFirestore()
-
-
         firestore.collection("families").where("family.password", "==", familyPassword).get()
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     const familyDOCRef = doc.ref
-                    const family = doc.data().family
+                    let family = doc.data().family
+                    console.log('family.events initial:>> ', family.events);
                     let filteredFamilyEvents = family.events.filter(familyEvent => {
                         return (
                             familyEvent.title !== eventToEdit.title &&
-                            familyEvent.date !== eventToEdit.date &&
-                            familyEvent.time !== eventToEdit.time
+                            familyEvent.rawDate !== eventToEdit.rawDate &&
+                            familyEvent.rawTime !== eventToEdit.rawTime
                         )
                     })
-
-                    filteredFamilyEvents.push(state)
-                    family.events = filteredFamilyEvents
-                    firestore.runTransaction(transaction => {
-                        return transaction.get(familyDOCRef)
-                            .then(doc => {
-                                doc.exists &&
-                                    transaction.set(familyDOCRef, {
-                                        family
-                                    },
-                                    )
-                            })
+                    console.log('filteredFamilyEvents :>> ', filteredFamilyEvents);
+                    family.events = [...filteredFamilyEvents, state]
+                    console.log('family.events final :>> ', family.events);
+                    familyDOCRef.update({
+                        "family": family
                     })
                 })
             })
