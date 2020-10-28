@@ -478,7 +478,6 @@ export const editEvent = (eventToEdit, familyPassword, state) => {
                 snapshot.docs.forEach(doc => {
                     const familyDOCRef = doc.ref
                     let family = doc.data().family
-                    console.log('family.events initial:>> ', family.events);
                     let filteredFamilyEvents = family.events.filter(familyEvent => {
                         return (
                             familyEvent.title !== eventToEdit.title &&
@@ -486,9 +485,7 @@ export const editEvent = (eventToEdit, familyPassword, state) => {
                             familyEvent.rawTime !== eventToEdit.rawTime
                         )
                     })
-                    console.log('filteredFamilyEvents :>> ', filteredFamilyEvents);
                     family.events = [...filteredFamilyEvents, state]
-                    console.log('family.events final :>> ', family.events);
                     return familyDOCRef.update({
                         "family": family
                     })

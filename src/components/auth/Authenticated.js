@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
-import Section from './Section'
+import Section from '../Section'
 import { Grid, makeStyles } from '@material-ui/core';
 import EventIcon from '@material-ui/icons/Event';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import { Link, Switch, Route } from 'react-router-dom'
-import Calendar from './Calendar'
-import ShoppingList from './ShoppingList'
-import TodoList from './TodoList'
-import EditEventForm from './EditEventForm'
+import Calendar from '../calendar/Calendar'
+import ShoppingList from '../shopping-list/ShoppingList'
+import TodoList from '../todo-list/TodoList'
+import EditEventForm from '../calendar/EditEventForm'
 
 
 const Authenticated = (props) => {

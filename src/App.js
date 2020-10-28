@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar/Navbar';
 import { Grid, makeStyles } from '@material-ui/core';
 import { connect } from 'react-redux'
 import TemporaryDrawer from './components/TemporaryDrawer';
-import Anonymous from './components/Anonymous';
-import Authenticated from './components/Authenticated';
+import Anonymous from './components/auth/Anonymous';
+import Authenticated from './components/auth/Authenticated';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { getUserProfile } from './store/actions/auth';
 

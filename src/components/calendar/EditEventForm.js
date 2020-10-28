@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
-import { useForm, Form } from './hooks/useForm'
+import { useForm, Form } from '../hooks/useForm'
 import EventIcon from '@material-ui/icons/Event';
 import { makeStyles, TextField, Typography } from '@material-ui/core'
-import CustomTextField from './inputs/CustomTextField';
+import CustomTextField from '../inputs/CustomTextField';
 import { Autocomplete } from '@material-ui/lab';
 import { connect } from 'react-redux'
 import Chip from '@material-ui/core/Chip';
-import getColorvalue from './outputs/ColorValues'
+import getColorvalue from '../outputs/ColorValues'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import CustomButton from './inputs/CustomButton';
-import { setMessage } from '../store/actions/message'
-import { findEventToEdit, editEvent } from '../store/actions/auth'
+import CustomButton from '../inputs/CustomButton';
+import { setMessage } from '../../store/actions/message'
+import { findEventToEdit, editEvent } from '../../store/actions/auth'
 import { Redirect, withRouter } from 'react-router-dom';
 import {
     MuiPickersUtilsProvider,

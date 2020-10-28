@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { AppBar, Toolbar, Grid, Typography, makeStyles } from '@material-ui/core'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import CustomButton from './inputs/CustomButton'
-import Message from './outputs/Message';
+import CustomButton from '../inputs/CustomButton'
+import Message from '../outputs/Message';
 import { connect } from 'react-redux'
-import { clearMessage } from './../store/actions/message'
-import getColorValue from './outputs/ColorValues';
+import { clearMessage } from '../../store/actions/message'
+import getColorValue from '../outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
 
