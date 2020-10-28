@@ -79,7 +79,8 @@ const ShoppingList = () => {
                             />}
                         label={
                             `${item.text} ${item.shop && `[${item.shop}]`} 
-                            ${item.quantity !== 0 && `x${item.quantity}`}`}
+                            ${item.quantity ? `x${item.quantity}` : ""}`
+                        }
                     />
                 )}
             </Paper>
