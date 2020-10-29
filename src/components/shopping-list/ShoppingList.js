@@ -44,7 +44,9 @@ const ShoppingList = () => {
             backgroundColor: '#edd45d',
             display: 'flex',
             alignItems: 'baseline',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            width: "80%",
+            marginLeft: "10%"
         },
         typography: {
             marginBottom: theme.spacing(4),
