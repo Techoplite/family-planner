@@ -273,7 +273,6 @@ const EventList = (props) => {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(9)
     },
-
     addCircleIcon: {
       fontSize: "4.5rem",
       position: "fixed",
