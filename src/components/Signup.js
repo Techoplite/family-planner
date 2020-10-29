@@ -69,7 +69,8 @@ const Signup = (props) => {
             name: "",
             email: "",
             password: "",
-            color: ""
+            color: "",
+            surname: ""
         },
         createFamily: false,
         surname: "",
@@ -90,6 +91,7 @@ const Signup = (props) => {
                 /[0-9]/i.test(state.password)
                 ? "" : "Password must contain at list 8 alphanumerical values."))
         errors.color = (state.color ? "" : "Color is required.")
+        errors.surname = (state.surname === "" && state.createFamily === true) ? "Please provide a surname for your family" : ""
         setState({
             ...state,
             errors
@@ -178,6 +180,7 @@ const Signup = (props) => {
             errors.name !== "" ||
             errors.email !== "" ||
             errors.color !== "" ||
+            errors.surname !== "" ||
             errors.password !== "") && props.setMessage("Please check all fields", "error") && console.log("error");
     }, [errors, props])
 
