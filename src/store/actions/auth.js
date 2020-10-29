@@ -62,10 +62,6 @@ export const signup = (credentials, name, color, surname) => {
             .then(() => {
                 var user = firebase.auth().currentUser;
 
-                // Add user email to collection
-                const passwords = firestore.collection("passwords").doc()
-                batch.set(passwords, { password })
-
                 // Join family
                 if (surname === "") {
                     firestore.collection("families").where("family.password", "==", password).get()
@@ -151,6 +147,10 @@ export const signup = (credentials, name, color, surname) => {
                     batch.set(families, {
                         family
                     })
+                    // Add user email to collection
+                    const passwords = firestore.collection("passwords").doc()
+                    batch.set(passwords, { password })
+                    console.log("New password added");
                     // Add profile associated to the user
                     firestore.collection("profiles").doc(user.uid).set({
                         name: capitalisedName,
