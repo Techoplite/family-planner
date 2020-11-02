@@ -53,6 +53,7 @@ const AddShoppingItemForm = (props) => {
         if (validate()) {
             console.log("form is VALID");
             const itemName = state.itemName !== "" && state.itemName[0].toUpperCase() + state.itemName.substring(1)
+            itemName.trim()
             const shop = state.shop !== "" && state.shop[0].toUpperCase() + state.shop.substring(1)
             const convertedState = {
                 itemName,
