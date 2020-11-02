@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles, Typography } from "@material-ui/core";
@@ -12,17 +12,11 @@ import { connect } from "react-redux";
 
 
 const ShoppingItems = (props) => {
+    // Redux
+    const { auth } = props;
 
     // React
-    const initialState = {
-        shoppingItems: [
-            { text: 'Bleach', shop: 'Tesco', quantity: 3 },
-            { text: 'Butter', shop: '', quantity: 0 },
-            { text: 'Toilet Paper', shop: 'Aldi', quantity: 1 },
-            { text: 'Cheese', shop: 'Asda', quantity: 0 },
-            { text: 'Salad', shop: '', quantity: 0 },
-        ],
-    }
+    const initialState = { shoppingItems: [] }
     const [state, setState] = useState(initialState)
 
     const handleChange = (e) => {
@@ -31,6 +25,22 @@ const ShoppingItems = (props) => {
             [e.target.id]: e.target.checked
         });
     }
+
+
+    useEffect(() => {
+        state &&
+            console.log('state :>> ', state);
+        auth.family &&
+            setState((prevState) => ({
+                ...prevState,
+                shoppingItems: auth.family.shoppingItems,
+                // eventsFiltered: auth.family.events,
+                // filter: {
+                //     ...prevState.filter,
+                //     familyMembers: auth.family.members
+                // }
+            }));
+    }, [auth.family && auth.family]);
 
     // Material UI
     const useStyles = makeStyles((theme) => ({
@@ -83,22 +93,23 @@ const ShoppingItems = (props) => {
                 {state && state.shoppingItems.map(item =>
                     < FormControlLabel
                         style={{
-                            textDecoration: state[item.text] === true && 'line-through',
-                            color: state[item.text] === true && "#f50057"
+                            textDecoration: state[item.itemName] === true && 'line-through',
+                            color: state[item.itemName] === true && "#f50057"
                         }}
-                        key={item.text}
+                        key={item.itemName}
                         className={classes.formControlLabel}
                         control={
                             < Checkbox
-                                id={item.text}
+                                id={item.itemName}
                                 icon={<RadioButtonUncheckedIcon />}
                                 checkedIcon={<CheckCircleOutlineIcon />}
-                                name={item.text}
+                                name={item.itemName}
                                 onChange={handleChange}
                             />}
                         label={
-                            `${item.text} ${item.shop && `[${item.shop}]`} 
-                            ${item.quantity ? `x${item.quantity}` : ""}`
+                            `${item.itemName} 
+                            ${item.shop !== false ? `[${item.shop}]` : ""} 
+                            ${item.quantity !== "" ? `x${item.quantity}` : ""}`
                         }
                     />
                 )}
