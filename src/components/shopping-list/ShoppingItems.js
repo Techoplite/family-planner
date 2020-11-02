@@ -9,6 +9,7 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { connect } from "react-redux";
+import CustomButton from '../inputs/CustomButton';
 
 
 const ShoppingItems = (props) => {
@@ -16,29 +17,32 @@ const ShoppingItems = (props) => {
     const { auth } = props;
 
     // React
-    const initialState = { shoppingItems: [] }
+    const initialState = { shoppingItems: [], itemsToDelete: [] }
     const [state, setState] = useState(initialState)
 
     const handleChange = (e) => {
-        setState({
-            ...state,
-            [e.target.id]: e.target.checked
-        });
+        e.target.checked === true ?
+            setState({
+                ...state,
+                itemsToDelete: [...state.itemsToDelete, e.target.id]
+            })
+            :
+            setState({
+                ...state,
+                itemsToDelete: state.itemsToDelete.filter(item => (item
+                    !== e.target.id))
+            })
     }
 
+    const handleClick = () => {
+        const shoppingItems = state.shoppingItems.filter(shoppingItem => !state.itemsToDelete.includes(shoppingItem.itemName))
+    }
 
     useEffect(() => {
-        state &&
-            console.log('state :>> ', state);
-        auth.family &&
+        state && auth.family &&
             setState((prevState) => ({
                 ...prevState,
                 shoppingItems: auth.family.shoppingItems,
-                // eventsFiltered: auth.family.events,
-                // filter: {
-                //     ...prevState.filter,
-                //     familyMembers: auth.family.members
-                // }
             }));
     }, [auth.family && auth.family]);
 
@@ -57,14 +61,16 @@ const ShoppingItems = (props) => {
             alignItems: 'baseline',
             flexDirection: 'column',
             width: "80%",
-            marginLeft: "10%"
+            marginLeft: "10%",
+            paddingTop: theme.spacing(1),
+            paddingBottom: theme.spacing(1),
+
         },
         typography: {
             marginBottom: theme.spacing(4),
         },
         formControlLabel: {
             marginLeft: theme.spacing(1),
-            marginTop: theme.spacing(1),
         },
         addIcon: {
             position: "fixed",
@@ -83,43 +89,60 @@ const ShoppingItems = (props) => {
             bottom: "1rem",
             right: "1rem"
         },
+        customButton: {
+            width: "80%",
+            marginTop: theme.spacing(4),
+        }
     }));
     const classes = useStyles();
     return (
-        <>
-            <ShoppingCartIcon className={classes.icon} />
-            <Typography variant="h5" className={classes.typography} >Shopping List</Typography>
-            <Paper elevation={3} className={classes.paper}>
-                {state.shoppingItems && state.shoppingItems.map(item =>
-                    < FormControlLabel
-                        style={{
-                            textDecoration: state[item.itemName] === true && 'line-through',
-                            color: state[item.itemName] === true && "#f50057"
-                        }}
-                        key={item.itemName}
-                        className={classes.formControlLabel}
-                        control={
-                            < Checkbox
-                                id={item.itemName}
-                                icon={<RadioButtonUncheckedIcon />}
-                                checkedIcon={<CheckCircleOutlineIcon />}
-                                name={item.itemName}
-                                onChange={handleChange}
-                            />}
-                        label={
-                            `${item.itemName} 
+        <>{state.shoppingItems &&
+            <>
+                <ShoppingCartIcon className={classes.icon} />
+                <Typography variant="h5" className={classes.typography} >Shopping List</Typography>
+                <Paper elevation={3} className={classes.paper}>
+                    {state.shoppingItems && state.shoppingItems.map(item =>
+                        < FormControlLabel
+                            style={{
+                                textDecoration: state.itemsToDelete.includes(item.itemName) && 'line-through',
+                                color: state.itemsToDelete.includes(item.itemName) && "#f50057"
+                            }}
+                            key={item.itemName}
+                            className={classes.formControlLabel}
+                            control={
+                                < Checkbox
+                                    id={item.itemName}
+                                    icon={<RadioButtonUncheckedIcon />}
+                                    checkedIcon={<CheckCircleOutlineIcon />}
+                                    name={item.itemName}
+                                    onChange={handleChange}
+                                />}
+                            label={
+                                `${item.itemName} 
                             ${item.shop !== false ? `[${item.shop}]` : ""} 
                             ${item.quantity !== "" ? `x${item.quantity}` : ""}`
-                        }
-                    />
-                )}
-            </Paper>
-            <Link to="/shopping-list/add-shopping-item">
-                <div className={classes.addIcon}>
-                    <div className={classes.whiteBackground}></div>
-                    <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
-                </div>
-            </Link>
+                            }
+                        />
+                    )}
+                </Paper>
+                <CustomButton
+                    className={classes.customButton}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                    onClick={handleClick}
+                >
+                    UPDATE LIST
+                </CustomButton>
+                <Link to="/shopping-list/add-shopping-item">
+                    <div className={classes.addIcon}>
+                        <div className={classes.whiteBackground}></div>
+                        <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+                    </div>
+                </Link>
+            </>
+        }
         </>
     );
 }

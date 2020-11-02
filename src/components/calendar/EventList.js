@@ -170,11 +170,11 @@ const EventList = (props) => {
 
       let eventsFilteredByMembersAttending = []
       eventsFiltered = newFilterByEmail.filter(filteredEvent => {
-        let matechesFound = []
-        matechesFound = eventsFiltered.find(familyEvent =>
+        let matchesFound = []
+        matchesFound = eventsFiltered.find(familyEvent =>
           familyEvent.title === filteredEvent.title)
-        if (matechesFound !== undefined) {
-          eventsFilteredByMembersAttending = [...eventsFilteredByMembersAttending, matechesFound]
+        if (matchesFound !== undefined) {
+          eventsFilteredByMembersAttending = [...eventsFilteredByMembersAttending, matchesFound]
         }
       })
 

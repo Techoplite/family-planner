@@ -13,7 +13,6 @@ const EventFilterform = (props) => {
     const { state, setState } = props
 
     const handleChange = (e, member) => {
-        // e.preventDefault()
         if (state.filter.byMembersAttending.find(familyMember => familyMember.email === member.email)) {
             // Remove member from the list
             setState({
