@@ -181,7 +181,7 @@ const AddShoppingItemForm = (props) => {
                     fullWidth
                     type="submit"
                 >
-                    ADD SHOPPIING ITEM
+                    ADD SHOPPING ITEM
                 </CustomButton>
             </Form>
         </>

@@ -90,7 +90,7 @@ const ShoppingItems = (props) => {
             <ShoppingCartIcon className={classes.icon} />
             <Typography variant="h5" className={classes.typography} >Shopping List</Typography>
             <Paper elevation={3} className={classes.paper}>
-                {state && state.shoppingItems.map(item =>
+                {state.shoppingItems && state.shoppingItems.map(item =>
                     < FormControlLabel
                         style={{
                             textDecoration: state[item.itemName] === true && 'line-through',

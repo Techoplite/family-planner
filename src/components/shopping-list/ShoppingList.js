@@ -16,7 +16,7 @@ const ShoppingList = (props) => {
 
     return (
         <>
-            {auth.family && auth.family.shoppingItems.length > 0 ?
+            {auth.family.shoppingItems && auth.family.shoppingItems.length > 0 ?
                 <Redirect to={`${url}/shopping-list-items`} />
                 :
                 <Redirect to={`${url}/add-shopping-item`} />
