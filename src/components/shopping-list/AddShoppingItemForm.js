@@ -62,8 +62,6 @@ const AddShoppingItemForm = (props) => {
             }
             props.addShoppingItem(convertedState, familyPassword)
             redirect()
-        } else {
-            console.log("form is invalid");
         }
         return () => {
             setState({
