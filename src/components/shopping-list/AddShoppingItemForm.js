@@ -4,11 +4,17 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import CustomTextField from '../inputs/CustomTextField';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import { makeStyles, TextField, Typography } from '@material-ui/core'
+import { makeStyles, Typography } from '@material-ui/core'
 import CustomButton from '../inputs/CustomButton';
+import { setMessage } from '../../store/actions/message'
+import { addShoppingItem } from '../../store/actions/shoppingList'
 
 
 const AddShoppingItemForm = (props) => {
+
+    // Redux 
+    const { familyPassword } = props
+
     // React 
     const initialState = {
         redirect: false,
@@ -28,14 +34,6 @@ const AddShoppingItemForm = (props) => {
         let errors = {}
         errors.itemName = (state.itemName ? "" : "Title is required.")
         errors.quantity = ((/^[1-9]\d*$/i.test(state.quantity) || state.quantity === "") ? "" : "Quantity must be a positive integer numbe.")
-        const itemName = state.itemName !== "" && state.itemName[0].toUpperCase() + state.itemName.substring(1)
-        const shop = state.shop !== "" && state.shop[0].toUpperCase() + state.shop.substring(1)
-        const convertedState = {
-            itemName,
-            shop,
-            quantity: state.quantity
-        }
-        console.log('convertedState', convertedState)
         setState({
             ...state,
             errors,
@@ -43,21 +41,35 @@ const AddShoppingItemForm = (props) => {
         return Object.values(errors).every(value => value === "")
     }
 
+    const redirect = () => {
+        setState({
+            ...state,
+            redirect: true
+        })
+    }
+
     const handleOnSubmit = async e => {
         e.preventDefault()
         if (validate()) {
             console.log("form is VALID");
-            // props.addEvent(convertedState, family.password, user)
-            // redirect()
+            const itemName = state.itemName !== "" && state.itemName[0].toUpperCase() + state.itemName.substring(1)
+            const shop = state.shop !== "" && state.shop[0].toUpperCase() + state.shop.substring(1)
+            const convertedState = {
+                itemName,
+                shop,
+                quantity: state.quantity
+            }
+            props.addShoppingItem(convertedState, familyPassword)
+            redirect()
         } else {
             console.log("form is invalid");
         }
-        // return () => {
-        //     setState({
-        //         ...state,
-        //         redirect: false
-        //     })
-        // }
+        return () => {
+            setState({
+                ...state,
+                redirect: false
+            })
+        }
     }
 
     // Material UI
@@ -103,7 +115,7 @@ const AddShoppingItemForm = (props) => {
 
     return (
         <>
-            {state.redirect && <Redirect to="/calendar/events" />}
+            {state.redirect && <Redirect to="/shopping-list/shopping-list-items" />}
             <AddShoppingCartIcon className={classes.icon} />
             <Form
                 title="Add item to list"
@@ -121,7 +133,7 @@ const AddShoppingItemForm = (props) => {
                     autoFocus
                     required
                     className={classes.customTextField}
-                    label="item Name"
+                    label="Item Name"
                     onChange={handleOnChange}
                     value={state.itemName}
                     name="itemName"
@@ -179,16 +191,15 @@ const AddShoppingItemForm = (props) => {
 // Redux
 const mapStateToProps = (state) => {
     return {
-        family: state.auth.family,
-        user: state.auth.userProfile.email
+        familyPassword: state.auth.family.password,
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         setMessage: (text, severity) => dispatch(setMessage(text, severity)),
-//         addEvent: (state, family, user) => dispatch(addEvent(state, family, user)),
-//     }
-// }
+const mapDispatchToProps = dispatch => {
+    return {
+        setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+        addShoppingItem: (state, familyPassword) => dispatch(addShoppingItem(state, familyPassword)),
+    }
+}
 
-export default withRouter(connect(mapStateToProps)(AddShoppingItemForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddShoppingItemForm));

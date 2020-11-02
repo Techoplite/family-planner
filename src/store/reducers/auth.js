@@ -91,13 +91,21 @@ const user = (state = initialState, action) => {
                 ...state,
                 family: {
                     ...state.family,
-                    events: 
-                    [...state.family.events.filter(event => {
-                           return ( event.name !== action.payload.eventToEdit.name,
-                            event.time !== action.payload.eventToEdit.time,
-                            event.date !== action.payload.eventToEdit.date)
-                        
-                    }), action.payload.eventEdited]
+                    events:
+                        [...state.family.events.filter(event => {
+                            return (event.name !== action.payload.eventToEdit.name,
+                                event.time !== action.payload.eventToEdit.time,
+                                event.date !== action.payload.eventToEdit.date)
+
+                        }), action.payload.eventEdited]
+                }
+            }
+        case 'ADD_SHOPPING_ITEM_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    shoppingItems: [...state.family.shoppingItems, action.payload]
                 }
             }
         default:
