@@ -12,15 +12,9 @@ const AddShoppingItemForm = (props) => {
     // React 
     const initialState = {
         redirect: false,
-        title: "",
-        noTimeSelected: true,
-        checked: true,
-        location: "",
-        membersAttending: [],
-        membersNotAttending: [],
-        familyMembers: [],
-        date: new Date(),
-        time: new Date(),
+        itemName: "",
+        shop: "",
+        quantity: "",
         errors: {
             title: "",
             date: "",
@@ -29,6 +23,42 @@ const AddShoppingItemForm = (props) => {
     }
 
     const { state, handleOnChange, setState } = useForm(initialState)
+
+    const validate = () => {
+        let errors = {}
+        errors.itemName = (state.itemName ? "" : "Title is required.")
+        errors.quantity = ((/^[1-9]\d*$/i.test(state.quantity) || state.quantity === "") ? "" : "Quantity must be a positive integer numbe.")
+        const itemName = state.itemName !== "" && state.itemName[0].toUpperCase() + state.itemName.substring(1)
+        const shop = state.shop !== "" && state.shop[0].toUpperCase() + state.shop.substring(1)
+        const convertedState = {
+            itemName,
+            shop,
+            quantity: state.quantity
+        }
+        console.log('convertedState', convertedState)
+        setState({
+            ...state,
+            errors,
+        })
+        return Object.values(errors).every(value => value === "")
+    }
+
+    const handleOnSubmit = async e => {
+        e.preventDefault()
+        if (validate()) {
+            console.log("form is VALID");
+            // props.addEvent(convertedState, family.password, user)
+            // redirect()
+        } else {
+            console.log("form is invalid");
+        }
+        // return () => {
+        //     setState({
+        //         ...state,
+        //         redirect: false
+        //     })
+        // }
+    }
 
     // Material UI
     const useStyles = makeStyles(theme => (
@@ -77,7 +107,7 @@ const AddShoppingItemForm = (props) => {
             <AddShoppingCartIcon className={classes.icon} />
             <Form
                 title="Add item to list"
-            // onSubmit={handleOnSubmit}
+                onSubmit={handleOnSubmit}
             >
                 {/* Title */}
                 <Typography
@@ -92,11 +122,11 @@ const AddShoppingItemForm = (props) => {
                     required
                     className={classes.customTextField}
                     label="item Name"
-                    // onChange={handleOnChange}
-                    value={state.title}
-                    name="item-name"
+                    onChange={handleOnChange}
+                    value={state.itemName}
+                    name="itemName"
                     helperText={state.errors.itemName}
-                // error={state.errors.itemName ? true : false}
+                    error={state.errors.itemName ? true : false}
 
                 />
 
@@ -109,12 +139,12 @@ const AddShoppingItemForm = (props) => {
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
-                    // onChange={handleOnChange}
+                    onChange={handleOnChange}
                     label="Shop"
                     value={state.shop}
                     name="shop"
-                // helperText={state.errors.shop}
-                // error={state.errors.shop ? true : false}
+                    helperText={state.errors.shop}
+                    error={state.errors.shop ? true : false}
                 />
 
                 {/* Quantity */}
@@ -126,12 +156,12 @@ const AddShoppingItemForm = (props) => {
                     </Typography>
                 <CustomTextField
                     className={classes.customTextField}
-                    // onChange={handleOnChange}
+                    onChange={handleOnChange}
                     label="Quantity"
                     value={state.quantity}
                     name="quantity"
-                // helperText={state.quantity}
-                // error={state.quantity.shop ? true : false}
+                    helperText={state.errors.quantity}
+                    error={state.quantity.shop ? true : false}
                 />
 
                 <CustomButton
@@ -140,7 +170,7 @@ const AddShoppingItemForm = (props) => {
                     fullWidth
                     type="submit"
                 >
-                    ADD SHOPIING ITEM
+                    ADD SHOPPIING ITEM
                 </CustomButton>
             </Form>
         </>
