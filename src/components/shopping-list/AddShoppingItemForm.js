@@ -144,7 +144,6 @@ const AddShoppingItemForm = (props) => {
                     value={state.shop}
                     name="shop"
                     helperText={state.errors.shop}
-                    error={state.errors.shop ? true : false}
                 />
 
                 {/* Quantity */}
@@ -161,7 +160,7 @@ const AddShoppingItemForm = (props) => {
                     value={state.quantity}
                     name="quantity"
                     helperText={state.errors.quantity}
-                    error={state.quantity.shop ? true : false}
+                    error={state.errors.quantity ? true : false}
                 />
 
                 <CustomButton
