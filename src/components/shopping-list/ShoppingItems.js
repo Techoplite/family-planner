@@ -15,7 +15,13 @@ const ShoppingItems = (props) => {
 
     // React
     const initialState = {
-        shoppingItems: [],
+        shoppingItems: [
+            { text: 'Bleach', shop: 'Tesco', quantity: 3 },
+            { text: 'Butter', shop: '', quantity: 0 },
+            { text: 'Toilet Paper', shop: 'Aldi', quantity: 1 },
+            { text: 'Cheese', shop: 'Asda', quantity: 0 },
+            { text: 'Salad', shop: '', quantity: 0 },
+        ],
     }
     const [state, setState] = useState(initialState)
 
