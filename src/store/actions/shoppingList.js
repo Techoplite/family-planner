@@ -39,3 +39,32 @@ export const addShoppingItem = (state, familyPassword) => {
             });
     }
 }
+
+export const updateShoppingList = (shoppingItems, familyPassword) => {
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore()
+        firestore.collection("families").where("family.password", "==", familyPassword).get()
+            .then(snapshot => {
+                snapshot.docs.forEach(doc => {
+                    const familyDOCRef = doc.ref
+                    familyDOCRef.update({
+                        "family.shoppingItems": shoppingItems
+                    })
+                   
+                })
+            })
+            .then(() => {
+                dispatch({
+                    type: "UPDATE_SHOPPING_LIST_SUCCESS",
+                    payload: {
+                        shoppingItems
+                    }
+                })
+                dispatch(
+                    setMessage("Shopping list successfully updated.", "success")
+                )
+            }).catch(function (error) {
+                console.log("Transaction failed: ", error);
+            });
+    }
+}

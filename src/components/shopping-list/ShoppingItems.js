@@ -10,6 +10,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { connect } from "react-redux";
 import CustomButton from '../inputs/CustomButton';
+import { updateShoppingList } from './../../store/actions/shoppingList'
 
 
 const ShoppingItems = (props) => {
@@ -36,6 +37,9 @@ const ShoppingItems = (props) => {
 
     const handleClick = () => {
         const shoppingItems = state.shoppingItems.filter(shoppingItem => !state.itemsToDelete.includes(shoppingItem.itemName))
+        console.log('shoppingItems', shoppingItems)
+        props.updateShoppingList(shoppingItems, auth.family.password)
+
     }
 
     useEffect(() => {
@@ -154,4 +158,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(ShoppingItems));
+const mapDispatchToprops = (dispatch) => {
+    return {
+        updateShoppingList: (shoppingItems, familyPassword) => dispatch(updateShoppingList(shoppingItems, familyPassword))
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToprops)(ShoppingItems));

@@ -108,6 +108,14 @@ const user = (state = initialState, action) => {
                     shoppingItems: [...state.family.shoppingItems, action.payload]
                 }
             }
+        case 'UPDATE_SHOPPING_LIST_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    shoppingItems: action.payload.shoppingItems
+                }
+            }
         default:
             return state
     }
