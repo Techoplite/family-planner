@@ -116,6 +116,22 @@ const user = (state = initialState, action) => {
                     shoppingItems: action.payload.shoppingItems
                 }
             }
+        case 'ADD_TODO_ITEM_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    todoItems: [...state.family.todoItems, action.payload]
+                }
+            }
+        case 'UPDATE_TODO_LIST_SUCCESS':
+            return {
+                ...state,
+                family: {
+                    ...state.family,
+                    todoItems: action.payload.todoItems
+                }
+            }
         default:
             return state
     }

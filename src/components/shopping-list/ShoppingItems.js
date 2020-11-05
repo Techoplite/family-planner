@@ -14,6 +14,7 @@ import { updateShoppingList } from './../../store/actions/shoppingList'
 
 
 const ShoppingItems = (props) => {
+    
     // Redux
     const { auth } = props;
 
@@ -99,6 +100,7 @@ const ShoppingItems = (props) => {
         }
     }));
     const classes = useStyles();
+    
     return (
         <>{state.shoppingItems &&
             <>

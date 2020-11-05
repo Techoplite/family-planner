@@ -142,7 +142,8 @@ export const signup = (credentials, name, color, surname) => {
                         password,
                         availableColors,
                         events: [],
-                        shoppingItems: []
+                        shoppingItems: [],
+                        todoItems: []
                     }
                     batch.set(families, {
                         family
@@ -247,7 +248,7 @@ export const getUserFamily = (password) => {
 }
 
 export const findFamily = (password) => {
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
+    return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore()
         firestore.collection("families").where("family.password", "==", password).get()
             .then(snapshot => {
