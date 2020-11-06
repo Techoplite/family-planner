@@ -174,16 +174,18 @@ const TodoList = (props) => {
                     />
                 </Grow>
             </Paper>
-            <CustomButton
-                className={classes.customButton}
-                variant="contained"
-                color="primary"
-                fullWidth
-                type="submit"
-                onClick={handleClick}
-            >
-                UPDATE LIST
+            {(state.isAddingItem || state.itemsToDelete.length > 0) &&
+                <CustomButton
+                    className={classes.customButton}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                    onClick={handleClick}
+                >
+                    UPDATE LIST
                 </CustomButton>
+            }
             <div className={classes.addIcon} onClick={handleAddItem}>
                 <div className={classes.whiteBackground}></div>
                 <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
