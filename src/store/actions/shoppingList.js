@@ -9,34 +9,42 @@ export const addShoppingItem = (state, familyPassword) => {
                 snapshot.docs.forEach(doc => {
                     const family = doc.data().family
                     const familyDOCRef = doc.ref
-                    family.shoppingItems.push({
-                        itemName, shop, quantity
-                    })
-                    firestore.runTransaction(transaction => {
-                        return transaction.get(familyDOCRef)
-                            .then(doc => {
-                                doc.exists &&
-                                    transaction.set(familyDOCRef, {
-                                        family
+                    if (family.shoppingItems.some(item => item.itemName === itemName)) {
+                        dispatch(
+                            setMessage("Shopping item already exists.", "error")
+                        )
+                    } else {
+                        family.shoppingItems.push({
+                            itemName, shop, quantity
+                        })
+                        firestore.runTransaction(transaction => {
+                            return transaction.get(familyDOCRef)
+                                .then(doc => {
+                                    doc.exists &&
+                                        transaction.set(familyDOCRef, {
+                                            family
+                                        }
+                                        )
+                                })
+                        })
+                            .then(() => {
+                                dispatch({
+                                    type: "ADD_SHOPPING_ITEM_SUCCESS",
+                                    payload: {
+                                        itemName, shop, quantity
                                     }
-                                    )
-                            })
-                    })
+                                })
+                                dispatch(
+                                    setMessage("Shopping item successfully added to family shopping list.", "success")
+                                )
+                            }).catch(function (error) {
+                                console.log("Transaction failed: ", error);
+                            });
+                    }
+
                 })
             })
-            .then(() => {
-                dispatch({
-                    type: "ADD_SHOPPING_ITEM_SUCCESS",
-                    payload: {
-                        itemName, shop, quantity
-                    }
-                })
-                dispatch(
-                    setMessage("Shopping item successfully added to family shopping list.", "success")
-                )
-            }).catch(function (error) {
-                console.log("Transaction failed: ", error);
-            });
+
     }
 }
 
@@ -50,7 +58,7 @@ export const updateShoppingList = (shoppingItems, familyPassword) => {
                     familyDOCRef.update({
                         "family.shoppingItems": shoppingItems
                     })
-                   
+
                 })
             })
             .then(() => {
