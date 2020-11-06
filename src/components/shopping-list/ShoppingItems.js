@@ -14,7 +14,7 @@ import { updateShoppingList } from './../../store/actions/shoppingList'
 
 
 const ShoppingItems = (props) => {
-    
+
     // Redux
     const { auth } = props;
 
@@ -100,7 +100,7 @@ const ShoppingItems = (props) => {
         }
     }));
     const classes = useStyles();
-    
+
     return (
         <>{state.shoppingItems &&
             <>
@@ -131,16 +131,17 @@ const ShoppingItems = (props) => {
                         />
                     )}
                 </Paper>
-                <CustomButton
-                    className={classes.customButton}
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                    onClick={handleClick}
-                >
-                    UPDATE LIST
-                </CustomButton>
+                {state.itemsToDelete.length > 0 &&
+                    <CustomButton
+                        className={classes.customButton}
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        type="submit"
+                        onClick={handleClick}
+                    >
+                        UPDATE LIST
+                </CustomButton>}
                 <Link to="/shopping-list/add-shopping-item">
                     <div className={classes.addIcon}>
                         <div className={classes.whiteBackground}></div>
