@@ -8,37 +8,47 @@ export const addTodoItem = (itemToAdd, id, familyPassword) => {
                 snapshot.docs.forEach(doc => {
                     const family = doc.data().family
                     const familyDOCRef = doc.ref
-                    family.todoItems.push({
-                        id,
-                        text: itemToAdd
-                    })
-                    firestore.runTransaction(transaction => {
-                        return transaction.get(familyDOCRef)
-                            .then(doc => {
-                                doc.exists &&
-                                    transaction.set(familyDOCRef, {
-                                        family
+                    if (family.todoItems.some(item =>
+                        item.id === id
+                    )) {
+                        dispatch(
+                            setMessage("This to-do already exists.", "error")
+                        )
+                    } else {
+                        family.todoItems.push({
+                            id,
+                            text: itemToAdd
+                        })
+                        firestore.runTransaction(transaction => {
+                            return transaction.get(familyDOCRef)
+                                .then(doc => {
+                                    doc.exists &&
+                                        transaction.set(familyDOCRef, {
+                                            family
+                                        }
+                                        )
+                                })
+                        })
+                            .then(() => {
+                                dispatch({
+                                    type: "ADD_TODO_ITEM_SUCCESS",
+                                    payload: {
+                                        id,
+                                        text: itemToAdd
+
                                     }
-                                    )
-                            })
-                    })
+                                })
+                                dispatch(
+                                    setMessage("To-do item successfully added.", "success")
+                                )
+                            }).catch(function (error) {
+                                console.log("Transaction failed: ", error);
+                            });
+                    }
+
                 })
             })
-            .then(() => {
-                dispatch({
-                    type: "ADD_TODO_ITEM_SUCCESS",
-                    payload: {
-                        id,
-                        text: itemToAdd
 
-                    }
-                })
-                dispatch(
-                    setMessage("To-do item successfully added.", "success")
-                )
-            }).catch(function (error) {
-                console.log("Transaction failed: ", error);
-            });
     }
 }
 
