@@ -65,7 +65,8 @@ const Navbar = (props) => {
                 color: "white"
             },
             logo: {
-                width: "63px"
+                width: "63px",
+                outline: "none"
             }
         }
     ))
@@ -80,7 +81,7 @@ const Navbar = (props) => {
                     <Grid item xs={2} />
                     <Grid item xs>
                         <Link className={classes.link} to="/">
-                            <img src={logo} className={classes.logo} />
+                            <img src={logo} className={classes.logo} alt="iFam Logo" />
                         </Link>
                     </Grid>
                     <Grid item xs={2}>
