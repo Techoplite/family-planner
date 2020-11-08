@@ -134,7 +134,8 @@ const TodoList = (props) => {
         addItem: {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
-            marginLeft: "10%"
+            width: "calc(100% - 2.5rem)",
+            margin: "auto"
         }
     }));
     const classes = useStyles();
@@ -169,7 +170,7 @@ const TodoList = (props) => {
                     in={state.isAddingItem}
                     mountOnEnter unmountOnExit
                 >
-                    <TextField id="add-todo" label="Add To-do" variant="outlined"
+                    <TextField id="add-todo" label="Add To-do" variant="outlined" fullWidth
                         className={classes.addItem} onChange={handleItemToAdd}
                     />
                 </Grow>
