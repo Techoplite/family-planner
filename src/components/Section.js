@@ -13,10 +13,10 @@ const Section = (props) => {
             backgroundColor: "#3f51b5",
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(2),
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
-            borderRadius: theme.spacing(1),
-            
+            padding: theme.spacing(3),
+            borderRadius: "50%",
+            width: "120px"
+
         },
         header: {
             color: "white",
