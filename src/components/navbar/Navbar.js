@@ -8,6 +8,7 @@ import { clearMessage } from '../../store/actions/message'
 import getColorValue from '../outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
+import logo from './../../Logo.svg';
 
 const Navbar = (props) => {
 
@@ -64,7 +65,7 @@ const Navbar = (props) => {
                 color: "white"
             },
             logo: {
-                // need to change color on hover
+                width: "63px"
             }
         }
     ))
@@ -79,7 +80,7 @@ const Navbar = (props) => {
                     <Grid item xs={2} />
                     <Grid item xs>
                         <Link className={classes.link} to="/">
-                            <Typography variant="h4" className={classes.logo}>iFam</Typography>
+                            <img src={logo} className={classes.logo} />
                         </Link>
                     </Grid>
                     <Grid item xs={2}>
