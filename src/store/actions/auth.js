@@ -420,7 +420,6 @@ export const deleteEvent = (eventToDelete, familyPassword) => {
                             familyEvent.title !== eventToDelete.title
                         )
                     })
-                    console.log('newEvents :>> ', newEvents);
                     family.events = newEvents
                     firestore.runTransaction(transaction => {
                         return transaction.get(familyDOCRef)
