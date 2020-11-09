@@ -10,6 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
 import logo from './../../Logo.svg';
 import Slide from '@material-ui/core/Slide';
+import Zoom from '@material-ui/core/Zoom';
 
 
 const Navbar = (props) => {
@@ -100,9 +101,15 @@ const Navbar = (props) => {
                                 <img src={logo} className={classes.logo} alt="iFam Logo" />
                             </Link>
                             :
-                            <Typography variant="h6">
-                                the {user.family && user.family.surname}'s
+                            <Zoom appear in={user.family !== undefined} mountOnEnter unmountOnExit exit={true} timeout={{
+                                appear: 500,
+                                enter: 300,
+                                exit: 500,
+                            }}>
+                                <Typography variant="h6">
+                                    the {user.family && user.family.surname}'s
                             </Typography>
+                            </Zoom>
                         }
 
                     </Grid>
