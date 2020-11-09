@@ -271,7 +271,8 @@ const EventList = (props) => {
     },
     table: {
       marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(9)
+      marginBottom: theme.spacing(9),
+      border: "1px solid lightgrey"
     },
     addCircleIcon: {
       fontSize: "4.5rem",
@@ -324,6 +325,9 @@ const EventList = (props) => {
     },
     actions: {
       display: "flex",
+    },
+    tableBody: {
+      background: "white",
     }
   }));
 
@@ -350,7 +354,7 @@ const EventList = (props) => {
               <TableCell className={classes.head}>Event</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className={classes.tableBody}>
             {state &&
               state.eventsFiltered.map((event) => (
                 <TableRow
