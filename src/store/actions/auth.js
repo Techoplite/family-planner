@@ -414,13 +414,13 @@ export const deleteEvent = (eventToDelete, familyPassword) => {
                 snapshot.docs.forEach(doc => {
                     const family = doc.data().family
                     const familyDOCRef = doc.ref
+                    console.log('family.events :>> ', family.events)
                     const newEvents = family.events.filter(familyEvent => {
                         return (
-                            familyEvent.title !== eventToDelete.title &&
-                            familyEvent.date !== eventToDelete.date &&
-                            familyEvent.time !== eventToDelete.time
+                            familyEvent.title !== eventToDelete.title
                         )
                     })
+                    console.log('newEvents :>> ', newEvents);
                     family.events = newEvents
                     firestore.runTransaction(transaction => {
                         return transaction.get(familyDOCRef)
