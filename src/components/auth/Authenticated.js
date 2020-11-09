@@ -11,6 +11,7 @@ import Calendar from '../calendar/Calendar'
 import ShoppingList from '../shopping-list/ShoppingList'
 import TodoList from '../todo-list/TodoList'
 import EditEventForm from '../calendar/EditEventForm'
+import familyImage from './../../family-colour.svg'
 
 
 const Authenticated = (props) => {
@@ -33,6 +34,14 @@ const Authenticated = (props) => {
             "&:hover": {
                 // need to change color on over
             }
+        },
+        familyImage: {
+            zIndex: -1,
+            position: "fixed",
+            left: "8px",
+            top: "60px",
+            filter: "grayscale(100%)",
+            opacity: 0.08
         }
     }))
     const classes = useStyles()
@@ -40,6 +49,8 @@ const Authenticated = (props) => {
     return (
         <>
             {auth.userProfile.email && <Redirect to='/' />}
+            <img src={familyImage} alt="family" className={classes.familyImage} />
+
             <Switch>
                 <Route exact path="/">
                     <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
