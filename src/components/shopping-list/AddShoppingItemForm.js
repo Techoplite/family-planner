@@ -90,6 +90,7 @@ const AddShoppingItemForm = (props) => {
             },
             customTextField: {
                 marginTop: theme.spacing(0),
+                background: "white",
                 "& .MuiIconButton-root": {
                     padding: 0
                 }

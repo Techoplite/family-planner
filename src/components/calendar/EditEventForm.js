@@ -228,6 +228,8 @@ const EditEventForm = (props) => {
             },
             customTextField: {
                 marginTop: theme.spacing(0),
+                background: "white",
+
                 "& .MuiIconButton-root": {
                     padding: 0
                 }
@@ -243,6 +245,9 @@ const EditEventForm = (props) => {
             picker: {
                 display: "flex",
                 flexDirection: "column",
+            },
+            autocomplete: {
+                background: "white"
             }
         }
     ))
@@ -386,6 +391,7 @@ const EditEventForm = (props) => {
                             Family member/s attending
                     </Typography>
                         <Autocomplete
+                            className={classes.autocomplete}
                             value={state.membersAttending}
                             defaultValue={getDefaultMembersAttending}
                             name="membersAttending"

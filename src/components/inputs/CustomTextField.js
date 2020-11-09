@@ -13,7 +13,7 @@ const CustomTextField = (props) => {
     const useStyles = makeStyles(theme => (
         {
             textField: {
-                marginTop: theme.spacing(3)
+                marginTop: theme.spacing(3),
             },
         }
     ))

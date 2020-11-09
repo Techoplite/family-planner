@@ -189,6 +189,7 @@ const EventForm = (props) => {
             },
             customTextField: {
                 marginTop: theme.spacing(0),
+                background: "white",
                 "& .MuiIconButton-root": {
                     padding: 0
                 }
@@ -204,6 +205,9 @@ const EventForm = (props) => {
             picker: {
                 display: "flex",
                 flexDirection: "column",
+            },
+            autocomplete: {
+                background: "white"
             }
         }
     ))
@@ -348,6 +352,7 @@ const EventForm = (props) => {
                     name="membersAttending"
                     onChange={handleMembersAttendingOnChange}
                     multiple
+                    className={classes.autocomplete}
                     id="tags-outlined"
                     renderTags={(options, getTagProps) =>
                         options.map((option, index) => (
