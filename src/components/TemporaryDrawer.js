@@ -9,6 +9,11 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { Link, Redirect } from 'react-router-dom'
 import TodayIcon from '@material-ui/icons/Today';
 import EventIcon from '@material-ui/icons/Event';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+
+
 
 const TemporaryDrawer = (props) => {
     // Redux
@@ -63,6 +68,21 @@ const TemporaryDrawer = (props) => {
                             name: 'Add event',
                             link: '/calendar/add-event',
                             TagName: EventIcon
+                        },
+                        {
+                            name: 'Shopping List',
+                            link: '/shopping-list/shopping-list-items',
+                            TagName: ShoppingCartIcon
+                        },
+                        {
+                            name: 'Add shopping item',
+                            link: '/shopping-list/add-shopping-item',
+                            TagName: AddShoppingCartIcon
+                        },
+                        {
+                            name: 'To-do list',
+                            link: '/todo-list',
+                            TagName: FormatListBulletedIcon
                         },
                     ]
                 }))
@@ -145,7 +165,7 @@ const TemporaryDrawer = (props) => {
                                     />
                                 </Link>
                             </ListItem>
-                            {item.name === 'Log out' && <Divider />}
+                            {(item.name === 'Log out' || item.name === 'Add event' || item.name === 'Add shopping item') && <Divider />}
                         </React.Fragment>
                     )}
                 </List>
