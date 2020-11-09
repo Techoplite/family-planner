@@ -9,6 +9,8 @@ import getColorValue from '../outputs/ColorValues';
 import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom'
 import logo from './../../Logo.svg';
+import Slide from '@material-ui/core/Slide';
+
 
 const Navbar = (props) => {
 
@@ -31,6 +33,12 @@ const Navbar = (props) => {
             ...state,
             color: user.userProfile.color
         }))
+        return () => {
+            setState({
+                ...state,
+                color: null
+            })
+        }
     }, [text, clearMessage, user.userProfile])
 
     // Material UI
@@ -78,11 +86,20 @@ const Navbar = (props) => {
         <AppBar>
             <Toolbar>
                 <Grid container alignItems="center">
-                    <Grid item xs={2} />
-                    <Grid item xs>
+                    <Grid item xs={2} >
                         <Link className={classes.link} to="/">
-                            <img src={logo} className={classes.logo} alt="iFam Logo" />
+                            <Slide appear direction="left" in={state && state.color !== null} mountOnEnter unmountOnExit>
+                                <img src={logo} className={classes.logo} alt="iFam Logo" />
+                            </Slide>
                         </Link>
+
+                    </Grid>
+                    <Grid item xs>
+                        {state && state.color === null &&
+                            <Link className={classes.link} to="/">
+                                <img src={logo} className={classes.logo} alt="iFam Logo" />
+                            </Link>
+                        }
                     </Grid>
                     <Grid item xs={2}>
                         {user.userProfile ?
