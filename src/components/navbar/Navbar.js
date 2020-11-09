@@ -95,11 +95,16 @@ const Navbar = (props) => {
 
                     </Grid>
                     <Grid item xs>
-                        {state && state.color === null &&
+                        {state && state.color === null ?
                             <Link className={classes.link} to="/">
                                 <img src={logo} className={classes.logo} alt="iFam Logo" />
                             </Link>
+                            :
+                            <Typography variant="h6">
+                                the {user.family && user.family.surname}'s
+                            </Typography>
                         }
+
                     </Grid>
                     <Grid item xs={2}>
                         {user.userProfile ?
