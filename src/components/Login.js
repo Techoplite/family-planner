@@ -66,7 +66,7 @@ const Login = (props) => {
     const classes = useStyles()
 
     return (
-        <>
+        <div style={{ padding: "0 16px", marginTop: "144px" }}>
             <VpnKeyIcon className={classes.icon} />
             <Form title="Log in"
                 onSubmit={handleOnSubmit} >
@@ -102,7 +102,7 @@ const Login = (props) => {
                     LOG IN
             </CustomButton>
             </Form>
-        </>
+        </div>
     );
 }
 
