@@ -57,16 +57,27 @@ const App = (props) => {
               handleOnClick={handleOnClick}
             />
           </Grid>
-          <div className={classes.mainContent}>
-            <Grid item xs={12} sm={8}>
+          {!user.userProfile ?
+            <Grid item xs={12}>
               <TemporaryDrawer
                 handleOnClick={handleOnClick}
                 open={state.temporaryDrawer}
                 setState={setState}
               />
-              {!user.userProfile ? <Anonymous /> : <Authenticated />}
-            </Grid>
-          </div>
+              <Anonymous />
+            </Grid> :
+            <div className={classes.mainContent}>
+              <Grid item xs={12} sm={8}>
+                <TemporaryDrawer
+                  handleOnClick={handleOnClick}
+                  open={state.temporaryDrawer}
+                  setState={setState}
+                />
+                <Authenticated />
+              </Grid>
+            </div>
+          }
+
         </Grid>
       </div>
     </Router>

@@ -2,20 +2,29 @@ import React from 'react'
 import Login from '../Login'
 import Signup from '../Signup'
 import { Route, Switch } from 'react-router-dom'
+import { makeStyles } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
+
 
 
 const Anonymous = () => {
+    // Material UI
 
+    const useStyles = makeStyles(theme => ({
+        container: {
+            height: "200px",
+            backgroundColor: "red",
+            marginTop: "-88px",
+            padding: 0,
+            margin: 0,
+        }
+    }))
+    const classes = useStyles()
     return (
         <Switch>
             <Route exact path="/">
-                <div>home page</div>
-                <p>This is a work in progress....</p>
-
-                <p>At the moment I have only implemented the authentication system,
-            so feel free to sign up with a dummy email and password.</p>
-
-                <p>As I develop following a 'mobile-first' approach, if you are viewing it on a deskop screen you might want to righ-click on this webpage, select 'inspect' and then press 'Ctrl + Shift + M'</p>
+                <Container fullWidth className={classes.container}>
+                </Container>
 
             </Route>
             <Route exact path="/login" component={Login} />
