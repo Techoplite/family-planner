@@ -93,7 +93,6 @@ const TemporaryDrawer = (props) => {
     const handleOnClick = (e) => {
         e.preventDefault()
         if (e.target.innerText === 'Log out') {
-            console.log("code reached here")
             props.logout()
             props.setMessage("Logout successful.", "success")
             props.setState({

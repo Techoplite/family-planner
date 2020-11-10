@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from '../Login'
 import Signup from '../Signup'
-import { Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import AuthenticatedIphone from './../../Authenticated.png'
@@ -88,6 +88,9 @@ const Anonymous = () => {
                 verticalAlign: "baseline"
             },
             marginTop: theme.spacing(1.5),
+        },
+        link: {
+            textDecoration: "none"
         }
     }))
     const classes = useStyles()
@@ -101,8 +104,12 @@ const Anonymous = () => {
                 <Container fullWidth className={classes.auth}>
                     <Typography variant="h4" className={classes.authText}>It's never been so easy...</Typography>
                     <div className={classes.buttonsGroup}>
-                        <Button variant="contained" size="large" className={classes.button}>Sign Up</Button>
-                        <Button variant="contained" className={classes.button} size="large">Log In</Button>
+                        <Link className={classes.link} to="/signup">
+                            <Button variant="contained" size="large" className={classes.button}>Sign Up</Button>
+                        </Link>
+                        <Link className={classes.link} to="/login">
+                            <Button variant="contained" className={classes.button} size="large">Log In</Button>
+                        </Link>
                     </div>
                 </Container>
                 <Container fullWidth className={classes.appDescription}>
