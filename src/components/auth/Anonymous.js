@@ -3,8 +3,8 @@ import Login from '../Login'
 import Signup from '../Signup'
 import { Link, Route, Switch } from 'react-router-dom'
 import { Button, makeStyles, Typography } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
 import AuthenticatedIphone from './../../Authenticated.png'
+import HappyFamily from './../../happy-family-2545719_1280.png'
 
 
 
@@ -13,7 +13,7 @@ const Anonymous = () => {
 
     const useStyles = makeStyles(theme => ({
         jumbotron: {
-            height: "70vh",
+            height: "471px",
             marginTop: "56px",
             padding: 0,
             margin: 0,
@@ -34,8 +34,9 @@ const Anonymous = () => {
             fontWeight: "bold",
         },
         appDescription: {
-            height: "80vh",
-            backgroundColor: "white"
+            height: "563px",
+            backgroundColor: "white",
+            overflow: "auto"
         },
         descriptionHeading: {
             color: "#3f51b5",
@@ -91,17 +92,31 @@ const Anonymous = () => {
         },
         link: {
             textDecoration: "none"
+        },
+        happyFamily: {
+            width: "250px",
+            border: "3px solid #3f51b5",
+            borderRadius: "50%",
+            marginTop: theme.spacing(7),
+            marginBottom: theme.spacing(7),
+        },
+        footer: {
+            backgroundColor: "#3f51b5",
+            paddingTop: theme.spacing(3),
+            paddingBottom: theme.spacing(3),
+            color: "white",
+            position: "relative"
         }
     }))
     const classes = useStyles()
     return (
         <Switch>
             <Route exact path="/">
-                <Container fullWidth className={classes.jumbotron}>
+                <div fullWidth className={classes.jumbotron}>
                     <Typography variant="h4" className={classes.jumboText}>The family planner in just one click</Typography>
                     <img src={AuthenticatedIphone} alt="Home page on Iphone" className={classes.authenticatedIphone} />
-                </Container>
-                <Container fullWidth className={classes.auth}>
+                </div>
+                <div fullWidth className={classes.auth}>
                     <Typography variant="h4" className={classes.authText}>It's never been so easy...</Typography>
                     <div className={classes.buttonsGroup}>
                         <Link className={classes.link} to="/signup">
@@ -111,8 +126,8 @@ const Anonymous = () => {
                             <Button variant="contained" className={classes.button} size="large">Log In</Button>
                         </Link>
                     </div>
-                </Container>
-                <Container fullWidth className={classes.appDescription}>
+                </div>
+                <div fullWidth className={classes.appDescription}>
                     <Typography variant="h4" className={classes.descriptionHeading}>Keep you family organised, no more headaches.</Typography>
                     <Typography variant="h6" className={classes.subtitle}>With iFam you can:</Typography>
                     <ul className={classes.ul}>
@@ -123,8 +138,12 @@ const Anonymous = () => {
                             <Typography variant="body1" >Manage a shared shopping list, and to-do list</Typography>
                         </li>
                     </ul>
-                </Container>
+                    <img src={HappyFamily} alt="Happy family" className={classes.happyFamily} />
+                    <div fullWidth className={classes.footer}>
+                        <Typography variant="body2" >Mirko Oricci ©2020</Typography>
 
+                    </div>
+                </div>
             </Route>
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />

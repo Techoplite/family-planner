@@ -41,10 +41,8 @@ const App = (props) => {
       justifyContent: "center",
       width: "100%",
       padding: `0 ${theme.spacing(2)}px`,
-    },
-    App: {
       marginBottom: "2rem"
-    }
+    },
   }))
   const classes = useStyles()
 
