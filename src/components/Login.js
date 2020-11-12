@@ -61,7 +61,7 @@ const Login = (props) => {
 
             },
             container: {
-                padding: "2rem"
+                padding: "1rem"
             }
         }
     ))
