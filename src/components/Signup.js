@@ -254,7 +254,7 @@ const Signup = (props) => {
 
     const classes = useStyles()
     return (
-        <div style={{ padding: "0 16px", marginTop: "144px" }}>
+        <div style={{ padding: "0 16px", marginTop: "144px", width: "60%", margin: "auto" }}>
             {auth.email && <Redirect to='/' />}
             <AccountCircleIcon className={classes.icon} />
             <Form title="Sign up">

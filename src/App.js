@@ -35,13 +35,19 @@ const App = (props) => {
 
   // Material UI
   const useStyles = makeStyles(theme => ({
-    mainContent: {
+    Authenticated: {
       marginTop: theme.spacing(18),
       display: "flex",
       justifyContent: "center",
       width: "100%",
       padding: `0 ${theme.spacing(2)}px`,
       marginBottom: "2rem"
+    },
+    Anonymous: {
+      marginTop: theme.spacing(18),
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
     },
   }))
   const classes = useStyles()
@@ -56,15 +62,19 @@ const App = (props) => {
             />
           </Grid>
           {!user.userProfile ?
-            <Grid item xs={12}>
-              <TemporaryDrawer
-                handleOnClick={handleOnClick}
-                open={state.temporaryDrawer}
-                setState={setState}
-              />
-              <Anonymous />
-            </Grid> :
-            <div className={classes.mainContent}>
+            <div className={classes.Anonymous}>
+
+              <Grid item xs={12}>
+                <TemporaryDrawer
+                  handleOnClick={handleOnClick}
+                  open={state.temporaryDrawer}
+                  setState={setState}
+                />
+                <Anonymous />
+              </Grid>
+            </div>
+            :
+            <div className={classes.Authenticated}>
               <Grid item xs={12} sm={8}>
                 <TemporaryDrawer
                   handleOnClick={handleOnClick}
