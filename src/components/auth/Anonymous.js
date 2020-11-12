@@ -36,7 +36,6 @@ const Anonymous = () => {
         appDescription: {
             height: "563px",
             backgroundColor: "white",
-            overflow: "auto"
         },
         descriptionHeading: {
             color: "#3f51b5",
