@@ -1,17 +1,27 @@
 import React from 'react'
-import { withRouter, Route, Switch, useRouteMatch} from 'react-router-dom'
+import {
+    Redirect, withRouter, Route, Switch, useRouteMatch
+} from 'react-router-dom'
 import EventForm from './EventForm'
 import { connect } from 'react-redux'
 import EventList from './EventList'
 
 
-const Calendar = () => {
+const Calendar = (props) => {
 
     //React Router DOM
-    const { path } = useRouteMatch()
+    const { path, url } = useRouteMatch()
+
+    // Redux 
+    const { auth } = props
 
     return (
         <>
+            {auth.family && auth.family.events.length > 0 ?
+                <Redirect to={`${url}/events`} />
+                :
+                <Redirect to={`${url}/add-event`} />
+            }
             <Switch>
                 <Route exact path={`${path}/events`} component={EventList} />
                 <Route exact path={`${path}/add-event`} component={EventForm} />
