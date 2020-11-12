@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect, Switch, BrowserRouter as Route } from 'react-router-dom'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles, Typography } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +11,9 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { connect } from "react-redux";
 import CustomButton from '../inputs/CustomButton';
 import { updateShoppingList } from './../../store/actions/shoppingList'
+import AddShoppingItemForm from './AddShoppingItemForm'
+import { clearRedirectPath } from "../../store/actions/auth";
+
 
 
 const ShoppingItems = (props) => {
@@ -49,7 +52,8 @@ const ShoppingItems = (props) => {
                 ...prevState,
                 shoppingItems: auth.family.shoppingItems,
             }));
-    }, [auth.family && auth.family]);
+        props.clearRedirectPath()
+    }, [auth.family && auth.family, clearRedirectPath]);
 
     // Material UI
     const useStyles = makeStyles((theme) => ({
@@ -102,52 +106,62 @@ const ShoppingItems = (props) => {
     const classes = useStyles();
 
     return (
-        <>{state.shoppingItems &&
+        <>{auth.redirectPath === '/shopping-list/add-shopping-item' ?
+            <Switch>
+                <Redirect exact from="/shopping-list/shopping-list-items" to="/shopping-list/add-shopping-item" />
+
+                <Route exact path="/shopping-list/add-shopping-item" component={AddShoppingItemForm} />
+            </Switch>
+            :
             <>
-                <ShoppingCartIcon className={classes.icon} />
-                <Typography variant="h5" className={classes.typography} >Shopping List</Typography>
-                <Paper elevation={3} className={classes.paper}>
-                    {state.shoppingItems && state.shoppingItems.map(item =>
-                        < FormControlLabel
-                            style={{
-                                textDecoration: state.itemsToDelete.includes(item.itemName) && 'line-through',
-                                color: state.itemsToDelete.includes(item.itemName) && "#f50057"
-                            }}
-                            key={item.itemName}
-                            className={classes.formControlLabel}
-                            control={
-                                < Checkbox
-                                    id={item.itemName}
-                                    icon={<RadioButtonUncheckedIcon />}
-                                    checkedIcon={<CheckCircleOutlineIcon />}
-                                    name={item.itemName}
-                                    onChange={handleChange}
-                                />}
-                            label={
-                                `${item.itemName} 
+                {state.shoppingItems &&
+                    <>
+                        <ShoppingCartIcon className={classes.icon} />
+                        <Typography variant="h5" className={classes.typography} >Shopping List</Typography>
+                        <Paper elevation={3} className={classes.paper}>
+                            {state.shoppingItems && state.shoppingItems.map(item =>
+                                < FormControlLabel
+                                    style={{
+                                        textDecoration: state.itemsToDelete.includes(item.itemName) && 'line-through',
+                                        color: state.itemsToDelete.includes(item.itemName) && "#f50057"
+                                    }}
+                                    key={item.itemName}
+                                    className={classes.formControlLabel}
+                                    control={
+                                        < Checkbox
+                                            id={item.itemName}
+                                            icon={<RadioButtonUncheckedIcon />}
+                                            checkedIcon={<CheckCircleOutlineIcon />}
+                                            name={item.itemName}
+                                            onChange={handleChange}
+                                        />}
+                                    label={
+                                        `${item.itemName} 
                             ${item.shop !== false ? `[${item.shop}]` : ""} 
                             ${item.quantity !== "" ? `x${item.quantity}` : ""}`
-                            }
-                        />
-                    )}
-                </Paper>
-                {state.itemsToDelete.length > 0 &&
-                    <CustomButton
-                        className={classes.customButton}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        type="submit"
-                        onClick={handleClick}
-                    >
-                        UPDATE LIST
+                                    }
+                                />
+                            )}
+                        </Paper>
+                        {state.itemsToDelete.length > 0 &&
+                            <CustomButton
+                                className={classes.customButton}
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                type="submit"
+                                onClick={handleClick}
+                            >
+                                UPDATE LIST
                 </CustomButton>}
-                <Link to="/shopping-list/add-shopping-item">
-                    <div className={classes.addIcon}>
-                        <div className={classes.whiteBackground}></div>
-                        <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
-                    </div>
-                </Link>
+                        <Link to="/shopping-list/add-shopping-item">
+                            <div className={classes.addIcon}>
+                                <div className={classes.whiteBackground}></div>
+                                <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+                            </div>
+                        </Link>
+                    </>
+                }
             </>
         }
         </>
@@ -163,7 +177,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToprops = (dispatch) => {
     return {
-        updateShoppingList: (shoppingItems, familyPassword) => dispatch(updateShoppingList(shoppingItems, familyPassword))
+        updateShoppingList: (shoppingItems, familyPassword) => dispatch(updateShoppingList(shoppingItems, familyPassword)),
+        clearRedirectPath: () => dispatch(clearRedirectPath())
+
+
     }
 }
 
