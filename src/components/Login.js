@@ -5,7 +5,7 @@ import CustomTextField from './inputs/CustomTextField'
 import { login } from '../store/actions/auth'
 import { setMessage } from '../store/actions/message'
 import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { withRouter } from 'react-router-dom'
@@ -59,6 +59,9 @@ const Login = (props) => {
                 border: "2px solid #3F51B5",
                 marginBottom: theme.spacing(1)
 
+            },
+            container: {
+                padding: "2rem"
             }
         }
     ))
@@ -66,43 +69,49 @@ const Login = (props) => {
     const classes = useStyles()
 
     return (
-        <div style={{ padding: "0 16px", marginTop: "144px", width: "60%", margin: "auto" }}>
-            <VpnKeyIcon className={classes.icon} />
-            <Form title="Log in"
-                onSubmit={handleOnSubmit} >
-                {props.authError &&
-                    <Alert className={classes.message}
-                        variant="outlined"
-                        severity="error">{props.authError}
-                    </Alert>}
-                <CustomTextField
-                    label="Email"
-                    name="email"
-                    autoFocus
-                    required
-                    value={state.email}
-                    onChange={handleOnChange}
-                    error={state.errors.email}
-                />
-                <CustomTextField
-                    label="Password"
-                    name="password"
-                    required
-                    value={state.password}
-                    onChange={handleOnChange}
-                    error={state.errors.password}
-                    type="password"
-                />
-                <CustomButton
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                >
-                    LOG IN
+        <>
+            <Grid container className={classes.container}>
+                <Grid item xs></Grid>
+                <Grid item sm={8} xs={12}>
+                    <VpnKeyIcon className={classes.icon} />
+                    <Form title="Log in"
+                        onSubmit={handleOnSubmit} >
+                        {props.authError &&
+                            <Alert className={classes.message}
+                                variant="outlined"
+                                severity="error">{props.authError}
+                            </Alert>}
+                        <CustomTextField
+                            label="Email"
+                            name="email"
+                            autoFocus
+                            required
+                            value={state.email}
+                            onChange={handleOnChange}
+                            error={state.errors.email}
+                        />
+                        <CustomTextField
+                            label="Password"
+                            name="password"
+                            required
+                            value={state.password}
+                            onChange={handleOnChange}
+                            error={state.errors.password}
+                            type="password"
+                        />
+                        <CustomButton
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            type="submit"
+                        >
+                            LOG IN
             </CustomButton>
-            </Form>
-        </div>
+                    </Form>
+                </Grid>
+                <Grid item xs></Grid>
+            </Grid>
+        </>
     );
 }
 

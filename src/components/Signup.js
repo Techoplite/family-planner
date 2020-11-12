@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm, Form } from './hooks/useForm'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { FormControl, makeStyles, Typography, FormHelperText } from '@material-ui/core'
+import { FormControl, makeStyles, Typography, FormHelperText, Grid } from '@material-ui/core'
 import CustomButton from './inputs/CustomButton';
 import CustomTextField from './inputs/CustomTextField';
 import { setMessage } from '../store/actions/message'
@@ -248,161 +248,170 @@ const Signup = (props) => {
 
             customTextField: {
                 marginTop: theme.spacing(0)
+            },
+            container: {
+                padding: "2rem"
             }
         }
     ))
 
     const classes = useStyles()
     return (
-        <div style={{ padding: "0 16px", marginTop: "144px", width: "60%", margin: "auto" }}>
-            {auth.email && <Redirect to='/' />}
-            <AccountCircleIcon className={classes.icon} />
-            <Form title="Sign up">
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left">
-                    Enter your first name
+        <>
+            <Grid container className={classes.container}>
+                <Grid item xs></Grid>
+                <Grid item sm={8} xs={12}>
+                    {auth.email && <Redirect to='/' />}
+                    <AccountCircleIcon className={classes.icon} />
+                    <Form title="Sign up">
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left">
+                            Enter your first name
                     </Typography>
-                <CustomTextField
-                    className={classes.customTextField}
-                    label="Name"
-                    name="name"
-                    required
-                    autoFocus
-                    value={state.name}
-                    onChange={handleOnChange}
-                    error={state.errors.name}
-                />
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left">
-                    Enter your email
+                        <CustomTextField
+                            className={classes.customTextField}
+                            label="Name"
+                            name="name"
+                            required
+                            autoFocus
+                            value={state.name}
+                            onChange={handleOnChange}
+                            error={state.errors.name}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left">
+                            Enter your email
                     </Typography>
-                <CustomTextField
-                    className={classes.customTextField}
-                    label="Email"
-                    name="email"
-                    required
-                    value={state.email}
-                    onChange={handleOnChange}
-                    error={state.errors.email}
-                />
+                        <CustomTextField
+                            className={classes.customTextField}
+                            label="Email"
+                            name="email"
+                            required
+                            value={state.email}
+                            onChange={handleOnChange}
+                            error={state.errors.email}
+                        />
 
-                <Typography
-                    variant="subtitle1"
-                    className={classes.typography}
-                    align="left">
-                    Enter your family's password or create a new password to add your family
+                        <Typography
+                            variant="subtitle1"
+                            className={classes.typography}
+                            align="left">
+                            Enter your family's password or create a new password to add your family
                     </Typography>
-                <CustomTextField
-                    className={classes.customTextField}
-                    label="Password"
-                    name="password"
-                    type="password"
-                    required
-                    value={state.password}
-                    onChange={handleOnChange}
-                    error={state.errors.password}
-                />
-                {props.authError === "Password already taken" && <FormHelperText
-                    className={classes.formHelperText}
-                    align="left">
-                    Password already taken.
+                        <CustomTextField
+                            className={classes.customTextField}
+                            label="Password"
+                            name="password"
+                            type="password"
+                            required
+                            value={state.password}
+                            onChange={handleOnChange}
+                            error={state.errors.password}
+                        />
+                        {props.authError === "Password already taken" && <FormHelperText
+                            className={classes.formHelperText}
+                            align="left">
+                            Password already taken.
                 </FormHelperText>}
-                <CustomButton
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                    onClick={(e) => handleOnSubmit(e, "findFamily")}
-                    style={{ marginBottom: "0" }}>
-                    Join family
+                        <CustomButton
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            type="submit"
+                            onClick={(e) => handleOnSubmit(e, "findFamily")}
+                            style={{ marginBottom: "0" }}>
+                            Join family
             </CustomButton>
-                {props.authError === "Password needed" &&
+                        {props.authError === "Password needed" &&
 
-                    <Alert severity="warning" variant="outlined" className={classes.availableFamily}>
-                        <AlertTitle>Error</AlertTitle>
+                            <Alert severity="warning" variant="outlined" className={classes.availableFamily}>
+                                <AlertTitle>Error</AlertTitle>
                     You need to provide your family's password before joining it.
                     </Alert>}
-                {props.availableFamily &&
+                        {props.availableFamily &&
 
-                    <Alert severity="success" variant="outlined" className={classes.availableFamily}>
-                        <AlertTitle>Success</AlertTitle>
+                            <Alert severity="success" variant="outlined" className={classes.availableFamily}>
+                                <AlertTitle>Success</AlertTitle>
                     By submitting this form you will join the <strong>{props.availableFamily.surname}</strong> family.
                     </Alert>}
-                {props.authError === "No match" &&
-                    <Alert severity="error" variant="outlined" className={classes.availableFamily}>
-                        <AlertTitle>Error</AlertTitle>
+                        {props.authError === "No match" &&
+                            <Alert severity="error" variant="outlined" className={classes.availableFamily}>
+                                <AlertTitle>Error</AlertTitle>
                     There is no family associated with this password. Please enter the correct password or create a new family.
                     </Alert>}
-                {props.authError === "Maximum number of memebers reached" &&
-                    <Alert severity="error" variant="outlined" className={classes.availableFamily}>
-                        <AlertTitle>Error</AlertTitle>
+                        {props.authError === "Maximum number of memebers reached" &&
+                            <Alert severity="error" variant="outlined" className={classes.availableFamily}>
+                                <AlertTitle>Error</AlertTitle>
                     This family has already reached the maximum number of members available.
                     </Alert>}
-                <CustomButton
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    type="submit"
-                    onClick={(e) => handleOnSubmit(e, "createFamily")}
-                    style={{ marginBottom: "0" }}>
-                    Create new family
+                        <CustomButton
+                            variant="contained"
+                            color="secondary"
+                            fullWidth
+                            type="submit"
+                            onClick={(e) => handleOnSubmit(e, "createFamily")}
+                            style={{ marginBottom: "0" }}>
+                            Create new family
             </CustomButton>
-                {state.createFamily &&
-                    <CustomTextField
-                        label="Surname"
-                        name="surname"
-                        required
-                        autoFocus
-                        value={state.surname}
-                        onChange={handleOnChange}
-                        error={state.errors.surname}
-                    />}
-                <FormControl
-                    fullWidth variant="outlined"
-                    className={classes.formControl}
-                >
-                    <Typography
-                        variant="subtitle1"
-                        className={classes.typography}
-                        align="left"
-                        style={{ marginBottom: "0" }}>
-                        Pick a color *
+                        {state.createFamily &&
+                            <CustomTextField
+                                label="Surname"
+                                name="surname"
+                                required
+                                autoFocus
+                                value={state.surname}
+                                onChange={handleOnChange}
+                                error={state.errors.surname}
+                            />}
+                        <FormControl
+                            fullWidth variant="outlined"
+                            className={classes.formControl}
+                        >
+                            <Typography
+                                variant="subtitle1"
+                                className={classes.typography}
+                                align="left"
+                                style={{ marginBottom: "0" }}>
+                                Pick a color *
                         </Typography>
-                    {state.errors.color && <FormHelperText
-                        className={classes.formHelperText}
-                        align="left">
-                        {state.errors.color}
-                    </FormHelperText>}
-                    <Typography variant="body2" align="left">This is to give you a personalised user experience.</Typography>
-                    <div className={classes.colorPicker}>
-                        {state.availableColors.map(color => {
-                            return (
-                                <div
-                                    className={classes.colorCircle}
-                                    id={color.name}
-                                    key={color.name}
-                                    style={getBorder(color)}
+                            {state.errors.color && <FormHelperText
+                                className={classes.formHelperText}
+                                align="left">
+                                {state.errors.color}
+                            </FormHelperText>}
+                            <Typography variant="body2" align="left">This is to give you a personalised user experience.</Typography>
+                            <div className={classes.colorPicker}>
+                                {state.availableColors.map(color => {
+                                    return (
+                                        <div
+                                            className={classes.colorCircle}
+                                            id={color.name}
+                                            key={color.name}
+                                            style={getBorder(color)}
 
-                                    onClick={handleOnClick}
-                                />
-                            )
-                        })}
-                    </div>
-                </FormControl>
-                <CustomButton
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    type="submit"
-                    onClick={(e) => handleOnSubmit(e, "signup")} >
-                    SIGN UP
+                                            onClick={handleOnClick}
+                                        />
+                                    )
+                                })}
+                            </div>
+                        </FormControl>
+                        <CustomButton
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            type="submit"
+                            onClick={(e) => handleOnSubmit(e, "signup")} >
+                            SIGN UP
             </CustomButton>
-            </Form>
-        </div>
+                    </Form>
+                </Grid>
+                <Grid item xs></Grid>
+            </Grid >
+        </>
     );
 }
 
