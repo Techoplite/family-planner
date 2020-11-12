@@ -1,26 +1,16 @@
 import React from 'react'
-import {
-    Redirect, withRouter, Route, Switch, useRouteMatch
-} from 'react-router-dom'
+import { withRouter, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ShoppingItems from './ShoppingItems'
 import AddShoppingItemForm from './AddShoppingItemForm'
 
-const ShoppingList = (props) => {
+const ShoppingList = () => {
 
     //React Router DOM
-    const { path, url } = useRouteMatch()
-
-    // Redux 
-    const { auth } = props
+    const { path } = useRouteMatch()
 
     return (
         <>
-            {auth.family.shoppingItems && auth.family.shoppingItems.length > 0 ?
-                <Redirect to={`${url}/shopping-list-items`} />
-                :
-                <Redirect to={`${url}/add-shopping-item`} />
-            }
             <Switch>
                 <Route exact path={`${path}/shopping-list-items`} component={ShoppingItems} />
                 <Route exact path={`${path}/add-shopping-item`} component={AddShoppingItemForm} />
