@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TodayIcon from "@material-ui/icons/Today";
 import { makeStyles, Typography } from "@material-ui/core";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, Redirect, Switch, BrowserRouter as Route } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import getColorValue from "../outputs/ColorValues";
@@ -21,10 +21,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { deleteEvent } from "../../store/actions/auth";
+import { deleteEvent, clearRedirectPath } from "../../store/actions/auth";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import EventFilterform from "./EventFilterForm";
 import EditIcon from '@material-ui/icons/Edit';
+import EventForm from './EventForm'
 
 const EventList = (props) => {
   // Redux
@@ -238,7 +239,8 @@ const EventList = (props) => {
           familyMembers: auth.family.members
         }
       }));
-  }, [auth.family && auth.family]);
+    props.clearRedirectPath()
+  }, [auth.family && auth.family, clearRedirectPath]);
 
   // Material UI
   const useStyles = makeStyles((theme) => ({
@@ -334,159 +336,168 @@ const EventList = (props) => {
   const classes = useStyles();
 
   return (
-    <>
-      <TodayIcon className={classes.icon} />
-      <Typography variant="h5">Events</Typography>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table" className={classes.table}>
-          <TableHead className={classes.head}>
-            <TableRow>
-              <TableCell
-                align="right"
-                className={classes.head}
-                style={{
-                  width: "10%",
-                  verticalAlign: "baseline"
-                }}
-              >
-                Date
-              </TableCell>
-              <TableCell className={classes.head}>Event</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody className={classes.tableBody}>
-            {state &&
-              state.eventsFiltered.map((event) => (
-                <TableRow
-                  key={event.title + state.eventsFiltered.indexOf(event)}
+    <>{auth.redirectPath === '/calendar/add-event' ?
+      <Switch>
+        <Redirect exact from="/calendar/events" to="/calendar/add-event" />
+        <Route exact path="/calendar/add-event" component={EventForm} />
+      </Switch>
+      :
+      <>
+        <TodayIcon className={classes.icon} />
+        <Typography variant="h5">Events</Typography>
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table" className={classes.table}>
+            <TableHead className={classes.head}>
+              <TableRow>
+                <TableCell
+                  align="right"
+                  className={classes.head}
+                  style={{
+                    width: "10%",
+                    verticalAlign: "baseline"
+                  }}
                 >
-                  <TableCell
-                    align="right"
-                    component="th"
-                    scope="row"
-                    style={{
-                      width: "10%",
-                      verticalAlign: "baseline"
-                    }}
+                  Date
+              </TableCell>
+                <TableCell className={classes.head}>Event</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody className={classes.tableBody}>
+              {state &&
+                state.eventsFiltered.map((event) => (
+                  <TableRow
+                    key={event.title + state.eventsFiltered.indexOf(event)}
                   >
-                    <div>{event.date}</div>
-                    <div className={classes.time}>{event.time}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div className={classes.eventWrapper}>
-                      <div className={classes.textWrapper}>
-                        <div>
-                          {" "}
-                          {event.title}{" "}
-                          {event.location && `[${event.location}]`}
+                    <TableCell
+                      align="right"
+                      component="th"
+                      scope="row"
+                      style={{
+                        width: "10%",
+                        verticalAlign: "baseline"
+                      }}
+                    >
+                      <div>{event.date}</div>
+                      <div className={classes.time}>{event.time}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className={classes.eventWrapper}>
+                        <div className={classes.textWrapper}>
+                          <div>
+                            {" "}
+                            {event.title}{" "}
+                            {event.location && `[${event.location}]`}
+                          </div>
+                          <div>
+                            {event.membersAttending.map((member) => (
+                              <Tooltip
+                                arrow
+                                title={member.name}
+                                key={member.email}
+                                className={classes.tooltip}
+                              >
+                                <IconButton className={classes.MuiIconButton}>
+                                  <FiberManualRecordIcon
+                                    key={member.name}
+                                    style={{
+                                      color: getColorValue(member.color),
+                                      verticalAlign: "middle"
+                                    }}
+                                  />
+                                </IconButton>
+                              </Tooltip>
+                            ))}
+                          </div>
                         </div>
-                        <div>
-                          {event.membersAttending.map((member) => (
-                            <Tooltip
-                              arrow
-                              title={member.name}
-                              key={member.email}
-                              className={classes.tooltip}
-                            >
-                              <IconButton className={classes.MuiIconButton}>
-                                <FiberManualRecordIcon
-                                  key={member.name}
-                                  style={{
-                                    color: getColorValue(member.color),
-                                    verticalAlign: "middle"
-                                  }}
-                                />
-                              </IconButton>
-                            </Tooltip>
-                          ))}
+                        <div className={classes.actions}>
+                          <div
+                            id="edit"
+                            className={classes.edit}
+                            onClick={(e) => handleClickOpen(e, event, "edit")}
+                          >
+                            <EditIcon />
+                          </div>
+                          <div
+                            id="delete"
+                            className={classes.delete}
+                            onClick={(e) => handleClickOpen(e, event, "delete")}
+                          >
+                            <DeleteIcon />
+                          </div>
                         </div>
                       </div>
-                      <div className={classes.actions}>
-                        <div
-                          id="edit"
-                          className={classes.edit}
-                          onClick={(e) => handleClickOpen(e, event, "edit")}
-                        >
-                          <EditIcon />
-                        </div>
-                        <div
-                          id="delete"
-                          className={classes.delete}
-                          onClick={(e) => handleClickOpen(e, event, "delete")}
-                        >
-                          <DeleteIcon />
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Dialog
-        open={state.alert}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {state.action === "delete" && "Delete this event?"}
-          {state.action === "edit" && "Edit event?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {state.action === "delete" && `By pressing the delete button, event '${state.eventSelected.title}' will be permanently deleted from your list.`}
-            {state.action === "edit" && `Do you want to edit event '${state.eventSelected.title}'?`}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Back
-          </Button>
-          <Button onClick={() => getAction(state.action)}
-            color="primary" autoFocus>
-            {state.action === "delete" && "Delete"}
-            {state.action === "edit" && "Edit"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <div className={classes.filterIcon} onClick={handleClickOpenFilter}>
-        <FiberManualRecordIcon
-          color="secondary"
-          style={{ padding: 0, fontSize: "5.5rem" }}
-        />
-        <FilterListIcon
-          style={{
-            padding: 0,
-            fontSize: "3rem",
-            position: "absolute",
-            left: "20px",
-            bottom: "22px",
-            color: "white"
-          }}
-        />
-      </div>
-      <Dialog open={state.alertFilter} onClose={handleClose}>
-        <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
-        <DialogContent>
-          <EventFilterform state={state} setState={setState} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Dialog
+          open={state.alert}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {state.action === "delete" && "Delete this event?"}
+            {state.action === "edit" && "Edit event?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {state.action === "delete" && `By pressing the delete button, event '${state.eventSelected.title}' will be permanently deleted from your list.`}
+              {state.action === "edit" && `Do you want to edit event '${state.eventSelected.title}'?`}
+            </DialogContentText>
+          </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseFilter} color="primary">
+            <Button onClick={handleClose} color="primary">
               Back
-            </Button>
-            <Button onClick={handleFilter} color="primary">
-              Filter
+          </Button>
+            <Button onClick={() => getAction(state.action)}
+              color="primary" autoFocus>
+              {state.action === "delete" && "Delete"}
+              {state.action === "edit" && "Edit"}
             </Button>
           </DialogActions>
-        </DialogContent>
-      </Dialog>
-      <Link to="/calendar/add-event">
-        <div className={classes.addIcon}>
-          <div className={classes.whiteBackground}></div>
-          <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+        </Dialog>
+        <div className={classes.filterIcon} onClick={handleClickOpenFilter}>
+          <FiberManualRecordIcon
+            color="secondary"
+            style={{ padding: 0, fontSize: "5.5rem" }}
+          />
+          <FilterListIcon
+            style={{
+              padding: 0,
+              fontSize: "3rem",
+              position: "absolute",
+              left: "20px",
+              bottom: "22px",
+              color: "white"
+            }}
+          />
         </div>
-      </Link>
+        <Dialog open={state.alertFilter} onClose={handleClose}>
+          <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
+          <DialogContent>
+            <EventFilterform state={state} setState={setState} />
+            <DialogActions>
+              <Button onClick={handleCloseFilter} color="primary">
+                Back
+            </Button>
+              <Button onClick={handleFilter} color="primary">
+                Filter
+            </Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+        <Link to="/calendar/add-event">
+          <div className={classes.addIcon}>
+            <div className={classes.whiteBackground}></div>
+            <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+          </div>
+        </Link>
+      </>
+    }
+
     </>
   );
 };
@@ -501,7 +512,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteEvent: (eventToDelete, familyPassword) =>
-      dispatch(deleteEvent(eventToDelete, familyPassword))
+      dispatch(deleteEvent(eventToDelete, familyPassword)),
+    clearRedirectPath: () => dispatch(clearRedirectPath())
   };
 };
 

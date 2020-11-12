@@ -508,3 +508,16 @@ export const editEvent = (eventToEdit, familyPassword, state) => {
     }
 }
 
+export const redirectPath = (path) => {
+    return {
+        type: "REDIRECT_PATH",
+        payload: path
+    }
+}
+
+export const clearRedirectPath = () => {
+    return {
+        type: "CLEAR_REDIRECT_PATH",
+        payload: null
+    }
+}

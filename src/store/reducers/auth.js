@@ -1,5 +1,6 @@
 const initialState = {
     authError: null,
+    redirectPath: null
 }
 
 const user = (state = initialState, action) => {
@@ -131,6 +132,16 @@ const user = (state = initialState, action) => {
                     ...state.family,
                     todoItems: action.payload.todoItems
                 }
+            }
+        case 'REDIRECT_PATH':
+            return {
+                ...state,
+                redirectPath: action.payload
+            }
+        case 'CLEAR_REDIRECT_PATH':
+            return {
+                ...state,
+                redirectPath: action.payload
             }
         default:
             return state

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Drawer, makeStyles, ListItem, ListItemText, List, Divider } from '@material-ui/core'
-import { logout } from './../store/actions/auth'
+import { logout, redirectPath } from './../store/actions/auth'
 import { connect } from 'react-redux'
 import { setMessage } from './../store/actions/message'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -90,7 +90,7 @@ const TemporaryDrawer = (props) => {
         getList()
     }, [auth.isEmpty, auth])
 
-    const handleOnClick = (e) => {
+    const handleOnClick = (e, path) => {
         e.preventDefault()
         if (e.target.innerText === 'Log out') {
             props.logout()
@@ -104,6 +104,9 @@ const TemporaryDrawer = (props) => {
             ...props.state,
             temporaryDrawer: false
         })
+        if (e.target.innerText === 'Add event' || e.target.innerText === 'Add shopping item') {
+            props.redirectPath(path)
+        }
 
     }
 
@@ -151,7 +154,7 @@ const TemporaryDrawer = (props) => {
                         >
                             <ListItem
                                 button
-                                onClick={handleOnClick}
+                                onClick={(e, path) => handleOnClick(e, item.link)}
                                 key={item.name}
                             >
                                 {getTagName(item)}
@@ -183,7 +186,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(logout()),
-        setMessage: (text, severity) => dispatch(setMessage(text, severity))
+        setMessage: (text, severity) => dispatch(setMessage(text, severity)),
+        redirectPath: (path) => dispatch(redirectPath(path)),
     }
 }
 
