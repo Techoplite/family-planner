@@ -63,6 +63,8 @@ const Anonymous = () => {
         authText: {
             marginTop: theme.spacing(4),
             color: "white",
+            width: "80%",
+            margin: "auto"
         },
         buttonsGroup: {
             width: "100%",
@@ -112,11 +114,11 @@ const Anonymous = () => {
     return (
         <Switch>
             <Route exact path="/">
-                <div fullWidth className={classes.jumbotron}>
+                <div className={classes.jumbotron}>
                     <Typography variant="h4" className={classes.jumboText}>The family planner in just one click</Typography>
                     <img src={AuthenticatedIphone} alt="Home page on Iphone" className={classes.authenticatedIphone} />
                 </div>
-                <div fullWidth className={classes.auth}>
+                <div className={classes.auth}>
                     <Typography variant="h4" className={classes.authText}>It's never been so easy...</Typography>
                     <div className={classes.buttonsGroup}>
                         <Link className={classes.link} to="/signup">
@@ -127,7 +129,7 @@ const Anonymous = () => {
                         </Link>
                     </div>
                 </div>
-                <div fullWidth className={classes.appDescription}>
+                <div className={classes.appDescription}>
                     <Typography variant="h4" className={classes.descriptionHeading}>Keep you family organised, no more headaches.</Typography>
                     <Typography variant="h6" className={classes.subtitle}>With iFam you can:</Typography>
                     <ul className={classes.ul}>
@@ -139,7 +141,7 @@ const Anonymous = () => {
                         </li>
                     </ul>
                     <img src={HappyFamily} alt="Happy family" className={classes.happyFamily} />
-                    <div fullWidth className={classes.footer}>
+                    <div className={classes.footer}>
                         <Typography variant="body2" >Mirko Oricci ©2020</Typography>
 
                     </div>
