@@ -44,7 +44,6 @@ const App = (props) => {
       marginBottom: "2rem"
     },
     Anonymous: {
-      marginTop: theme.spacing(18),
       display: "flex",
       justifyContent: "center",
       width: "100%",

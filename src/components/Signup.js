@@ -250,7 +250,8 @@ const Signup = (props) => {
                 marginTop: theme.spacing(0)
             },
             container: {
-                padding: "1rem"
+                padding: "1rem",
+                marginTop: theme.spacing(18),
             }
         }
     ))
