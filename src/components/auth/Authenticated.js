@@ -36,7 +36,7 @@ const Authenticated = (props) => {
             }
         },
         familyImage: {
-            zIndex: -1,
+            zIndex: -2,
             position: "fixed",
             left: "8px",
             top: "60px",
