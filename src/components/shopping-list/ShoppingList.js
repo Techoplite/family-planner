@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import ShoppingItems from './ShoppingItems'
 import AddShoppingItemForm from './AddShoppingItemForm'
 
+
 const ShoppingList = (props) => {
 
     //React Router DOM

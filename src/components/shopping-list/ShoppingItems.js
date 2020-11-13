@@ -13,6 +13,9 @@ import CustomButton from '../inputs/CustomButton';
 import { updateShoppingList } from './../../store/actions/shoppingList'
 import AddShoppingItemForm from './AddShoppingItemForm'
 import { clearRedirectPath } from "../../store/actions/auth";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 
 
 
@@ -101,9 +104,21 @@ const ShoppingItems = (props) => {
         customButton: {
             width: "80%",
             marginTop: theme.spacing(4),
+        },
+        add: {
+            color: "#00ca00",
+            marginLeft: "19px",
+            marginTop: "10px",
+            border: "2px solid #00ca00",
+            borderRadius: "50%",
+            fontSize: "17px"
         }
     }));
+
     const classes = useStyles();
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
 
     return (
         <>{auth.redirectPath === '/shopping-list/add-shopping-item' ?
@@ -142,6 +157,7 @@ const ShoppingItems = (props) => {
                                     }
                                 />
                             )}
+                            <Link to="/shopping-list/add-shopping-item"><AddIcon className={classes.add} /></Link>
                         </Paper>
                         {state.itemsToDelete.length > 0 &&
                             <CustomButton
@@ -154,12 +170,12 @@ const ShoppingItems = (props) => {
                             >
                                 UPDATE LIST
                 </CustomButton>}
-                        <Link to="/shopping-list/add-shopping-item">
+                        {!matches && <Link to="/shopping-list/add-shopping-item">
                             <div className={classes.addIcon}>
                                 <div className={classes.whiteBackground}></div>
                                 <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
                             </div>
-                        </Link>
+                        </Link>}
                     </>
                 }
             </>

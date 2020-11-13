@@ -26,6 +26,9 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import EventFilterform from "./EventFilterForm";
 import EditIcon from '@material-ui/icons/Edit';
 import EventForm from './EventForm'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 
 const EventList = (props) => {
   // Redux
@@ -330,10 +333,18 @@ const EventList = (props) => {
     },
     tableBody: {
       background: "white",
+    },
+    add: {
+      display: "inline",
+      color: "#00ca00",
+      paddingLeft: theme.spacing(1)
     }
   }));
 
   const classes = useStyles();
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <>{auth.redirectPath === '/calendar/add-event' ?
@@ -410,20 +421,32 @@ const EventList = (props) => {
                           </div>
                         </div>
                         <div className={classes.actions}>
-                          <div
-                            id="edit"
-                            className={classes.edit}
-                            onClick={(e) => handleClickOpen(e, event, "edit")}
-                          >
-                            <EditIcon />
-                          </div>
-                          <div
-                            id="delete"
-                            className={classes.delete}
-                            onClick={(e) => handleClickOpen(e, event, "delete")}
-                          >
-                            <DeleteIcon />
-                          </div>
+                          <Link to="/calendar/add-event">
+                            <div
+                              id="add"
+                              className={classes.add}
+                            >
+                              <AddIcon />
+                            </div>
+                          </Link>
+                          <Link >
+                            <div
+                              id="edit"
+                              className={classes.edit}
+                              onClick={(e) => handleClickOpen(e, event, "edit")}
+                            >
+                              <EditIcon />
+                            </div>
+                          </Link>
+                          <Link >
+                            <div
+                              id="delete"
+                              className={classes.delete}
+                              onClick={(e) => handleClickOpen(e, event, "delete")}
+                            >
+                              <DeleteIcon />
+                            </div>
+                          </Link>
                         </div>
                       </div>
                     </TableCell>
@@ -459,22 +482,24 @@ const EventList = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
-        <div className={classes.filterIcon} onClick={handleClickOpenFilter}>
-          <FiberManualRecordIcon
-            color="secondary"
-            style={{ padding: 0, fontSize: "5.5rem" }}
-          />
-          <FilterListIcon
-            style={{
-              padding: 0,
-              fontSize: "3rem",
-              position: "absolute",
-              left: "20px",
-              bottom: "22px",
-              color: "white"
-            }}
-          />
-        </div>
+        {!matches &&
+          <div className={classes.filterIcon} onClick={handleClickOpenFilter}>
+            <FiberManualRecordIcon
+              color="secondary"
+              style={{ padding: 0, fontSize: "5.5rem" }}
+            />
+            <FilterListIcon
+              style={{
+                padding: 0,
+                fontSize: "3rem",
+                position: "absolute",
+                left: "20px",
+                bottom: "22px",
+                color: "white"
+              }}
+            />
+          </div>}
+
         <Dialog open={state.alertFilter} onClose={handleClose}>
           <DialogTitle id="alert-dialog-title">{"Filter"}</DialogTitle>
           <DialogContent>
@@ -489,12 +514,28 @@ const EventList = (props) => {
             </DialogActions>
           </DialogContent>
         </Dialog>
-        <Link to="/calendar/add-event">
+        {!matches ? <Link to="/calendar/add-event">
           <div className={classes.addIcon}>
             <div className={classes.whiteBackground}></div>
             <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
           </div>
-        </Link>
+        </Link> :
+          <div className={classes.addIcon} onClick={handleClickOpenFilter}>
+            <FiberManualRecordIcon
+              color="secondary"
+              style={{ padding: 0, fontSize: "5.5rem" }}
+            />
+            <FilterListIcon
+              style={{
+                padding: 0,
+                fontSize: "3rem",
+                position: "absolute",
+                left: "20px",
+                bottom: "22px",
+                color: "white"
+              }}
+            />
+          </div>}
       </>
     }
 
