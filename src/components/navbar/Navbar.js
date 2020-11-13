@@ -76,6 +76,9 @@ const Navbar = (props) => {
             logo: {
                 width: "63px",
                 outline: "none"
+            },
+            appBar: {
+                zIndex: 1
             }
         }
     ))
@@ -84,7 +87,7 @@ const Navbar = (props) => {
     const classes = useStyles()
 
     return (
-        <AppBar>
+        <AppBar className={classes.appBar}>
             <Toolbar>
                 <Grid container alignItems="center">
                     <Grid item xs={2} >

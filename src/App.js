@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { getUserProfile } from './store/actions/auth';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import PermanentDrawer from './PermanentDrawer';
+import PermanentDrawer from './components/PermanentDrawer';
 
 
 
