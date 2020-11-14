@@ -140,9 +140,9 @@ const Anonymous = () => {
                         </li>
                     </ul>
                     <img src={HappyFamily} alt="Happy family" className={classes.happyFamily} />
+                    <Typography variant="subtitle1" className={classes.descriptionHeading}>If you want to have a quick try, why not having a look at the Doe's family. You can access as John by using 'john@email.com' and 'doepass1' as the family password.</Typography>
                     <div className={classes.footer}>
                         <Typography variant="body2" >Mirko Oricci ©2020</Typography>
-
                     </div>
                 </div>
             </Route>
