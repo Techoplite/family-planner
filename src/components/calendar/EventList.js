@@ -430,7 +430,7 @@ const EventList = (props) => {
                               <AddIcon />
                             </div>
                           </Link>
-                          <Link to='/calendar/events'>
+                          <Link to='/calendar/edit-event'>
                             <div
                               id="edit"
                               className={classes.edit}
