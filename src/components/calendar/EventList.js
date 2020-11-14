@@ -295,7 +295,8 @@ const EventList = (props) => {
     delete: {
       display: "inline",
       color: "#f44336",
-      paddingLeft: theme.spacing(1)
+      paddingLeft: theme.spacing(1),
+      cursor: "pointer"
     },
     edit: {
       display: "inline",
@@ -429,7 +430,7 @@ const EventList = (props) => {
                               <AddIcon />
                             </div>
                           </Link>
-                          <Link >
+                          <Link to='/calendar/events'>
                             <div
                               id="edit"
                               className={classes.edit}
@@ -438,15 +439,13 @@ const EventList = (props) => {
                               <EditIcon />
                             </div>
                           </Link>
-                          <Link >
-                            <div
-                              id="delete"
-                              className={classes.delete}
-                              onClick={(e) => handleClickOpen(e, event, "delete")}
-                            >
-                              <DeleteIcon />
-                            </div>
-                          </Link>
+                          <div
+                            id="delete"
+                            className={classes.delete}
+                            onClick={(e) => handleClickOpen(e, event, "delete")}
+                          >
+                            <DeleteIcon />
+                          </div>
                         </div>
                       </div>
                     </TableCell>
