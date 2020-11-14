@@ -70,7 +70,7 @@ const EditEventForm = (props) => {
         errors.title = (state.title ? "" : "Title is required.") ||
             (/.*[a-zA-Z].*/i.test(state.title) ? "" : "Title must contain letters.")
         errors.date = (state.date ? "" : "Date is required.")
-        errors.location = (errors.location = (/^[A-Za-z ]+$/i).test(state.location) || state.location === "" ? "" : "Location cannot contain numbers.")
+        errors.location = (/[A-Za-z\- ]*/i.test(state.location) || state.location === "") ? "" : "Location cannot contain numbers."
         setState({
             ...state,
             errors,
