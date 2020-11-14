@@ -146,7 +146,7 @@ const PermanentDrawer = (props) => {
             }}
         >
             {state.list && state.list.map(item =>
-                <List>
+                <List key={item.name}>
                     <React.Fragment
                         key={item.name}
                     >
