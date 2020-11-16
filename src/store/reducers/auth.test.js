@@ -961,6 +961,68 @@ describe("auth reducer", () => {
             }
         )
     })
+    it('should handle ADD_TODO_ITEM_SUCCESS', () => {
+        const initialState = {
+            family: {
+                todoItems: []
+            }
+        }
+        const id = "id1"
+        const itemToAdd = "first item"
+        expect(user(initialState,
+            {
+                type: "ADD_TODO_ITEM_SUCCESS",
+                payload: {
+                    id,
+                    text: itemToAdd
+
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: {
+                    ...initialState.family,
+                    todoItems: [...initialState.family.todoItems, {
+                        id,
+                        text: itemToAdd
+
+                    }]
+                }
+            }
+        )
+    })
+    it('should handle UPDATE_TODO_LIST_SUCCESS', () => {
+        const initialState = {
+            family: {
+                todoItems: []
+            }
+        }
+        const id = "id1"
+        const itemToAdd = "first item"
+        expect(user(initialState,
+            {
+                type: "UPDATE_TODO_LIST_SUCCESS",
+                payload: {
+                    todoItems: [
+                        { id: "id1", text: "first item" },
+                        { id: "id2", text: "second item" },
+                    ]
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: {
+                    ...initialState.family,
+                    todoItems: [
+                        { id: "id1", text: "first item" },
+                        { id: "id2", text: "second item" },
+                    ]
+                }
+            }
+        )
+    })
     it('should handle CLEAR_REDIRECT_PATH', () => {
         expect(user(initialState,
             {
