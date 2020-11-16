@@ -947,4 +947,32 @@ describe("auth reducer", () => {
             }
         )
     })
+    it('should handle UPDATE_SHOPPING_LIST_SUCCESS', () => {
+        const path = "www.mywebsite.com"
+        expect(user(initialState,
+            {
+                type: "REDIRECT_PATH",
+                payload: path
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                redirectPath: "www.mywebsite.com"
+            }
+        )
+    })
+    it('should handle CLEAR_REDIRECT_PATH', () => {
+        expect(user(initialState,
+            {
+                type: "CLEAR_REDIRECT_PATH",
+                payload: null
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                redirectPath: null
+
+            }
+        )
+    })
 })
