@@ -11,6 +11,7 @@ export const login = (credentials) => {
                     type: 'LOGIN_SUCCESS',
                     payload: {
                         authError: null,
+                        redirectPath: null,
                     }
                 }
             ))
@@ -21,7 +22,10 @@ export const login = (credentials) => {
                 dispatch(
                     {
                         type: 'LOGIN_ERROR',
-                        payload: { authError: err.message }
+                        payload: {
+                            authError: err.message,
+                            redirectPath: null,
+                        }
                     })
             })
     };
@@ -34,7 +38,10 @@ export const logout = () => {
             .then(() => dispatch(
                 {
                     type: 'LOGOUT_SUCCESS',
-                    payload: { authErr: null }
+                    payload: {
+                        authErr: null,
+                        redirectPath: null,
+                    }
                 }
             ))
     };
@@ -95,6 +102,7 @@ export const signup = (credentials, name, color, surname) => {
                                                 type: 'SIGNUP_SUCCESS',
                                                 payload: {
                                                     authError: null,
+                                                    redirectPath: null,
                                                     capitalisedName,
                                                     email,
                                                     color,
@@ -172,6 +180,7 @@ export const signup = (credentials, name, color, surname) => {
                                     type: 'SIGNUP_SUCCESS',
                                     payload: {
                                         authError: null,
+                                        redirectPath: null,
                                         capitalisedName,
                                         email,
                                         color,

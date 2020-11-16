@@ -3,6 +3,7 @@ import user from './auth'
 describe("auth reducer", () => {
     const initialState = {
         authError: null,
+        redirectPath: null,
     }
     it('should return the initial state', () => {
         expect(user(undefined, {})).toEqual(initialState)
@@ -13,6 +14,7 @@ describe("auth reducer", () => {
                 type: 'LOGIN_SUCCESS',
                 payload: {
                     authError: null,
+                    redirectPath: null,
                 }
             }
         )).toEqual(initialState)
@@ -23,11 +25,13 @@ describe("auth reducer", () => {
                 type: 'LOGIN_ERROR',
                 payload: {
                     authError: "This is an error message",
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
                 authError: "This is an error message",
+                redirectPath: null,
             }
         )
     })
@@ -44,11 +48,13 @@ describe("auth reducer", () => {
                 type: 'LOGOUT_SUCCESS',
                 payload: {
                     authError: null,
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
                 authError: null,
+                redirectPath: null,
             }
         )
     })
@@ -58,6 +64,7 @@ describe("auth reducer", () => {
                 type: 'SIGNUP_SUCCESS',
                 payload: {
                     authError: null,
+                    redirectPath: null,
                     capitalisedName: "John",
                     email: "john@email.com",
                     color: "blue",
@@ -67,6 +74,7 @@ describe("auth reducer", () => {
         )).toEqual(
             {
                 authError: null,
+                redirectPath: null,
                 capitalisedName: "John",
                 email: "john@email.com",
                 color: "blue",
@@ -79,12 +87,14 @@ describe("auth reducer", () => {
             {
                 type: 'SIGNUP_ERROR',
                 payload: {
-                    authError: "This is an error message"
+                    authError: "This is an error message",
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
-                authError: "This is an error message"
+                authError: "This is an error message",
+                redirectPath: null,
             }
         )
     })
@@ -101,6 +111,7 @@ describe("auth reducer", () => {
         )).toEqual(
             {
                 authError: null, // this should come from the initial state
+                redirectPath: null,
                 name: 'John',
                 email: 'john@email.com',
                 color: 'blue'
@@ -119,7 +130,8 @@ describe("auth reducer", () => {
         )).toEqual(
             {
                 availableFamily: 'Doe',
-                authError: null
+                authError: null,
+                redirectPath: null,
             }
         )
     })
@@ -129,13 +141,15 @@ describe("auth reducer", () => {
                 type: "FIND_FAMILY_ERROR",
                 payload: {
                     availableFamily: null,
-                    authError: "This is an error message"
+                    authError: "This is an error message",
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
                 availableFamily: null,
-                authError: "This is an error message"
+                authError: "This is an error message",
+                redirectPath: null,
             }
         )
     })
@@ -149,13 +163,15 @@ describe("auth reducer", () => {
                 type: "RESET_FAMILY",
                 payload: {
                     availableFamily: false,
-                    authError: null
+                    authError: null,
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
                 availableFamily: false,
-                authError: null
+                authError: null,
+                redirectPath: null,
             }
         )
     })
@@ -165,13 +181,14 @@ describe("auth reducer", () => {
                 type: "PASSWORD_ALREADY_TAKEN",
                 payload: {
                     authError: "Password already taken",
+                    redirectPath: null,
 
                 }
             }
         )).toEqual(
             {
                 authError: "Password already taken",
-
+                redirectPath: null,
             }
         )
     })
@@ -181,13 +198,13 @@ describe("auth reducer", () => {
                 type: "PASSWORD_NEEDED",
                 payload: {
                     authError: "Password needed",
-
+                    redirectPath: null,
                 }
             }
         )).toEqual(
             {
                 authError: "Password needed",
-
+                redirectPath: null,
             }
         )
     })
