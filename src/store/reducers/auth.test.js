@@ -208,4 +208,116 @@ describe("auth reducer", () => {
             }
         )
     })
+    it('should handle ADD_EVENT_SUCCESS', () => {
+        const initialState = {
+            family: {
+                events: [{
+                    title: "Jane's Birthday",
+                    date: "26/12/2020",
+                    rawDate: "Sat Dec 26 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        },
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                    ],
+                    family: "doepass1",
+                    user: "jane@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                }]
+            }
+        }
+        expect(user(initialState,
+            {
+                type: "ADD_EVENT_SUCCESS",
+                payload:
+                {
+                    title: "John's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: {
+                    ...initialState.family,
+                    events: [...initialState.family.events, {
+                        title: "John's Birthday",
+                        date: "25/12/2020",
+                        rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                        rawTime: "02:25 Am",
+                        time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                        location: "Somewhere",
+                        membersAttending: [
+                            {
+                                name: "John",
+                                email: "john@email.com",
+                                color: "blue"
+                            },
+                            {
+                                name: "Jane",
+                                email: "jane@email.com",
+                                color: "pink"
+                            },
+                        ],
+                        membersNotAttending: [
+                            {
+                                name: "James",
+                                email: "james@email.com",
+                                color: "yellow"
+                            }
+                        ],
+                        family: "doepass1",
+                        user: "john@email.com",
+                        noTimeSelected: false,
+                        checked: false
+                    }]
+                }
+            }
+        )
+    })
 })
