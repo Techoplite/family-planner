@@ -891,4 +891,60 @@ describe("auth reducer", () => {
             }
         )
     })
+    it('should handle UPDATE_SHOPPING_LIST_SUCCESS', () => {
+        const initialState = {
+            family: {
+                shoppingItems: [
+                    {
+                        itemName: "first item",
+                        shop: "Aldi",
+                        quantity: "3"
+                    },
+                    {
+                        itemName: "second item",
+                        shop: "",
+                        quantity: ""
+                    },
+                ]
+            },
+        }
+        expect(user(initialState,
+            {
+                type: "UPDATE_SHOPPING_LIST_SUCCESS",
+                payload: {
+                    shoppingItems: [
+                        {
+                            itemName: "first item",
+                            shop: "Aldi",
+                            quantity: "3"
+                        },
+                        {
+                            itemName: "third item",
+                            shop: "",
+                            quantity: "7"
+                        },
+                    ]
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: {
+                    ...initialState.family,
+                    shoppingItems: [
+                        {
+                            itemName: "first item",
+                            shop: "Aldi",
+                            quantity: "3"
+                        },
+                        {
+                            itemName: "third item",
+                            shop: "",
+                            quantity: "7"
+                        },
+                    ]
+                }
+            }
+        )
+    })
 })
