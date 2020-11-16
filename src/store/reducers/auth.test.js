@@ -110,11 +110,25 @@ describe("auth reducer", () => {
             }
         )).toEqual(
             {
-                authError: null, // this should come from the initial state
-                redirectPath: null,
+                ...initialState,
                 name: 'John',
                 email: 'john@email.com',
                 color: 'blue'
+            }
+        )
+    })
+    it('should handle GET_USER_FAMILY_SUCCESS', () => {
+        expect(user(initialState,
+            {
+                type: 'GET_USER_FAMILY_SUCCESS',
+                payload: {
+                    family: { name: "a family" }
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: { name: "a family" }
             }
         )
     })
@@ -354,37 +368,37 @@ describe("auth reducer", () => {
                     noTimeSelected: false,
                     checked: false
                 },
-                    {
-                        title: "John's Birthday",
-                        date: "25/12/2020",
-                        rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
-                        rawTime: "02:25 Am",
-                        time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
-                        location: "Somewhere",
-                        membersAttending: [
-                            {
-                                name: "John",
-                                email: "john@email.com",
-                                color: "blue"
-                            },
-                            {
-                                name: "Jane",
-                                email: "jane@email.com",
-                                color: "pink"
-                            },
-                        ],
-                        membersNotAttending: [
-                            {
-                                name: "James",
-                                email: "james@email.com",
-                                color: "yellow"
-                            }
-                        ],
-                        family: "doepass1",
-                        user: "john@email.com",
-                        noTimeSelected: false,
-                        checked: false
-                    }]
+                {
+                    title: "John's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                }]
             }
         }
         const eventToDelete = {
@@ -419,7 +433,7 @@ describe("auth reducer", () => {
             checked: false
         }
         expect(user(initialState,
-            
+
             {
                 type: "DELETE_EVENT_SUCCESS",
                 payload: eventToDelete
@@ -500,37 +514,37 @@ describe("auth reducer", () => {
                     noTimeSelected: false,
                     checked: false
                 },
-                    {
-                        title: "John's Birthday",
-                        date: "25/12/2020",
-                        rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
-                        rawTime: "02:25 Am",
-                        time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
-                        location: "Somewhere",
-                        membersAttending: [
-                            {
-                                name: "John",
-                                email: "john@email.com",
-                                color: "blue"
-                            },
-                            {
-                                name: "Jane",
-                                email: "jane@email.com",
-                                color: "pink"
-                            },
-                        ],
-                        membersNotAttending: [
-                            {
-                                name: "James",
-                                email: "james@email.com",
-                                color: "yellow"
-                            }
-                        ],
-                        family: "doepass1",
-                        user: "john@email.com",
-                        noTimeSelected: false,
-                        checked: false
-                    }]
+                {
+                    title: "John's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                }]
             }
         }
         const eventToEditFound = {
@@ -602,6 +616,225 @@ describe("auth reducer", () => {
                     user: "john@email.com",
                     noTimeSelected: false,
                     checked: false
+                }
+            }
+        )
+    })
+    it('should handle EDIT_EVENT_SUCCESS', () => {
+        const initialState = {
+            family: {
+                events: [{
+                    title: "Jane's Birthday",
+                    date: "26/12/2020",
+                    rawDate: "Sat Dec 26 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        },
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                    ],
+                    family: "doepass1",
+                    user: "jane@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                },
+                {
+                    title: "John's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                }]
+            },
+            eventSelected: {}
+        }
+        const action = {
+            type: "EDIT_EVENT_SUCCESS",
+            payload: {
+                eventToEdit: {
+                    title: "Someone else's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                },
+                eventEdited: {
+                    title: "John's Birthday",
+                    date: "25/12/2020",
+                    rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                    rawTime: "02:25 Am",
+                    time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                    location: "Somewhere",
+                    membersAttending: [
+                        {
+                            name: "John",
+                            email: "john@email.com",
+                            color: "blue"
+                        },
+                        {
+                            name: "Jane",
+                            email: "jane@email.com",
+                            color: "pink"
+                        },
+                    ],
+                    membersNotAttending: [
+                        {
+                            name: "James",
+                            email: "james@email.com",
+                            color: "yellow"
+                        }
+                    ],
+                    family: "doepass1",
+                    user: "john@email.com",
+                    noTimeSelected: false,
+                    checked: false
+                },
+            }
+        }
+        expect(user(initialState,
+            {
+                type: "EDIT_EVENT_SUCCESS",
+                payload: {
+                    eventToEdit: {
+                        title: "Someone else's Birthday",
+                        date: "25/12/2020",
+                        rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                        rawTime: "02:25 Am",
+                        time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                        location: "Somewhere",
+                        membersAttending: [
+                            {
+                                name: "John",
+                                email: "john@email.com",
+                                color: "blue"
+                            },
+                            {
+                                name: "Jane",
+                                email: "jane@email.com",
+                                color: "pink"
+                            },
+                        ],
+                        membersNotAttending: [
+                            {
+                                name: "James",
+                                email: "james@email.com",
+                                color: "yellow"
+                            }
+                        ],
+                        family: "doepass1",
+                        user: "john@email.com",
+                        noTimeSelected: false,
+                        checked: false
+                    },
+                    eventEdited: {
+                        title: "John's Birthday",
+                        date: "25/12/2020",
+                        rawDate: "Fri Dec 25 2020 08:50:00 GMT+0000 (Greenwich Mean Time)",
+                        rawTime: "02:25 Am",
+                        time: "Mon Nov 16 2020 02:25:24 GMT+0000 (Greenwich Mean Time)",
+                        location: "Somewhere",
+                        membersAttending: [
+                            {
+                                name: "John",
+                                email: "john@email.com",
+                                color: "blue"
+                            },
+                            {
+                                name: "Jane",
+                                email: "jane@email.com",
+                                color: "pink"
+                            },
+                        ],
+                        membersNotAttending: [
+                            {
+                                name: "James",
+                                email: "james@email.com",
+                                color: "yellow"
+                            }
+                        ],
+                        family: "doepass1",
+                        user: "john@email.com",
+                        noTimeSelected: false,
+                        checked: false
+                    },
+                }
+            }
+        )).toEqual(
+            {
+                ...initialState,
+                family: {
+                    ...initialState.family,
+                    events:
+                        [...initialState.family.events.filter(event => {
+                            return (event.title !== action.payload.eventToEdit.title,
+                                event.time !== action.payload.eventToEdit.time,
+                                event.date !== action.payload.eventToEdit.date)
+
+                        }), action.payload.eventEdited]
                 }
             }
         )

@@ -94,7 +94,7 @@ const user = (state = initialState, action) => {
                     ...state.family,
                     events:
                         [...state.family.events.filter(event => {
-                            return (event.name !== action.payload.eventToEdit.name,
+                            return (event.title !== action.payload.eventToEdit.title,
                                 event.time !== action.payload.eventToEdit.time,
                                 event.date !== action.payload.eventToEdit.date)
 
