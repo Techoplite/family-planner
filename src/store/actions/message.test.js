@@ -1,6 +1,6 @@
 import * as actions from './message'
 
-describe('messagage action creators', () => {
+describe('message action creators', () => {
     it('should handle SET_MESSAGE', () => {
         const text = "test text"
         const severity = "test severity"
