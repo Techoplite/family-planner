@@ -11,4 +11,9 @@ describe('<Message />', () => {
         const wrapper = shallow(<Message message="testMessage" severity="success" />)
         expect(wrapper.text()).toBe("testMessage")
     })
+    it('should render a single Material UI Alert component', () => {
+        const wrapper = shallow(<Message message="testMessage" severity="success" />)
+        const alertMUIComponent = wrapper.find(`[data-test='alert']`)
+        expect(alertMUIComponent.length).toBe(1)
+    })
 })

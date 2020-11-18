@@ -31,7 +31,7 @@ const Message = (props) => {
     const classes = useStyles()
 
     return (
-        <Alert variant="filled" className={classes.message} severity={severity}>{message}</Alert>
+        <Alert data-test="alert" variant="filled" className={classes.message} severity={severity}>{message}</Alert>
     );
 }
 
