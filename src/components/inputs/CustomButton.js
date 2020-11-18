@@ -22,6 +22,7 @@ const CustomButton = (props) => {
     const classes = useStyles()
 
     return (<Button
+        data-test='button'
         variant={variant}
         className={classes.button}
         {...others}
