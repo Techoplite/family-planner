@@ -88,23 +88,23 @@ const Navbar = (props) => {
 
     return (
         <AppBar data-test='appBar' className={classes.appBar}>
-            <Toolbar>
-                <Grid container alignItems="center">
-                    <Grid item xs={2} >
-                        <Link className={classes.link} to="/">
-                            <Slide appear direction="left" in={state && state.color !== null} mountOnEnter unmountOnExit>
-                                <img src={logo} className={classes.logo} alt="iFam Logo" />
+            <Toolbar data-test='toolbar'>
+                <Grid data-test='grid-container' container alignItems="center">
+                    <Grid data-test='grid-item-xs2' item xs={2} >
+                        <Link data-test='link-to-home' className={classes.link} to="/">
+                            <Slide data-test='slide' appear direction="left" in={state && state.color !== null} mountOnEnter unmountOnExit>
+                                <img data-test='image' src={logo} className={classes.logo} alt="iFam Logo" />
                             </Slide>
                         </Link>
 
                     </Grid>
-                    <Grid item xs>
+                    <Grid data-test='grid-item-xs' item xs>
                         {state && state.color === null ?
-                            <Link className={classes.link} to="/">
-                                <img src={logo} className={classes.logo} alt="iFam Logo" />
+                            <Link data-test='link-to-home' className={classes.link} to="/">
+                                <img data-test='image' src={logo} className={classes.logo} alt="iFam Logo" />
                             </Link>
                             :
-                            <Zoom appear in={user.family !== undefined} mountOnEnter unmountOnExit exit={true} timeout={{
+                            <Zoom data-test='zoom' appear in={user.family !== undefined} mountOnEnter unmountOnExit exit={true} timeout={{
                                 appear: 500,
                                 enter: 300,
                                 exit: 500,
@@ -116,10 +116,11 @@ const Navbar = (props) => {
                         }
 
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid data-test='grid-item-xs2' item xs={2}>
                         {user.userProfile ?
-                            <Avatar className={classes.avatar}>
+                            <Avatar data-test='avatar' className={classes.avatar}>
                                 <CustomButton
+                                    data-test='customButton'
                                     variant="contained"
                                     color="primary"
                                     className={classes.circleButton}
@@ -130,6 +131,7 @@ const Navbar = (props) => {
                                 </CustomButton>
                             </Avatar>
                             : <AccountCircleOutlinedIcon
+                                data-test='accountCircleOutlinedIcon'
                                 fontSize="large"
                                 onClick={props.handleOnClick}
                                 list={props.list}
@@ -139,7 +141,7 @@ const Navbar = (props) => {
                     </Grid>
                 </Grid>
             </Toolbar>
-            {text && <Message message={text} severity={severity} />}
+            {text && <Message data-test='message' message={text} severity={severity} />}
         </AppBar>
     );
 }
