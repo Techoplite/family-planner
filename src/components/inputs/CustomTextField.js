@@ -22,6 +22,7 @@ const CustomTextField = (props) => {
 
     return (
         <TextField
+            data-test="text-field"
             fullWidth
             variant="outlined"
             label={label}

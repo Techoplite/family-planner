@@ -6,11 +6,11 @@ import React from 'react'
 
 configure({ adapter: new Adapter() })
 
-describe('<Message />', () => {
+describe('<CustomButton />', () => {
 
     it('should render a single Material UI Button component', () => {
-        const wrapper = shallow(<CustomButton message="testMessage" severity="success" />)
-        const alertMUIComponent = wrapper.find(`[data-test='button']`)
-        expect(alertMUIComponent.length).toBe(1)
+        const wrapper = shallow(<CustomButton message="testMessage" severity="info" />)
+        const buttonMUIComponent = wrapper.find(`[data-test='button']`)
+        expect(buttonMUIComponent.length).toBe(1)
     })
 })
