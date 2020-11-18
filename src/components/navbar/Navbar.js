@@ -87,7 +87,7 @@ const Navbar = (props) => {
     const classes = useStyles()
 
     return (
-        <AppBar className={classes.appBar}>
+        <AppBar data-test='appBar' className={classes.appBar}>
             <Toolbar>
                 <Grid container alignItems="center">
                     <Grid item xs={2} >
