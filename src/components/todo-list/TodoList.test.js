@@ -1,4 +1,4 @@
-import { configure, mount, shallow } from 'enzyme'
+import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import TodoList from './TodoList'
 import React from 'react'
@@ -13,7 +13,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import CustomButton from '../inputs/CustomButton';
-import { fireEvent } from '@testing-library/react';
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 
@@ -56,6 +55,13 @@ const findByDataTest = (dataTestId, numberOfExpectedComponents) => {
     return expect(component.length).toBe(numberOfExpectedComponents)
 }
 
+const findByComponentName = (componentName, numberOfExpectedComponents) => {
+    const mount = createMount()
+    const wrapper = mount(<TodoList store={store} />)
+    const component = wrapper.find(componentName)
+    return expect(component.length).toBe(numberOfExpectedComponents)
+}
+
 describe('<TodoList />', () => {
     it('should render a single MUI FormatListBulletedIcon component', () => {
         findByDataTest('formatListBulletedIcon', 1)
@@ -67,22 +73,13 @@ describe('<TodoList />', () => {
         findByDataTest('paper', 1)
     })
     it('should render two MUI FormControlLabel components', () => {
-        const mount = createMount()
-        const wrapper = mount(<TodoList store={store} />)
-        const component = wrapper.find(FormControlLabel)
-        return expect(component.length).toBe(2)
+        findByComponentName(FormControlLabel, 2)
     })
     it('should render two MUI Checkbox components', () => {
-        const mount = createMount()
-        const wrapper = mount(<TodoList store={store} />)
-        const component = wrapper.find(Checkbox)
-        return expect(component.length).toBe(2)
+        findByComponentName(Checkbox, 2)
     })
     it('should render two MUI RadioButtonUncheckedIcon components', () => {
-        const mount = createMount()
-        const wrapper = mount(<TodoList store={store} />)
-        const component = wrapper.find(RadioButtonUncheckedIcon)
-        return expect(component.length).toBe(2)
+        findByComponentName(RadioButtonUncheckedIcon, 2)
     })
     // it('should render two MUI CheckCircleOutlineIcon components', () => {
     //     const mount = createMount()
@@ -97,10 +94,7 @@ describe('<TodoList />', () => {
         findByDataTest('textField', 1)
     })
     it('should render a single MUI AddCircleIcon component', () => {
-        const mount = createMount()
-        const wrapper = mount(<TodoList store={store} />)
-        const component = wrapper.find(AddCircleIcon)
-        return expect(component.length).toBe(1)
+        findByComponentName(AddCircleIcon, 1)
     })
     it('should render a single MUI CustomButton component when AddCircleIcon is clicked', () => {
         const mount = createMount()
