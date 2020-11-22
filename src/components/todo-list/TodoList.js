@@ -142,9 +142,9 @@ const TodoList = (props) => {
 
     return (
         <>
-            <FormatListBulletedIcon className={classes.icon} />
-            <Typography variant="h5" className={classes.typography} >To-do List</Typography>
-            <Paper elevation={3} className={classes.paper}>
+            <FormatListBulletedIcon data-test="formatListBulletedIcon" className={classes.icon} />
+            <Typography data-test="typography" variant="h5" className={classes.typography} >To-do List</Typography>
+            <Paper data-test="paper" elevation={3} className={classes.paper}>
                 {state.todoItems && state.todoItems.map(item =>
                     < FormControlLabel
                         style={{
@@ -167,16 +167,18 @@ const TodoList = (props) => {
                     />
                 )}
                 <Grow
+                    data-test="grow"
                     in={state.isAddingItem}
                     mountOnEnter unmountOnExit
                 >
-                    <TextField id="add-todo" label="Add To-do" variant="outlined" fullWidth
+                    <TextField data-test="textField" id="add-todo" label="Add To-do" variant="outlined" fullWidth
                         className={classes.addItem} onChange={handleItemToAdd}
                     />
                 </Grow>
             </Paper>
             {(state.isAddingItem || state.itemsToDelete.length > 0) &&
                 <CustomButton
+                    data-test="customButton"
                     className={classes.customButton}
                     variant="contained"
                     color="primary"
@@ -189,7 +191,7 @@ const TodoList = (props) => {
             }
             <div className={classes.addIcon} onClick={handleAddItem}>
                 <div className={classes.whiteBackground}></div>
-                <AddCircleIcon className={classes.addCircleIcon} color="secondary" />
+                <AddCircleIcon data-testid="addCircleIcon" className={classes.addCircleIcon} color="secondary" />
             </div>
         </>
     );

@@ -54,7 +54,10 @@ describe('<Navbar />', () => {
         findByDataTest('grid-item-xs', 1)
     })
     // it('should render one MUI Zoom component when state.color !== null', () => {
-    //     findByDataTest('zoom', 1)
+    //     const wrapper = shallow(<Navbar store={store} />)
+    //     wrapper.setState({ color: 'not null' })
+    //     const component = wrapper.dive().dive().dive().find(`[data-test='$zoom']`)
+    //     return expect(component.length).toBe(1)
     // })
     // it('should render one MUI Avatar component when user.userProfile', () => {
     //     findByDataTest('avatar', 1)
