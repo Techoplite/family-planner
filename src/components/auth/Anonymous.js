@@ -111,38 +111,38 @@ const Anonymous = () => {
     }))
     const classes = useStyles()
     return (
-        <Switch>
+        <Switch data-testid='switch'>
             <Route exact path="/">
-                <div className={classes.jumbotron}>
-                    <Typography variant="h4" className={classes.jumboText}>The family planner in just one click</Typography>
-                    <img src={AuthenticatedIphone} alt="Home page on Iphone" className={classes.authenticatedIphone} />
+                <div data-testid="jumbotron" className={classes.jumbotron}>
+                    <Typography data-testid="typography-h4" variant="h4" className={classes.jumboText}>The family planner in just one click</Typography>
+                    <img data-testid="authenticatedIphone" src={AuthenticatedIphone} alt="Home page on Iphone" className={classes.authenticatedIphone} />
                 </div>
-                <div className={classes.auth}>
-                    <Typography variant="h4" className={classes.authText}>It's never been so easy...</Typography>
-                    <div className={classes.buttonsGroup}>
-                        <Link className={classes.link} to="/signup">
-                            <Button variant="contained" size="large" className={classes.button}>Sign Up</Button>
+                <div data-testid="auth" className={classes.auth}>
+                    <Typography data-testid="typography-h4" variant="h4" className={classes.authText}>It's never been so easy...</Typography>
+                    <div data-testid="buttonsGroup" className={classes.buttonsGroup}>
+                        <Link data-testid="link" className={classes.link} to="/signup">
+                            <Button data-testid="button-contained" variant="contained" size="large" className={classes.button}>Sign Up</Button>
                         </Link>
-                        <Link className={classes.link} to="/login">
-                            <Button variant="contained" className={classes.button} size="large">Log In</Button>
+                        <Link data-testid="link" className={classes.link} to="/login">
+                            <Button data-testid="button-contained"  variant="contained" className={classes.button} size="large">Log In</Button>
                         </Link>
                     </div>
                 </div>
-                <div className={classes.appDescription}>
-                    <Typography variant="h4" className={classes.descriptionHeading}>Keep you family organised, no more headaches.</Typography>
-                    <Typography variant="h6" className={classes.subtitle}>With iFam you can:</Typography>
-                    <ul className={classes.ul}>
-                        <li className={classes.li}>
-                            <Typography variant="body1" >Keep appointments an activities all in one place</Typography>
+                <div data-testid="appDescription" className={classes.appDescription}>
+                    <Typography data-testid="typography-h4" variant="h4" className={classes.descriptionHeading}>Keep you family organised, no more headaches.</Typography>
+                    <Typography data-testid="typography-h6" variant="h6" className={classes.subtitle}>With iFam you can:</Typography>
+                    <ul data-testid="ul" className={classes.ul}>
+                        <li data-testid="li" className={classes.li}>
+                            <Typography data-testid="typography-body1" variant="body1" >Keep appointments an activities all in one place</Typography>
                         </li>
-                        <li className={classes.li}>
-                            <Typography variant="body1" >Manage a shared shopping list, and to-do list</Typography>
+                        <li data-testid="li" className={classes.li}>
+                            <Typography data-testid="typography-body1" variant="body1" >Manage a shared shopping list, and to-do list</Typography>
                         </li>
                     </ul>
-                    <img src={HappyFamily} alt="Happy family" className={classes.happyFamily} />
-                    <Typography variant="subtitle1" className={classes.descriptionHeading}>If you want to have a quick try, why not having a look at the Doe's family. You can access as John by using 'john@email.com' and 'doepass1' as the family password.</Typography>
-                    <div className={classes.footer}>
-                        <Typography variant="body2" >Mirko Oricci ©2020</Typography>
+                    <img data-testid="happyFamily" src={HappyFamily} alt="Happy family" className={classes.happyFamily} />
+                    <Typography data-testid="subtitle1" variant="subtitle1" className={classes.descriptionHeading}>If you want to have a quick try, why not having a look at the Doe's family. You can access as John by using 'john@email.com' and 'doepass1' as the family password.</Typography>
+                    <div data-testid="footer" className={classes.footer}>
+                        <Typography data-testid="typography-body2" variant="body2" >Mirko Oricci ©2020</Typography>
                     </div>
                 </div>
             </Route>

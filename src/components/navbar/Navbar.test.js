@@ -18,11 +18,7 @@ import { Typography } from '@material-ui/core'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-
-
 configure({ adapter: new Adapter() })
-
-
 
 describe('<Navbar />', () => {
     describe('stateless tests', () => {
@@ -108,7 +104,6 @@ describe('<Navbar />', () => {
         it('should render one CustomButton component when user.userProfile', () => {
             findByComponentName(CustomButton, 1)
         })
-
         it('should render one Message component when text', () => {
             findByComponentName(Message, 1)
         })
