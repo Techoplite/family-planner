@@ -104,7 +104,7 @@ const Navbar = (props) => {
                                 <img data-test='image' src={logo} className={classes.logo} alt="iFam Logo" />
                             </Link>
                             :
-                            <Zoom data-test='zoom' appear in={user.family !== undefined} mountOnEnter unmountOnExit exit={true} timeout={{
+                            <Zoom appear in={user.family !== undefined} mountOnEnter unmountOnExit exit={true} timeout={{
                                 appear: 500,
                                 enter: 300,
                                 exit: 500,
@@ -120,7 +120,6 @@ const Navbar = (props) => {
                         {user.userProfile ?
                             <Avatar data-test='avatar' className={classes.avatar}>
                                 <CustomButton
-                                    data-test='customButton'
                                     variant="contained"
                                     color="primary"
                                     className={classes.circleButton}
