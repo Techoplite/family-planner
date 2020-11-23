@@ -49,24 +49,24 @@ const Authenticated = (props) => {
     return (
         <>
             {auth.userProfile.email && <Redirect to='/' />}
-            <img src={familyImage} alt="family" className={classes.familyImage} />
+            <img data-testid="familyImage" src={familyImage} alt="family" className={classes.familyImage} />
 
             <Switch>
                 <Route exact path="/">
-                    <Grid container justify="center" alignItems="center" align="center" className={classes.container}>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/calendar">
-                                <Section header="Calendar" icon={<EventIcon className={classes.icon} />} />
+                    <Grid data-testid="grid-container" container justify="center" alignItems="center" align="center" className={classes.container}>
+                        <Grid data-testid="grid-item" item xs={8} sm={12}>
+                            <Link data-testid="link" className={classes.link} to="/calendar">
+                                <Section data-testid="section" header="Calendar" icon={<EventIcon className={classes.icon} />} />
                             </Link>
                         </Grid>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/shopping-list">
-                                <Section header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
+                        <Grid data-testid="grid-item" item xs={8} sm={12}>
+                            <Link data-testid="link" className={classes.link} to="/shopping-list">
+                                <Section data-testid="section" header="Shopping List" icon={<ShoppingCartIcon className={classes.icon} />} />
                             </Link>
                         </Grid>
-                        <Grid item xs={8} sm={12}>
-                            <Link className={classes.link} to="/todo-list">
-                                <Section header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
+                        <Grid data-testid="grid-item" item xs={8} sm={12}>
+                            <Link data-testid="link" className={classes.link} to="/todo-list">
+                                <Section data-testid="section" header="To Do List" icon={<FormatListBulletedIcon className={classes.icon} />} />
                             </Link>
                         </Grid>
                     </Grid>
